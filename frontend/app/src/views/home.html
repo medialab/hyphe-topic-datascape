@@ -1,7 +1,7 @@
 <div layout="row" flex>
 
   <!-- Column 1: Logo and topics -->
-  <div flex layout="column" style="background-color: #FEE">
+  <div flex layout="column" layout-padding style="background-color: #FEE">
     <div>
       <img src="res/logo.png">
     </div>
@@ -29,7 +29,7 @@
           <!-- Use floating label instead of placeholder -->
           <label>Search</label>
           <md-icon aria-label="search">search</md-icon>
-          <input ng-model="searchquery" type="text">
+          <input ng-model="searchQuery" type="text" ng-press-enter="execSearchQuery()">
         </md-input-container>
       </div>
     </div>
