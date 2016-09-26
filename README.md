@@ -1,0 +1,2 @@
+# Hyphe Topic Datascape
+A prototype datascape to explore the content of a Hyphe corpus where topics have been added to web pages. It relies on a Solr index and a process not presented in this repository (the code is probably not reusable "as is").
