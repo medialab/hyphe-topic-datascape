@@ -1,0 +1,26 @@
+{
+  "name": "material-start",
+  "private": true,
+  "version": "0.0.4",
+  "description": "A starter project for AngularJS Material",
+  "repository": "https://github.com/angular/material-start",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/angular/material/blob/master/LICENSE"
+    }
+  ],
+  "dependencies": {
+    "angular": "^1.4.9",
+    "angular-animate": "^1.4.9",
+    "angular-aria": "^1.4.9",
+    "angular-material": "^1.0.9",
+    "angular-route": "^1.4.9",
+    "angular-sanitize": "^1.5.7",
+    "angular-translate": "^2.11.0",
+    "angular-translate-loader-partial": "^2.11.0",
+    "d3": "^4.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {}
+}
