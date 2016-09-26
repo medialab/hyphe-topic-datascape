@@ -23,7 +23,16 @@
   <!-- Column 2: network, search field and results -->
   <div flex layout="column" style="background-color: #EFE">
     <div flex layout id="sigmaContainer"></div>
-    <div flex layout layout-align="center center">Search field</div>
+    <div layout layout-padding>
+      <div flex>
+        <md-input-container class="md-icon-float md-block">
+          <!-- Use floating label instead of placeholder -->
+          <label>Search</label>
+          <md-icon aria-label="search">search</md-icon>
+          <input ng-model="searchquery" type="text">
+        </md-input-container>
+      </div>
+    </div>
     <div flex layout layout-align="center center">Results</div>
   </div>
 
