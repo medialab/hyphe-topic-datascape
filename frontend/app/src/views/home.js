@@ -12,4 +12,14 @@ angular.module('app.home', ['ngRoute'])
 .controller('HomeController', function($scope, $location, $translate, $translatePartialLoader) {
   $translatePartialLoader.addPart('home');
   $translate.refresh();
+
+  init();
+
+  function init() {
+	  sigma.parsers.gexf(
+		  'data/network.gexf',
+		  { container: 'sigmaContainer' }
+		);
+  }
+
 });
