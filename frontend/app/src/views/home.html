@@ -1,18 +1,43 @@
-<div tool-bar layout></div>
-<md-content layout="column" flex>
-  <div ng-show="loading">
-    LOADING
+<div layout="row" flex>
+
+  <!-- Column 1: Logo and topics -->
+  <div flex layout="column" style="background-color: #FEE">
+    <div>
+      <img src="res/logo-placeholder.png">
+    </div>
+    <div layout="row" layout-align="center center">
+      <md-button class="md-raised md-primary pull-right">About this project</md-button>
+    </div>
+    <div layout="column">
+      <h3>Topics</h3>
+      <ul>
+        <li>Lorem ipsum dolor sit amet</li>
+        <li>Aliquam tincidunt mauris eu risus.</li>
+        <li>Vestibulum auctor dapibus neque.</li>
+        <li>Nunc dignissim risus id metus.</li>
+        <li>Cras ornare tristique elit.</li>
+      </ul>
+    </div>
   </div>
 
-  <div ng-show="!loading" layout-padding>
-    
-    <h1>WORK IN PROGRESS</h1>
-
-    <blockquote>
-      <p>
-        User experience hypotheses backing customer A/B testing direct mailing. Bandwidth influencer stock rockstar gamification success. Graphical user interface pivot bandwidth investor partnership leverage client release business-to-business series A financing early adopters accelerator. Focus assets user experience freemium technology deployment. Long tail interaction design agile development scrum project influencer backing incubator pivot business plan. Funding early adopters leverage accelerator pitch gen-z direct mailing investor. Client channels direct mailing infrastructure android. Pitch deployment infographic venture burn rate ownership launch party. Deployment graphical user interface startup hackathon iPad user experience business model canvas holy grail social proof gamification growth hacking funding facebook buyer. Crowdsource release ecosystem advisor non-disclosure agreement.
-      </p>
-    </blockquote>
-
+  <!-- Column 2: network, search field and results -->
+  <div flex layout="column" style="background-color: #EFE">
+    <div flex layout layout-align="center center">Network</div>
+    <div flex layout layout-align="center center">Search field</div>
+    <div flex layout layout-align="center center">Results</div>
   </div>
-</md-content>
+
+  <!-- Column 3: landing message / verbatim -->
+  <div flex layout layout-align="center center" style="background-color: #EEF">
+    <div layout>
+        V<br>
+        E<br>
+        R<br>
+        B<br>
+        A<br>
+        T<br>
+        I<br>
+        M
+    </div>
+  </div>
+</div>
