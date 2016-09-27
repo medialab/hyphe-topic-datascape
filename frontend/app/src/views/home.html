@@ -32,10 +32,29 @@
       </md-input-container>
     </div>
     <div flex layout layout-align="center center" class="searchResults">
-      <md-virtual-repeat-container flex layout layout-fill ng-show="resultsLoaded">
-        <!-- <div md-virtual-repeat="r in results" md-item-size="40" class="repeated-item">{{r.url}}</div> -->
-        <div md-virtual-repeat="r in results" md-item-size="120" class="repeated-item">{{r.url}}</div>
-      </md-virtual-repeat-container>
+      <md-list class="md-dense" flex layout layout-fill>
+        <md-virtual-repeat-container flex layout layout-fill ng-show="resultsLoaded">
+          <md-list-item
+            class="repeated-item md-3-line md-long-text"
+            md-virtual-repeat="r in results"
+            md-item-size="120"
+            we-id="{{r.web_entity_id}}"
+            doc-id="{{r.id}}"
+          >
+            <div class="md-list-item-text">
+              <h3 class="weName">
+                {{r.web_entity}}
+              </h3>
+              <h4 class="pageUrl" lru="{{r.lru}}">
+                {{r.url}}
+              </h4>
+              <p class="resultHighlight" lru="{{r.lru}}">
+                {{resultsHighlighting[r.id].text[0]}}
+              </p>
+            </div>
+          </md-list-item>
+        </md-virtual-repeat-container>
+      </md-list>
     </div>
   </div>
 
