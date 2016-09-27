@@ -18,7 +18,7 @@ angular.module('app.home', ['ngRoute'])
   $scope.execSearchQuery = function() {
   	var query_simple = $scope.searchQuery
   	// var url = solrEndpoint + 'select?q='+encodeURIComponent(query_simple)+'&rows=0&fl=url+web_entity_id&wt=json&indent=true&facet=true&facet.field=web_entity_id&facet.limit=1000'
-  	var url = solrEndpoint + 'select?q='+encodeURIComponent(query_simple)+'&rows=1000&fl=web_entity+web_entity_id+url+lru+id&wt=json&indent=true&hl=true&hl.simple.pre=<em>&hl.simple.post=<%2Fem>&hl.usePhraseHighlighter=true&hl.fragsize=1000&hl.mergeContiguous=true'
+  	var url = solrEndpoint + 'select?q='+encodeURIComponent(query_simple)+'&rows=1000&fl=web_entity+web_entity_id+url+lru+id&wt=json&indent=true&hl=true&hl.simple.pre=<strong>&hl.simple.post=<%2Fstrong>&hl.usePhraseHighlighter=true&hl.fragsize=1000&hl.mergeContiguous=true'
   	d3.json(url)
     	.get(function(data){
     		$timeout(function(){
