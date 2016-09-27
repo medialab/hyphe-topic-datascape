@@ -1,0 +1,14 @@
+.searchResults .repeated-item {
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+  height: 120px;
+  padding-top: 10px;
+  overflow: hidden;
+}
+
+.searchResults md-virtual-repeat-container {
+  border: solid 1px #AAA;
+}
+
+.searchResults .md-virtual-repeat-container .md-virtual-repeat-offsetter div {
+  padding-left: 16px; }

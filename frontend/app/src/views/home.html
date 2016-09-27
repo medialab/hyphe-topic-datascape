@@ -1,7 +1,7 @@
 <div layout="row" flex>
 
   <!-- Column 1: Logo and topics -->
-  <div flex layout="column" layout-padding style="background-color: #FEE">
+  <div flex layout="column" layout-padding>
     <div>
       <img src="res/logo.png">
     </div>
@@ -21,23 +21,26 @@
   </div>
 
   <!-- Column 2: network, search field and results -->
-  <div flex layout="column" style="background-color: #EFE">
+  <div flex layout="column">
     <div flex layout id="sigmaContainer"></div>
     <div layout layout-padding>
-      <div flex>
-        <md-input-container class="md-icon-float md-block">
-          <!-- Use floating label instead of placeholder -->
-          <label>Search</label>
-          <md-icon aria-label="search">search</md-icon>
-          <input ng-model="searchQuery" type="text" ng-press-enter="execSearchQuery()">
-        </md-input-container>
-      </div>
+      <md-input-container layout-fill class="md-icon-float md-block">
+        <!-- Use floating label instead of placeholder -->
+        <label>Search</label>
+        <md-icon aria-label="search">search</md-icon>
+        <input ng-model="searchQuery" type="text" ng-press-enter="execSearchQuery()">
+      </md-input-container>
     </div>
-    <div flex layout layout-align="center center">Results</div>
+    <div flex layout layout-align="center center" class="searchResults">
+      <md-virtual-repeat-container flex layout layout-fill ng-show="resultsLoaded">
+        <!-- <div md-virtual-repeat="r in results" md-item-size="40" class="repeated-item">{{r.url}}</div> -->
+        <div md-virtual-repeat="r in results" md-item-size="120" class="repeated-item">{{r.url}}</div>
+      </md-virtual-repeat-container>
+    </div>
   </div>
 
   <!-- Column 3: landing message / verbatim -->
-  <div flex layout layout-align="center center" style="background-color: #EEF">
+  <div flex layout layout-align="center center">
     <div layout>
         V<br>
         E<br>
