@@ -14,35 +14,41 @@
 
       context.save()
 
-      var r = 255
-      var g = 0
-      var b = 0
-      var color = 'rgba('+r+','+g+','+b+',1)'
+      rgb = [255, 0, 0]
 
-      // This is to prevent transparent areas to be assimiled as "black"
-      paintAll(context, 'rgba('+r+','+g+','+b+',0.01)')
+      paintGooeyLayer(context, rgb)
+      
+      function paintGooeyLayer(context, rgb){
+        var color = 'rgba('+rgb[0]+','+rgb[1]+','+rgb[2]+',1)'
 
-      for (i = 0, l = nodes.length; i < l; i++) {
-        if (!nodes[i].hidden) {
-          var node = nodes[i]
-          // var color = node.color || settings('defaultNodeColor')
-          var size = node[prefix + 'size']
-          // Draw
-          context.beginPath()
-          context.arc(
-            node[prefix + 'x'],
-            node[prefix + 'y'],
-            node[prefix + 'size'],
-            0,
-            Math.PI * 2,
-            true
-          );
-          context.lineWidth = size / 5;
-          context.fillStyle = color
-          context.fill()
+        // This is to prevent transparent areas to be assimiled as "black"
+        paintAll(context, 'rgba('+rgb[0]+','+rgb[1]+','+rgb[2]+',0.01)')
+
+        for (i = 0, l = nodes.length; i < l; i++) {
+          if (!nodes[i].hidden) {
+            var node = nodes[i]
+            // var color = node.color || settings('defaultNodeColor')
+            // var size = node[prefix + 'size']
+            var size = 3
+            // Draw
+            context.beginPath()
+            context.arc(
+              node[prefix + 'x'],
+              node[prefix + 'y'],
+              size,
+              0,
+              Math.PI * 2,
+              true
+            );
+            context.lineWidth = size / 5;
+            context.fillStyle = color
+            context.fill()
+          }
         }
+
+        blur(context, .01)
+        alphacontrast(context, 0.1, 0.8)
       }
-      blur(context, .003)
     }
 
     function paintAll(ctx, color) {
@@ -53,6 +59,28 @@
       ctx.fillStyle = color
       ctx.fill()
       ctx.closePath()
+    }
+
+    function alphacontrast(ctx, threshold, factor) {
+      var w = ctx.canvas.clientWidth
+      var h = ctx.canvas.clientHeight
+      var threshold255 = threshold * 255
+      
+      var imgd = ctx.getImageData(0, 0, w, h)
+      var pix = imgd.data
+
+      // Split channels
+      var channels = [[], [], [], []] // rgba
+      for ( var i = 0, pixlen = pix.length; i < pixlen; i += 4 ) {
+        // Just process the alpha channel
+        pix[i+3] = contrast(pix[i+3])
+      }
+
+      ctx.putImageData( imgd, 0, 0 )
+
+      function contrast(alpha) {
+        return 255 / (1 + Math.exp( -factor * (alpha - threshold255) ))
+      }
     }
 
     function blur(ctx, smoothing_ratio) {
