@@ -17,25 +17,25 @@
       context.save()
 
       var imgData_Black = paintGooeyLayer(context, {
-        rgb: [30, 30, 30],
+        rgb: [0, 0, 0],
         blurRadius: 10,
-        contrastThreshold: 0.08,
-        contrastSteepness: 8,
+        contrastThreshold: 0.1,
+        contrastSteepness: 3,
         nodeSize: 6
       })
       var imgData_White = paintGooeyLayer(context, {
         rgb: [255, 255, 255],
         blurRadius: 10,
-        contrastThreshold: 0.12,
-        contrastSteepness: 0.8,
+        contrastThreshold: 0.115,
+        contrastSteepness: 0.5,
         nodeSize: 6
       })
       var imgData_Grey = paintGooeyLayer(context, {
-        rgb: [220, 220, 220],
+        rgb: [200, 200, 200],
         blurRadius: 8,
         contrastThreshold: 0.5,
-        contrastSteepness: 0.003,
-        nodeSize: 3
+        contrastSteepness: 0.03,
+        nodeSize: 1
       })
 
       var imgd = mergeImgdLayers([imgData_Black, imgData_White, imgData_Grey], w, h)
