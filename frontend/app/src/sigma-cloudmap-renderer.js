@@ -11,43 +11,98 @@
       var l
       var args = arguments
       var prefix = settings('prefix') || ''
+      var w = context.canvas.clientWidth
+      var h = context.canvas.clientHeight
 
       context.save()
 
-      rgb = [255, 0, 0]
+      var imgData_Black = paintGooeyLayer(context, {
+        rgb: [30, 30, 30],
+        blurRadius: 10,
+        contrastThreshold: 0.08,
+        contrastSteepness: 8,
+        nodeSize: 6
+      })
+      var imgData_White = paintGooeyLayer(context, {
+        rgb: [255, 255, 255],
+        blurRadius: 10,
+        contrastThreshold: 0.12,
+        contrastSteepness: 0.8,
+        nodeSize: 6
+      })
+      var imgData_Grey = paintGooeyLayer(context, {
+        rgb: [220, 220, 220],
+        blurRadius: 8,
+        contrastThreshold: 0.5,
+        contrastSteepness: 0.003,
+        nodeSize: 3
+      })
 
-      paintGooeyLayer(context, rgb)
-      
-      function paintGooeyLayer(context, rgb){
-        var color = 'rgba('+rgb[0]+','+rgb[1]+','+rgb[2]+',1)'
+      var imgd = mergeImgdLayers([imgData_Black, imgData_White, imgData_Grey], w, h)
+      context.putImageData( imgd, 0, 0 )
+
+      function mergeImgdLayers(imgdArray, w, h) {
+        var imgd = imgdArray.shift()
+        var imgd2
+        while (imgd2 = imgdArray.shift()) {
+          var pix = imgd.data
+          var pix2 = imgd2.data
+          for ( var i = 0, pixlen = pix.length; i < pixlen; i += 4 ) {
+            var src_rgb = [pix2[i  ]/255, pix2[i+1]/255, pix2[i+2]/255]
+            var src_alpha = pix2[i+3]/255
+            var dst_rgb = [pix[i  ]/255, pix[i+1]/255, pix[i+2]/255]
+            var dst_alpha = pix[i+3]/255
+            var out_alpha = src_alpha + dst_alpha * (1 - src_alpha)
+            var out_rgb = [0, 0, 0]
+            if (out_alpha > 0) {
+              out_rgb[0] = (src_rgb[0] * src_alpha + dst_rgb[0] * dst_alpha * (1 - src_alpha)) / out_alpha
+              out_rgb[1] = (src_rgb[1] * src_alpha + dst_rgb[1] * dst_alpha * (1 - src_alpha)) / out_alpha
+              out_rgb[2] = (src_rgb[2] * src_alpha + dst_rgb[2] * dst_alpha * (1 - src_alpha)) / out_alpha
+            }
+            pix[i  ] = Math.floor(out_rgb[0] * 255)
+            pix[i+1] = Math.floor(out_rgb[1] * 255)
+            pix[i+2] = Math.floor(out_rgb[2] * 255)
+            pix[i+3] = Math.floor(out_alpha * 255)
+          }
+        }
+        return imgd
+      }
+
+      function paintGooeyLayer(context, settings){
+        var w = context.canvas.clientWidth
+        var h = context.canvas.clientHeight
+        context.clearRect(0, 0, w, h);
+
+        var color = 'rgba('+settings.rgb[0]+','+settings.rgb[1]+','+settings.rgb[2]+',1)'
 
         // This is to prevent transparent areas to be assimiled as "black"
-        paintAll(context, 'rgba('+rgb[0]+','+rgb[1]+','+rgb[2]+',0.01)')
+        paintAll(context, 'rgba('+settings.rgb[0]+','+settings.rgb[1]+','+settings.rgb[2]+',0.01)')
 
         for (i = 0, l = nodes.length; i < l; i++) {
           if (!nodes[i].hidden) {
             var node = nodes[i]
-            // var color = node.color || settings('defaultNodeColor')
-            // var size = node[prefix + 'size']
-            var size = 3
             // Draw
             context.beginPath()
             context.arc(
               node[prefix + 'x'],
               node[prefix + 'y'],
-              size,
+              settings.nodeSize,
               0,
               Math.PI * 2,
               true
             );
-            context.lineWidth = size / 5;
+            context.lineWidth = settings.nodeSize / 5;
             context.fillStyle = color
             context.fill()
           }
         }
 
-        blur(context, .01)
-        alphacontrast(context, 0.1, 0.8)
+        var imgd = context.getImageData(0, 0, w, h)
+
+        blur(imgd, w, h, settings.blurRadius)
+        alphacontrast(imgd, w, h, settings.contrastThreshold, settings.contrastSteepness)
+
+        return imgd
       }
     }
 
@@ -61,12 +116,9 @@
       ctx.closePath()
     }
 
-    function alphacontrast(ctx, threshold, factor) {
-      var w = ctx.canvas.clientWidth
-      var h = ctx.canvas.clientHeight
+    function alphacontrast(imgd, w, h, threshold, factor) {
       var threshold255 = threshold * 255
       
-      var imgd = ctx.getImageData(0, 0, w, h)
       var pix = imgd.data
 
       // Split channels
@@ -76,18 +128,13 @@
         pix[i+3] = contrast(pix[i+3])
       }
 
-      ctx.putImageData( imgd, 0, 0 )
-
       function contrast(alpha) {
         return 255 / (1 + Math.exp( -factor * (alpha - threshold255) ))
       }
     }
 
-    function blur(ctx, smoothing_ratio) {
-      var w = ctx.canvas.clientWidth
-      var h = ctx.canvas.clientHeight
-      
-      var imgd = ctx.getImageData(0, 0, w, h)
+    function blur(imgd, w, h, r) {
+
       var pix = imgd.data
 
       // Split channels
@@ -98,8 +145,6 @@
         channels[2].push(pix[i+2])
         channels[3].push(pix[i+3])
       }
-
-      var r = Math.sqrt( 0.08 * smoothing_ratio * w * h / Math.PI )
 
       channels.forEach(function(scl){
         var tcl = scl.slice(0)
@@ -117,8 +162,6 @@
         pix[i+2] = channels[2][i/4]
         pix[i+3] = channels[3][i/4]
       }
-
-      ctx.putImageData( imgd, 0, 0 )
 
       // From http://blog.ivank.net/fastest-gaussian-blur.html
 
