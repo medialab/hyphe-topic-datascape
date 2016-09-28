@@ -38,13 +38,12 @@ angular.module('app.home', ['ngRoute'])
 
   function init() {
 
-  	sigma.renderers.def = sigma.renderers.canvas
-  	sigma.canvas.nodes.def = sigmaCloudmapRenderer()
   	sigma.parsers.gexf(
     	'data/network.gexf',
 	    {
 	      container: 'sigmaContainer',
 	      settings: {
+	      	drawNodes: false,
 	      	drawEdges: false,
 	      	labelThreshold: Infinity
 	      }
