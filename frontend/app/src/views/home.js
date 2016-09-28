@@ -37,10 +37,50 @@ angular.module('app.home', ['ngRoute'])
   init()
 
   function init() {
-	  sigma.parsers.gexf(
+
+  	sigma.renderers.def = sigma.renderers.canvas
+  	sigma.canvas.nodes.def = sigmaCloudmapRenderer()
+  	sigma.parsers.gexf(
+    	'data/network.gexf',
+	    {
+	      container: 'sigmaContainer',
+	      settings: {
+	      	drawEdges: false,
+	      	labelThreshold: Infinity
+	      }
+	    },
+	    function(s) {
+	      // This function will be executed when the
+	      // graph is displayed, with "s" the related
+	      // sigma instance.
+	    }
+	  )
+
+  	// Init Sigma
+  	// sigma.canvas.nodes.image = sigmaCloudmapRenderer()
+  	/*window.s = new sigma({
+  		graph: {},
+      renderer: {
+        // IMPORTANT:
+        // This works only with the canvas renderer, so the
+        // renderer type set as "canvas" is necessary here.
+        container: document.getElementById('sigmaContainer'),
+        type: 'canvas'
+      },
+      settings: {
+        // minNodeSize: 8,
+        // maxNodeSize: 16,
+      }
+    });
+
+  	// Load file
+  	sigma.parsers.gexf(
 		  'data/network.gexf',
-		  { container: 'sigmaContainer' }
-		);
+		  s,
+		  function() {
+		    s.refresh();
+		  }
+		);*/
   }
 
 })
