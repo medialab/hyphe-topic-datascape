@@ -14,10 +14,18 @@
 
       context.save()
 
+      var r = 255
+      var g = 0
+      var b = 0
+      var color = 'rgba('+r+','+g+','+b+',1)'
+
+      // This is to prevent transparent areas to be assimiled as "black"
+      paintAll(context, 'rgba('+r+','+g+','+b+',0.01)')
+
       for (i = 0, l = nodes.length; i < l; i++) {
         if (!nodes[i].hidden) {
           var node = nodes[i]
-          var color = node.color || settings('defaultNodeColor')
+          // var color = node.color || settings('defaultNodeColor')
           var size = node[prefix + 'size']
           // Draw
           context.beginPath()
@@ -30,11 +38,21 @@
             true
           );
           context.lineWidth = size / 5;
-          context.fillStyle = '#999'
+          context.fillStyle = color
           context.fill()
         }
       }
-      blur(context, .1)
+      blur(context, .003)
+    }
+
+    function paintAll(ctx, color) {
+      var w = ctx.canvas.clientWidth
+      var h = ctx.canvas.clientHeight
+      ctx.beginPath()
+      ctx.rect(0, 0, w, h)
+      ctx.fillStyle = color
+      ctx.fill()
+      ctx.closePath()
     }
 
     function blur(ctx, smoothing_ratio) {
@@ -50,7 +68,7 @@
         channels[0].push(pix[i  ])
         channels[1].push(pix[i+1])
         channels[2].push(pix[i+2])
-        channels[3].push(pix[i+2])
+        channels[3].push(pix[i+3])
       }
 
       var r = Math.sqrt( 0.08 * smoothing_ratio * w * h / Math.PI )
@@ -69,7 +87,7 @@
         pix[i  ] = channels[0][i/4]
         pix[i+1] = channels[1][i/4]
         pix[i+2] = channels[2][i/4]
-        pix[i+2] = channels[3][i/4]
+        pix[i+3] = channels[3][i/4]
       }
 
       ctx.putImageData( imgd, 0, 0 )
