@@ -17,21 +17,21 @@
 
       context.save()
 
-      var imgData_Black = paintGooeyLayer(context, w, h, {
+      var imgData_Black = paintGooeyLayer(nodes, prefix, context, w, h, {
         rgb: [0, 0, 0],
         blurRadius: 10,
         contrastThreshold: 0.1,
         contrastSteepness: 3,
         nodeSize: 6
       })
-      var imgData_White = paintGooeyLayer(context, w, h, {
+      var imgData_White = paintGooeyLayer(nodes, prefix, context, w, h, {
         rgb: [255, 255, 255],
         blurRadius: 10,
         contrastThreshold: 0.115,
         contrastSteepness: 0.5,
         nodeSize: 6
       })
-      var imgData_Grey = paintGooeyLayer(context, w, h, {
+      var imgData_Grey = paintGooeyLayer(nodes, prefix, context, w, h, {
         rgb: [200, 200, 200],
         blurRadius: 8,
         contrastThreshold: 0.5,
@@ -42,67 +42,68 @@
       var imgd = mergeImgdLayers([imgData_Black, imgData_White, imgData_Grey], w, h)
       context.putImageData( imgd, 0, 0 )
 
-      function mergeImgdLayers(imgdArray, w, h) {
-        var imgd = imgdArray.shift()
-        var imgd2
-        while (imgd2 = imgdArray.shift()) {
-          var pix = imgd.data
-          var pix2 = imgd2.data
-          for ( var i = 0, pixlen = pix.length; i < pixlen; i += 4 ) {
-            var src_rgb = [pix2[i  ]/255, pix2[i+1]/255, pix2[i+2]/255]
-            var src_alpha = pix2[i+3]/255
-            var dst_rgb = [pix[i  ]/255, pix[i+1]/255, pix[i+2]/255]
-            var dst_alpha = pix[i+3]/255
-            var out_alpha = src_alpha + dst_alpha * (1 - src_alpha)
-            var out_rgb = [0, 0, 0]
-            if (out_alpha > 0) {
-              out_rgb[0] = (src_rgb[0] * src_alpha + dst_rgb[0] * dst_alpha * (1 - src_alpha)) / out_alpha
-              out_rgb[1] = (src_rgb[1] * src_alpha + dst_rgb[1] * dst_alpha * (1 - src_alpha)) / out_alpha
-              out_rgb[2] = (src_rgb[2] * src_alpha + dst_rgb[2] * dst_alpha * (1 - src_alpha)) / out_alpha
-            }
-            pix[i  ] = Math.floor(out_rgb[0] * 255)
-            pix[i+1] = Math.floor(out_rgb[1] * 255)
-            pix[i+2] = Math.floor(out_rgb[2] * 255)
-            pix[i+3] = Math.floor(out_alpha * 255)
+    }
+
+    function mergeImgdLayers(imgdArray, w, h) {
+      var imgd = imgdArray.shift()
+      var imgd2
+      while (imgd2 = imgdArray.shift()) {
+        var pix = imgd.data
+        var pix2 = imgd2.data
+        for ( var i = 0, pixlen = pix.length; i < pixlen; i += 4 ) {
+          var src_rgb = [pix2[i  ]/255, pix2[i+1]/255, pix2[i+2]/255]
+          var src_alpha = pix2[i+3]/255
+          var dst_rgb = [pix[i  ]/255, pix[i+1]/255, pix[i+2]/255]
+          var dst_alpha = pix[i+3]/255
+          var out_alpha = src_alpha + dst_alpha * (1 - src_alpha)
+          var out_rgb = [0, 0, 0]
+          if (out_alpha > 0) {
+            out_rgb[0] = (src_rgb[0] * src_alpha + dst_rgb[0] * dst_alpha * (1 - src_alpha)) / out_alpha
+            out_rgb[1] = (src_rgb[1] * src_alpha + dst_rgb[1] * dst_alpha * (1 - src_alpha)) / out_alpha
+            out_rgb[2] = (src_rgb[2] * src_alpha + dst_rgb[2] * dst_alpha * (1 - src_alpha)) / out_alpha
           }
+          pix[i  ] = Math.floor(out_rgb[0] * 255)
+          pix[i+1] = Math.floor(out_rgb[1] * 255)
+          pix[i+2] = Math.floor(out_rgb[2] * 255)
+          pix[i+3] = Math.floor(out_alpha * 255)
         }
-        return imgd
+      }
+      return imgd
+    }
+
+    function paintGooeyLayer(nodes, prefix, context, w, h, settings){
+      context.clearRect(0, 0, w, h);
+
+      var color = 'rgba('+settings.rgb[0]+','+settings.rgb[1]+','+settings.rgb[2]+',1)'
+
+      // This is to prevent transparent areas to be assimiled as "black"
+      paintAll(context, w, h, 'rgba('+settings.rgb[0]+','+settings.rgb[1]+','+settings.rgb[2]+',0.01)')
+
+      for (i = 0, l = nodes.length; i < l; i++) {
+        if (!nodes[i].hidden) {
+          var node = nodes[i]
+          // Draw
+          context.beginPath()
+          context.arc(
+            node[prefix + 'x'],
+            node[prefix + 'y'],
+            settings.nodeSize,
+            0,
+            Math.PI * 2,
+            true
+          );
+          context.lineWidth = settings.nodeSize / 5;
+          context.fillStyle = color
+          context.fill()
+        }
       }
 
-      function paintGooeyLayer(context, w, h, settings){
-        context.clearRect(0, 0, w, h);
+      var imgd = context.getImageData(0, 0, w, h)
 
-        var color = 'rgba('+settings.rgb[0]+','+settings.rgb[1]+','+settings.rgb[2]+',1)'
+      blur(imgd, w, h, settings.blurRadius)
+      alphacontrast(imgd, w, h, settings.contrastThreshold, settings.contrastSteepness)
 
-        // This is to prevent transparent areas to be assimiled as "black"
-        paintAll(context, w, h, 'rgba('+settings.rgb[0]+','+settings.rgb[1]+','+settings.rgb[2]+',0.01)')
-
-        for (i = 0, l = nodes.length; i < l; i++) {
-          if (!nodes[i].hidden) {
-            var node = nodes[i]
-            // Draw
-            context.beginPath()
-            context.arc(
-              node[prefix + 'x'],
-              node[prefix + 'y'],
-              settings.nodeSize,
-              0,
-              Math.PI * 2,
-              true
-            );
-            context.lineWidth = settings.nodeSize / 5;
-            context.fillStyle = color
-            context.fill()
-          }
-        }
-
-        var imgd = context.getImageData(0, 0, w, h)
-
-        blur(imgd, w, h, settings.blurRadius)
-        alphacontrast(imgd, w, h, settings.contrastThreshold, settings.contrastSteepness)
-
-        return imgd
-      }
+      return imgd
     }
 
     function paintAll(ctx, w, h, color) {
@@ -132,16 +133,21 @@
     }
 
     function blur(imgd, w, h, r) {
-
+      var i
       var pix = imgd.data
+      var pixlen = pix.length
 
       // Split channels
-      var channels = [[], [], [], []] // rgba
-      for ( var i = 0, pixlen = pix.length; i < pixlen; i += 4 ) {
-        channels[0].push(pix[i  ])
-        channels[1].push(pix[i+1])
-        channels[2].push(pix[i+2])
-        channels[3].push(pix[i+3])
+      var channels = [] // rgba
+      for ( i=0; i<4; i++) {
+        var channel = new Uint8ClampedArray(pixlen/4);
+        channels.push(channel)
+      }
+      for ( i = 0; i < pixlen; i += 4 ) {
+        channels[0][i/4] = pix[i  ]
+        channels[1][i/4] = pix[i+1]
+        channels[2][i/4] = pix[i+2]
+        channels[3][i/4] = pix[i+3]
       }
 
       channels.forEach(function(scl){
