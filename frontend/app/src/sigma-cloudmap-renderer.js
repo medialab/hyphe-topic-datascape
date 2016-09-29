@@ -122,12 +122,13 @@
       var channels = [[], [], [], []] // rgba
       for ( var i = 0, pixlen = pix.length; i < pixlen; i += 4 ) {
         // Just process the alpha channel
-        pix[i+3] = contrast(pix[i+3])
+        pix[i+3] = contrast(pix[i+3], factor, threshold255)
       }
 
-      function contrast(alpha) {
-        return 255 / (1 + Math.exp( -factor * (alpha - threshold255) ))
-      }
+    }
+
+    function contrast(alpha, factor, threshold255) {
+      return 255 / (1 + Math.exp( -factor * (alpha - threshold255) ))
     }
 
     function blur(imgd, w, h, r) {
