@@ -11,26 +11,27 @@
       var l
       var args = arguments
       var prefix = settings('prefix') || ''
-      var w = context.canvas.clientWidth
-      var h = context.canvas.clientHeight
+      var scaleFactor = backingScale(context);
+      var w = context.canvas.clientWidth * scaleFactor
+      var h = context.canvas.clientHeight * scaleFactor
 
       context.save()
 
-      var imgData_Black = paintGooeyLayer(context, {
+      var imgData_Black = paintGooeyLayer(context, w, h, {
         rgb: [0, 0, 0],
         blurRadius: 10,
         contrastThreshold: 0.1,
         contrastSteepness: 3,
         nodeSize: 6
       })
-      var imgData_White = paintGooeyLayer(context, {
+      var imgData_White = paintGooeyLayer(context, w, h, {
         rgb: [255, 255, 255],
         blurRadius: 10,
         contrastThreshold: 0.115,
         contrastSteepness: 0.5,
         nodeSize: 6
       })
-      var imgData_Grey = paintGooeyLayer(context, {
+      var imgData_Grey = paintGooeyLayer(context, w, h, {
         rgb: [200, 200, 200],
         blurRadius: 8,
         contrastThreshold: 0.5,
@@ -68,15 +69,13 @@
         return imgd
       }
 
-      function paintGooeyLayer(context, settings){
-        var w = context.canvas.clientWidth
-        var h = context.canvas.clientHeight
+      function paintGooeyLayer(context, w, h, settings){
         context.clearRect(0, 0, w, h);
 
         var color = 'rgba('+settings.rgb[0]+','+settings.rgb[1]+','+settings.rgb[2]+',1)'
 
         // This is to prevent transparent areas to be assimiled as "black"
-        paintAll(context, 'rgba('+settings.rgb[0]+','+settings.rgb[1]+','+settings.rgb[2]+',0.01)')
+        paintAll(context, w, h, 'rgba('+settings.rgb[0]+','+settings.rgb[1]+','+settings.rgb[2]+',0.01)')
 
         for (i = 0, l = nodes.length; i < l; i++) {
           if (!nodes[i].hidden) {
@@ -106,9 +105,7 @@
       }
     }
 
-    function paintAll(ctx, color) {
-      var w = ctx.canvas.clientWidth
-      var h = ctx.canvas.clientHeight
+    function paintAll(ctx, w, h, color) {
       ctx.beginPath()
       ctx.rect(0, 0, w, h)
       ctx.fillStyle = color
@@ -211,6 +208,15 @@
     }
 
     return renderer
+  }
+
+  function backingScale(context) {
+    if ('devicePixelRatio' in window) {
+        if (window.devicePixelRatio > 1) {
+            return window.devicePixelRatio;
+        }
+    }
+    return 1;
   }
 
   /**
