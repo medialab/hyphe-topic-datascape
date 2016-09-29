@@ -6,7 +6,7 @@
   function sigmaCloudmapRenderer() {
 
     // Return the renderer itself:
-    var renderer = function(nodes, context, settings) {
+    var renderer = function(nodes, context, isAnimated, settings) {
       var i
       var l
       var args = arguments
@@ -17,30 +17,57 @@
 
       context.save()
 
-      var imgData_Black = paintGooeyLayer(nodes, prefix, context, w, h, {
-        rgb: [0, 0, 0],
-        blurRadius: 10,
-        contrastThreshold: 0.1,
-        contrastSteepness: 3,
-        nodeSize: 6
-      })
-      var imgData_White = paintGooeyLayer(nodes, prefix, context, w, h, {
-        rgb: [255, 255, 255],
-        blurRadius: 10,
-        contrastThreshold: 0.115,
-        contrastSteepness: 0.5,
-        nodeSize: 6
-      })
-      var imgData_Grey = paintGooeyLayer(nodes, prefix, context, w, h, {
-        rgb: [200, 200, 200],
-        blurRadius: 8,
-        contrastThreshold: 0.5,
-        contrastSteepness: 0.03,
-        nodeSize: 1
-      })
+      if (isAnimated) {
+        var imgData_Black = paintGooeyLayer(nodes, prefix, context, w, h, {
+          rgb: [0, 0, 0],
+          blurRadius: 0,
+          contrastFilter: false,
+          nodeSize: 16
+        })
+        var imgData_White = paintGooeyLayer(nodes, prefix, context, w, h, {
+          rgb: [255, 255, 255],
+          blurRadius: 0,
+          contrastFilter: false,
+          nodeSize: 15
+        })
+        var imgData_Grey = paintGooeyLayer(nodes, prefix, context, w, h, {
+          rgb: [200, 200, 200],
+          blurRadius: 0,
+          contrastFilter: false,
+          nodeSize: .5
+        })
+        var imgd = mergeImgdLayers([imgData_Black, imgData_White, imgData_Grey], w, h)
+        context.putImageData( imgd, 0, 0 )
+      } else {
+        var imgData_Black = paintGooeyLayer(nodes, prefix, context, w, h, {
+          rgb: [0, 0, 0],
+          blurRadius: 10,
+          contrastFilter: true,
+          contrastThreshold: 0.1,
+          contrastSteepness: 3,
+          nodeSize: 6
+        })
+        var imgData_White = paintGooeyLayer(nodes, prefix, context, w, h, {
+          rgb: [255, 255, 255],
+          blurRadius: 10,
+          contrastFilter: true,
+          contrastThreshold: 0.110,
+          contrastSteepness: 0.5,
+          nodeSize: 6
+        })
+        var imgData_Grey = paintGooeyLayer(nodes, prefix, context, w, h, {
+          rgb: [200, 200, 200],
+          blurRadius: 4,
+          contrastFilter: true,
+          contrastThreshold: 0.3,
+          contrastSteepness: 0.03,
+          nodeSize: .8
+        })
 
-      var imgd = mergeImgdLayers([imgData_Black, imgData_White, imgData_Grey], w, h)
-      context.putImageData( imgd, 0, 0 )
+        var imgd = mergeImgdLayers([imgData_Black, imgData_White, imgData_Grey], w, h)
+        context.putImageData( imgd, 0, 0 )
+      }
+
 
     }
 
@@ -100,8 +127,12 @@
 
       var imgd = context.getImageData(0, 0, w, h)
 
-      blur(imgd, w, h, settings.blurRadius)
-      alphacontrast(imgd, w, h, settings.contrastThreshold, settings.contrastSteepness)
+      if (settings.blurRadius > 0) {
+        blur(imgd, w, h, settings.blurRadius)
+      }
+      if (settings.contrastFilter) {
+        alphacontrast(imgd, w, h, settings.contrastThreshold, settings.contrastSteepness)
+      }
 
       return imgd
     }
@@ -255,6 +286,7 @@
     renderers(
       this.nodesOnScreen,
       this.contexts.nodes,
+      this.camera.isAnimated || this.camera.isMoving,
       embedSettings
     )
     // END TUNING SIGMA
