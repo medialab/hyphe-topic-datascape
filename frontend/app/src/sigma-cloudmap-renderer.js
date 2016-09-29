@@ -104,7 +104,9 @@
       var color = 'rgba('+settings.rgb[0]+','+settings.rgb[1]+','+settings.rgb[2]+',1)'
 
       // This is to prevent transparent areas to be assimiled as "black"
-      paintAll(context, w, h, 'rgba('+settings.rgb[0]+','+settings.rgb[1]+','+settings.rgb[2]+',0.01)')
+      if (settings.contrastFilter) {
+        paintAll(context, w, h, 'rgba('+settings.rgb[0]+','+settings.rgb[1]+','+settings.rgb[2]+',0.01)')
+      }
 
       for (i = 0, l = nodes.length; i < l; i++) {
         if (!nodes[i].hidden) {
