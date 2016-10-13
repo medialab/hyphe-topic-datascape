@@ -18,14 +18,8 @@
       context.save()
 
       if (isAnimated) {
-        /*var imgData_Border = paintGooeyLayer(nodes, prefix, context, w, h, {
-          rgb: [0, 0, 0],
-          blurRadius: 0,
-          contrastFilter: false,
-          nodeSize: 16
-        })*/
         var imgData_Filling = paintGooeyLayer(nodes, prefix, context, w, h, {
-          rgb: [238, 238, 238],
+          rgb: [222, 230, 238],
           blurRadius: 0,
           contrastFilter: false,
           nodeSize: 12
@@ -36,11 +30,11 @@
           contrastFilter: false,
           nodeSize: 1
         })
-        var imgd = mergeImgdLayers([/*imgData_Border, */imgData_Filling, imgData_Accent], w, h)
+        var imgd = mergeImgdLayers([imgData_Filling, imgData_Accent], w, h)
         context.putImageData( imgd, 0, 0 )
       } else {
         var imgData_Border = paintGooeyLayer(nodes, prefix, context, w, h, {
-          rgb: [200, 200, 200],
+          rgb: [184, 193, 200],
           blurRadius: 15,
           contrastFilter: true,
           contrastThreshold: 0.8,
@@ -48,7 +42,7 @@
           nodeSize: 5
         })
         var imgData_Filling = paintGooeyLayer(nodes, prefix, context, w, h, {
-          rgb: [238, 238, 238],
+          rgb: [222, 230, 238],
           blurRadius: 15,
           contrastFilter: true,
           contrastThreshold: 0.90,
