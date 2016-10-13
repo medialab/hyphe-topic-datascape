@@ -39,7 +39,7 @@
           contrastFilter: true,
           contrastThreshold: 0.8,
           contrastSteepness: 0.03,
-          nodeSize: 5
+          nodeSize: 7
         })
         var imgData_Filling = paintGooeyLayer(nodes, prefix, context, w, h, {
           rgb: [222, 230, 238],
@@ -47,7 +47,7 @@
           contrastFilter: true,
           contrastThreshold: 0.90,
           contrastSteepness: 0.006,
-          nodeSize: 5
+          nodeSize: 7
         })
         var imgData_Accent = paintGooeyLayer(nodes, prefix, context, w, h, {
           rgb: [255, 255, 255],
@@ -55,7 +55,7 @@
           contrastFilter: true,
           contrastThreshold: 0.2,
           contrastSteepness: 0.05,
-          nodeSize: 0.8
+          nodeSize: 0.9
         })
 
         var imgd = mergeImgdLayers([imgData_Border, imgData_Filling, imgData_Accent], w, h)
