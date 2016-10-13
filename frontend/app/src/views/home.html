@@ -1,31 +1,17 @@
 <div layout="row" flex>
 
-  <!-- Column 1: Logo and topics -->
-  <div flex layout="column" layout-padding>
-    <div>
+  <!-- Column 1: Logo and network -->
+  <div flex="50" layout="column">
+    <!-- <div>
       <img src="res/logo.png">
-    </div>
-    <div layout="row" layout-align="center center">
-      <md-button class="md-raised md-primary pull-right">About this project</md-button>
-    </div>
-    <div layout="column">
-      <h3>Topics</h3>
-      <ul>
-        <li>Lorem ipsum dolor sit amet</li>
-        <li>Aliquam tincidunt mauris eu risus.</li>
-        <li>Vestibulum auctor dapibus neque.</li>
-        <li>Nunc dignissim risus id metus.</li>
-        <li>Cras ornare tristique elit.</li>
-      </ul>
-    </div>
+    </div> -->
+    <div flex layout id="sigmaContainer"><div layout layout-fill layout-align="center center">LOADING NETWORK</div></div>
   </div>
 
-  <!-- Column 2: network, search field and results -->
-  <div flex layout="column">
-    <div flex layout id="sigmaContainer"></div>
+  <!-- Column 2: search field and results -->
+  <div flex="35" layout="column">
     <div layout>
-      <md-input-container layout-fill class="md-icon-float md-block">
-        <!-- Use floating label instead of placeholder -->
+      <md-input-container layout-fill class="md-icon-float">
         <label>Search</label>
         <md-icon aria-label="search">search</md-icon>
         <input ng-model="searchQuery" type="text" ng-press-enter="execSearchQuery()">
@@ -35,7 +21,7 @@
       <md-list class="md-dense" flex layout layout-fill>
         <md-virtual-repeat-container flex layout layout-fill ng-show="resultsLoaded">
           <div
-            class="repeated-item md-3-line md-long-text"
+            class="repeated-item md-3-line md-long-text md-hue-1"
             md-virtual-repeat="r in results"
             we-id="{{r.web_entity_id}}"
             doc-id="{{r.id}}"
@@ -55,17 +41,18 @@
     </div>
   </div>
 
-  <!-- Column 3: landing message / verbatim -->
-  <div flex layout layout-align="center center">
-    <div layout>
-        V<br>
-        E<br>
-        R<br>
-        B<br>
-        A<br>
-        T<br>
-        I<br>
-        M
-    </div>
+  <!-- Column 3: topics -->
+  <div flex="15" layout="column" layout-padding>
+    <md-content>
+      <h3>Topics</h3>
+      <ul>
+        <li>Lorem ipsum dolor sit amet</li>
+        <li>Aliquam tincidunt mauris eu risus.</li>
+        <li>Vestibulum auctor dapibus neque.</li>
+        <li>Nunc dignissim risus id metus.</li>
+        <li>Cras ornare tristique elit.</li>
+      </ul>
+    </md-content>
   </div>
+
 </div>

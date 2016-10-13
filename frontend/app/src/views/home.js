@@ -37,7 +37,6 @@ angular.module('app.home', ['ngRoute'])
   init()
 
   function init() {
-
   	sigma.parsers.gexf(
     	'data/network.gexf',
 	    {

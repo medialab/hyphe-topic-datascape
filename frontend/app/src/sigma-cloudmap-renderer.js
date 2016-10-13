@@ -14,6 +14,7 @@
       var scaleFactor = backingScale(context);
       var w = context.canvas.clientWidth * scaleFactor
       var h = context.canvas.clientHeight * scaleFactor
+      var size = Math.min(w, h)
 
       context.save()
 
@@ -22,40 +23,40 @@
           rgb: [222, 230, 238],
           blurRadius: 0,
           contrastFilter: false,
-          nodeSize: 12
+          nodeSize: .025 * size
         })
         var imgData_Accent = paintGooeyLayer(nodes, prefix, context, w, h, {
           rgb: [255, 255, 255],
           blurRadius: 0,
           contrastFilter: false,
-          nodeSize: 1
+          nodeSize: .002 * size
         })
         var imgd = mergeImgdLayers([imgData_Filling, imgData_Accent], w, h)
         context.putImageData( imgd, 0, 0 )
       } else {
         var imgData_Border = paintGooeyLayer(nodes, prefix, context, w, h, {
           rgb: [184, 193, 200],
-          blurRadius: 15,
+          blurRadius: .03  * size,
           contrastFilter: true,
           contrastThreshold: 0.8,
           contrastSteepness: 0.03,
-          nodeSize: 7
+          nodeSize: .015 * size
         })
         var imgData_Filling = paintGooeyLayer(nodes, prefix, context, w, h, {
           rgb: [222, 230, 238],
-          blurRadius: 15,
+          blurRadius: .03  * size,
           contrastFilter: true,
           contrastThreshold: 0.90,
           contrastSteepness: 0.006,
-          nodeSize: 7
+          nodeSize: .015 * size
         })
         var imgData_Accent = paintGooeyLayer(nodes, prefix, context, w, h, {
           rgb: [255, 255, 255],
-          blurRadius: 4,
+          blurRadius: .005 * size,
           contrastFilter: true,
           contrastThreshold: 0.2,
           contrastSteepness: 0.05,
-          nodeSize: 0.9
+          nodeSize: 0.0015 * size
         })
 
         var imgd = mergeImgdLayers([imgData_Border, imgData_Filling, imgData_Accent], w, h)
