@@ -18,53 +18,53 @@
       context.save()
 
       if (isAnimated) {
-        var imgData_Black = paintGooeyLayer(nodes, prefix, context, w, h, {
+        /*var imgData_Border = paintGooeyLayer(nodes, prefix, context, w, h, {
           rgb: [0, 0, 0],
           blurRadius: 0,
           contrastFilter: false,
           nodeSize: 16
+        })*/
+        var imgData_Filling = paintGooeyLayer(nodes, prefix, context, w, h, {
+          rgb: [238, 238, 238],
+          blurRadius: 0,
+          contrastFilter: false,
+          nodeSize: 12
         })
-        var imgData_White = paintGooeyLayer(nodes, prefix, context, w, h, {
+        var imgData_Accent = paintGooeyLayer(nodes, prefix, context, w, h, {
           rgb: [255, 255, 255],
           blurRadius: 0,
           contrastFilter: false,
-          nodeSize: 15
+          nodeSize: 1
         })
-        var imgData_Grey = paintGooeyLayer(nodes, prefix, context, w, h, {
-          rgb: [200, 200, 200],
-          blurRadius: 0,
-          contrastFilter: false,
-          nodeSize: .5
-        })
-        var imgd = mergeImgdLayers([imgData_Black, imgData_White, imgData_Grey], w, h)
+        var imgd = mergeImgdLayers([/*imgData_Border, */imgData_Filling, imgData_Accent], w, h)
         context.putImageData( imgd, 0, 0 )
       } else {
-        var imgData_Black = paintGooeyLayer(nodes, prefix, context, w, h, {
-          rgb: [0, 0, 0],
-          blurRadius: 10,
-          contrastFilter: true,
-          contrastThreshold: 0.1,
-          contrastSteepness: 3,
-          nodeSize: 6
-        })
-        var imgData_White = paintGooeyLayer(nodes, prefix, context, w, h, {
-          rgb: [255, 255, 255],
-          blurRadius: 10,
-          contrastFilter: true,
-          contrastThreshold: 0.110,
-          contrastSteepness: 0.5,
-          nodeSize: 6
-        })
-        var imgData_Grey = paintGooeyLayer(nodes, prefix, context, w, h, {
+        var imgData_Border = paintGooeyLayer(nodes, prefix, context, w, h, {
           rgb: [200, 200, 200],
+          blurRadius: 15,
+          contrastFilter: true,
+          contrastThreshold: 0.8,
+          contrastSteepness: 0.03,
+          nodeSize: 5
+        })
+        var imgData_Filling = paintGooeyLayer(nodes, prefix, context, w, h, {
+          rgb: [238, 238, 238],
+          blurRadius: 15,
+          contrastFilter: true,
+          contrastThreshold: 0.90,
+          contrastSteepness: 0.006,
+          nodeSize: 5
+        })
+        var imgData_Accent = paintGooeyLayer(nodes, prefix, context, w, h, {
+          rgb: [255, 255, 255],
           blurRadius: 4,
           contrastFilter: true,
-          contrastThreshold: 0.3,
-          contrastSteepness: 0.03,
-          nodeSize: .8
+          contrastThreshold: 0.2,
+          contrastSteepness: 0.05,
+          nodeSize: 0.8
         })
 
-        var imgd = mergeImgdLayers([imgData_Black, imgData_White, imgData_Grey], w, h)
+        var imgd = mergeImgdLayers([imgData_Border, imgData_Filling, imgData_Accent], w, h)
         context.putImageData( imgd, 0, 0 )
       }
 
@@ -102,10 +102,12 @@
       context.clearRect(0, 0, w, h);
 
       var color = 'rgba('+settings.rgb[0]+','+settings.rgb[1]+','+settings.rgb[2]+',1)'
+      var minalpha = 0
 
       // This is to prevent transparent areas to be assimiled as "black"
       if (settings.contrastFilter) {
-        paintAll(context, w, h, 'rgba('+settings.rgb[0]+','+settings.rgb[1]+','+settings.rgb[2]+',0.01)')
+        minalpha = 0.1
+        paintAll(context, w, h, 'rgba('+settings.rgb[0]+','+settings.rgb[1]+','+settings.rgb[2]+','+minalpha+')')
       }
 
       for (i = 0, l = nodes.length; i < l; i++) {
@@ -133,7 +135,7 @@
         blur(imgd, w, h, settings.blurRadius)
       }
       if (settings.contrastFilter) {
-        alphacontrast(imgd, w, h, settings.contrastThreshold, settings.contrastSteepness)
+        alphacontrast(imgd, w, h, minalpha, settings.contrastThreshold, settings.contrastSteepness)
       }
 
       return imgd
@@ -147,22 +149,29 @@
       ctx.closePath()
     }
 
-    function alphacontrast(imgd, w, h, threshold, factor) {
+    function alphacontrast(imgd, w, h, minalpha, threshold, factor) {
       var threshold255 = threshold * 255
-      
+      var contrast = buildConstrastFunction(factor, threshold255, minalpha)
       var pix = imgd.data
 
       // Split channels
       var channels = [[], [], [], []] // rgba
       for ( var i = 0, pixlen = pix.length; i < pixlen; i += 4 ) {
         // Just process the alpha channel
-        pix[i+3] = contrast(pix[i+3], factor, threshold255)
+        pix[i+3] = contrast(pix[i+3])
       }
 
     }
 
-    function contrast(alpha, factor, threshold255) {
-      return 255 / (1 + Math.exp( -factor * (alpha - threshold255) ))
+    function buildConstrastFunction(factor, threshold255, minalpha) {
+      var samin = 255 / (1 + Math.exp( -factor * (0 - threshold255) ))
+      var samax = 255 / (1 + Math.exp( -factor * (1 - threshold255) ))
+      var contrast = function(alpha) {
+        var alpha2 = alpha / ( 1 - minalpha ) - 255 * minalpha // Alpha corrected to remove the minalpha
+        var s_alpha = 255 / (1 + Math.exp( -factor * (alpha2 - threshold255) )) // Sigmoid contrast
+        return (s_alpha - samin) / (samax - samin) // Correct the extent of the sigmoid function
+      }
+      return contrast
     }
 
     function blur(imgd, w, h, r) {
