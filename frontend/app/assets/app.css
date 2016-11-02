@@ -31,6 +31,8 @@
 /* Search results */
 .search-container md-input-container{
   margin-bottom: 0px;
+  margin-left: 12px;
+  margin-right: 12px;
   padding-bottom: 0px;
 }
 

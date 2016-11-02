@@ -33,7 +33,7 @@
       <md-list class="md-dense" flex layout layout-fill>
         <md-virtual-repeat-container flex layout layout-fill ng-show="resultsLoaded">
           <div
-            class="repeated-item md-3-line md-long-text"
+            class="repeated-item md-long-text"
             md-virtual-repeat="r in results"
             we-id="{{r.web_entity_id}}"
             doc-id="{{r.id}}"
@@ -60,7 +60,7 @@
         <span>Topics</span>
       </div>
     </md-toolbar>
-    <md-list flex>
+    <md-list flex md-colors="{background: 'default-background-50-.6'}">
       <md-list-item class="sm-1-line" ng-repeat="topic in topics" ng-click="null">
         <div class="md-list-item-text" layout="column">
           {{topic}}
