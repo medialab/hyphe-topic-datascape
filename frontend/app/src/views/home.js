@@ -9,7 +9,7 @@ angular.module('app.home', ['ngRoute'])
   })
 })
 
-.controller('HomeController', function($scope, $location, $translate, $translatePartialLoader, $timeout, solrEndpoint) {
+.controller('HomeController', function($scope, $location, $translate, $translatePartialLoader, $timeout, $mdColors, solrEndpoint) {
 	$scope.searchQuery
 	$scope.resultsLoaded = false
 	$scope.results

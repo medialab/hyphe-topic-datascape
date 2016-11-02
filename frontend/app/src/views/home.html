@@ -13,9 +13,9 @@
   </div>
 
   <!-- Column: Search -->
-  <div flex="{{flexColSearch}}" class="flex-transition" layout="column">
-    <div layout>
-      <md-input-container layout-fill class="md-icon-float">
+  <div flex="{{flexColSearch}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50'}">
+    <div layout="column" class="search-container">
+      <md-input-container class="md-primary md-icon-float">
         <label>Search</label>
         <md-icon aria-label="search">search</md-icon>
         <input ng-model="searchQuery" type="text" ng-press-enter="execSearchQuery()">
@@ -25,7 +25,7 @@
       <md-list class="md-dense" flex layout layout-fill>
         <md-virtual-repeat-container flex layout layout-fill ng-show="resultsLoaded">
           <div
-            class="repeated-item md-3-line md-long-text md-hue-1"
+            class="repeated-item md-3-line md-long-text"
             md-virtual-repeat="r in results"
             we-id="{{r.web_entity_id}}"
             doc-id="{{r.id}}"
@@ -47,8 +47,8 @@
 
   <!-- Column 3: topics -->
   <div flex="{{flexColTopics}}" class="flex-transition" layout="column" layout-padding>
-    <md-button ng-click="transition('webentities')">Test animate L</md-button>
-    <md-button ng-click="transition('topics')">Test animate R</md-button>
+    <md-button class="md-primary" ng-click="transition('webentities')">Test animate L</md-button>
+    <md-button class="md-primary" ng-click="transition('topics')">Test animate R</md-button>
     <md-content>
       <h3>Topics</h3>
       <ul>
