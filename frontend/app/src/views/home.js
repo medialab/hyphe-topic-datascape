@@ -15,6 +15,32 @@ angular.module('app.home', ['ngRoute'])
 	$scope.results
 	$scope.resultsHighlighting
 
+	// Columns
+	$scope.flexColWebentities = 0
+	$scope.flexColMap = 50
+	$scope.flexColSearch = 35
+	$scope.flexColTopics = 15
+
+  $scope.transition = function(destination) {
+  	var transitionTime = 200
+  	switch (destination) {
+  		case 'webentities':
+  			$scope.flexColMap = 50
+  			$scope.flexColWebentities = 50
+				$scope.flexColSearch = 0
+				$scope.flexColTopics = 0
+				$timeout(function(){ $location.path('/webentities') }, transitionTime)
+  			break
+  		case 'topics':
+  			$scope.flexColMap = 0
+  			$scope.flexColWebentities = 0
+				$scope.flexColSearch = 0
+				$scope.flexColTopics = 100
+				$timeout(function(){ $location.path('/topics') }, transitionTime)
+  			break
+  	}
+  }
+
   $scope.execSearchQuery = function() {
   	var query_simple = $scope.searchQuery
   	// var url = solrEndpoint + 'select?q='+encodeURIComponent(query_simple)+'&rows=0&fl=url+web_entity_id&wt=json&indent=true&facet=true&facet.field=web_entity_id&facet.limit=1000'
@@ -30,6 +56,7 @@ angular.module('app.home', ['ngRoute'])
     		})
     	});
   }
+
 
   $translatePartialLoader.addPart('home')
   $translate.refresh()

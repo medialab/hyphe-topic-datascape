@@ -1,15 +1,19 @@
 <div layout="row" flex>
 
-  <!-- Column 1: Logo and network -->
-  <div flex="50" layout="column">
+  <!-- (Hidden) Column: Web entities -->
+  <div flex="{{flexColWebentities}}" class="flex-transition" layout="column">
+  </div>
+
+  <!-- Column: Map -->
+  <div flex="{{flexColMap}}" class="flex-transition" layout="column">
     <!-- <div>
       <img src="res/logo.png">
     </div> -->
     <div flex layout id="sigmaContainer"><div layout layout-fill layout-align="center center">LOADING NETWORK</div></div>
   </div>
 
-  <!-- Column 2: search field and results -->
-  <div flex="35" layout="column">
+  <!-- Column: Search -->
+  <div flex="{{flexColSearch}}" class="flex-transition" layout="column">
     <div layout>
       <md-input-container layout-fill class="md-icon-float">
         <label>Search</label>
@@ -42,7 +46,9 @@
   </div>
 
   <!-- Column 3: topics -->
-  <div flex="15" layout="column" layout-padding>
+  <div flex="{{flexColTopics}}" class="flex-transition" layout="column" layout-padding>
+    <md-button ng-click="transition('webentities')">Test animate L</md-button>
+    <md-button ng-click="transition('topics')">Test animate R</md-button>
     <md-content>
       <h3>Topics</h3>
       <ul>
