@@ -37,7 +37,7 @@ angular.module('app.home', ['ngRoute'])
   init()
 
   function init() {
-  	sigma.parsers.gexf(
+  	/*sigma.parsers.gexf(
     	'data/network.gexf',
 	    {
 	      container: 'sigmaContainer',
@@ -52,7 +52,7 @@ angular.module('app.home', ['ngRoute'])
 	      // graph is displayed, with "s" the related
 	      // sigma instance.
 	    }
-	  )
+	  )*/
   }
 
 })
