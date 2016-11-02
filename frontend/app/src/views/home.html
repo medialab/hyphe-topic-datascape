@@ -8,7 +8,7 @@
   <div ng-style="{'width': widthLeftHandle+'px'}" class="flex-transition" layout="column" layout-align="center left" md-colors="{background: 'default-background-50-.2'}" ng-click="transition('webentities')">
     <md-button class="handle-button md-primary">
       <md-icon aria-label="left">chevron_left</md-icon>
-      <div class="left-handle-text">Web entities</div>
+      <div class="left-handle-text">Explore Web Entities</div>
     </md-button>
   </div>
 
@@ -54,24 +54,25 @@
   </div>
 
   <!-- Column 3: topics -->
-  <div flex="{{flexColTopics}}" class="flex-transition" layout="column" layout-padding>
-    <md-content>
-      <h3>Topics</h3>
-      <ul>
-        <li>Lorem ipsum dolor sit amet</li>
-        <li>Aliquam tincidunt mauris eu risus.</li>
-        <li>Vestibulum auctor dapibus neque.</li>
-        <li>Nunc dignissim risus id metus.</li>
-        <li>Cras ornare tristique elit.</li>
-      </ul>
-    </md-content>
+  <div flex="{{flexColTopics}}" class="flex-transition" layout="column">
+    <md-toolbar layout="row" class="md-hue-1">
+      <div class="md-toolbar-tools">
+        <span>Topics</span>
+      </div>
+    </md-toolbar>
+    <md-list flex>
+      <md-list-item class="sm-1-line" ng-repeat="topic in topics" ng-click="null">
+        <div class="md-list-item-text" layout="column">
+          {{topic}}
+        </div>
+    </md-list>
   </div>
 
   <!-- Column: Right Handle -->
   <div ng-style="{'width': widthRightHandle+'px'}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50-.2'}" ng-click="transition('topics')">
     <md-button class="handle-button md-primary">
       <md-icon aria-label="right">chevron_right</md-icon>
-      <div class="right-handle-text">Topics</div>
+      <div class="right-handle-text">Explore Topics</div>
     </md-button>
   </div>
 

@@ -17,7 +17,9 @@ angular.module('app.home', ['ngRoute'])
 	$scope.results
 	$scope.resultsHighlighting
 
-	// Columns
+	$scope.topics = ['dummy', 'topic', 'list', 'hold the door', 'hold th door', 'hold t door', 'Hol t door', 'Hol door', 'Ho door', 'Hodor']
+
+	// Columns dynamic width
 	$scope.flexColWebentities = 0
 	$scope.flexColMap = 50
 	$scope.flexColSearch = 35
