@@ -10,6 +10,8 @@ angular.module('app.home', ['ngRoute'])
 })
 
 .controller('HomeController', function($scope, $location, $translate, $translatePartialLoader, $timeout, $mdColors, solrEndpoint) {
+	var defaultHandleSize = 48
+
 	$scope.searchQuery
 	$scope.resultsLoaded = false
 	$scope.results
@@ -20,6 +22,8 @@ angular.module('app.home', ['ngRoute'])
 	$scope.flexColMap = 50
 	$scope.flexColSearch = 35
 	$scope.flexColTopics = 15
+	$scope.widthLeftHandle = defaultHandleSize
+	$scope.widthRightHandle = defaultHandleSize
 
   $scope.transition = function(destination) {
   	var transitionTime = 200
@@ -29,6 +33,8 @@ angular.module('app.home', ['ngRoute'])
   			$scope.flexColWebentities = 50
 				$scope.flexColSearch = 0
 				$scope.flexColTopics = 0
+				$scope.widthLeftHandle = 0
+				$scope.widthRightHandle = defaultHandleSize
 				$timeout(function(){ $location.path('/webentities') }, transitionTime)
   			break
   		case 'topics':

@@ -4,6 +4,14 @@
   <div flex="{{flexColWebentities}}" class="flex-transition" layout="column">
   </div>
 
+  <!-- Column: Left Handle -->
+  <div ng-style="{'width': widthLeftHandle+'px'}" class="flex-transition" layout="column" layout-align="center left" md-colors="{background: 'default-background-50-.2'}" ng-click="transition('webentities')">
+    <md-button class="handle-button md-primary">
+      <md-icon aria-label="left">chevron_left</md-icon>
+      <div class="left-handle-text">Web entities</div>
+    </md-button>
+  </div>
+
   <!-- Column: Map -->
   <div flex="{{flexColMap}}" class="flex-transition" layout="column">
     <!-- <div>
@@ -47,8 +55,6 @@
 
   <!-- Column 3: topics -->
   <div flex="{{flexColTopics}}" class="flex-transition" layout="column" layout-padding>
-    <md-button class="md-primary" ng-click="transition('webentities')">Test animate L</md-button>
-    <md-button class="md-primary" ng-click="transition('topics')">Test animate R</md-button>
     <md-content>
       <h3>Topics</h3>
       <ul>
@@ -59,6 +65,14 @@
         <li>Cras ornare tristique elit.</li>
       </ul>
     </md-content>
+  </div>
+
+  <!-- Column: Right Handle -->
+  <div ng-style="{'width': widthRightHandle+'px'}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50-.2'}" ng-click="transition('topics')">
+    <md-button class="handle-button md-primary">
+      <md-icon aria-label="right">chevron_right</md-icon>
+      <div class="right-handle-text">Topics</div>
+    </md-button>
   </div>
 
 </div>
