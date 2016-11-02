@@ -15,7 +15,8 @@ angular.module('app.services', [])
   	we: 50
   },
   topics: {
-  	topics: 100
+  	topics: 80,
+  	side: 20
   }
 })
 

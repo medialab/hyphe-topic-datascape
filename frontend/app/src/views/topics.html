@@ -1,12 +1,28 @@
 <div layout="row" flex>
 
-  <!-- Column 1: Topics vis -->
-  <div flex="70" layout="column">
+	<!-- Column: Left Handle -->
+  <div ng-style="{'width': widthLeftHandle+'px'}" class="flex-transition" layout="column" layout-align="center left" md-colors="{background: 'default-background-50-.2'}" ng-click="transition('search')">
+    <md-button class="handle-button md-primary">
+      <md-icon aria-label="left">chevron_left</md-icon>
+      <div class="left-handle-text">Search</div>
+    </md-button>
+  </div>
+
+  <!-- (Hidden) Column: Map -->
+  <div flex="{{flexColMap}}" class="flex-transition" layout="column">
+  </div>
+
+  <!-- (Hidden) Column: Search -->
+  <div flex="{{flexColSearch}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50'}">
+  </div>
+
+  <!-- Column: Topics vis -->
+  <div flex="{{flexColTopics}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50-.6'}">
     Topics crossing vis
   </div>
 
-  <!-- Column 2: Topics zoom -->
-  <div flex="30" layout="column">
+  <!-- Column: Topics zoom -->
+  <div flex="{{flexColSide}}" class="flex-transition" layout="column">
     TODO: topics zoom
   </div>
 
