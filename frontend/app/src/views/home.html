@@ -1,15 +1,15 @@
 <div layout="row" flex>
 
-  <!-- (Hidden) Column: Web entities -->
-  <div flex="{{flexColWebentities}}" class="flex-transition" layout="column">
-  </div>
-
   <!-- Column: Left Handle -->
   <div ng-style="{'width': widthLeftHandle+'px'}" class="flex-transition" layout="column" layout-align="center left" md-colors="{background: 'default-background-50-.2'}" ng-click="transition('webentities')">
     <md-button class="handle-button md-primary">
       <md-icon aria-label="left">chevron_left</md-icon>
       <div class="left-handle-text">Explore Web Entities</div>
     </md-button>
+  </div>
+
+  <!-- (Hidden) Column: Web entities -->
+  <div flex="{{flexColWebentities}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50'}">
   </div>
 
   <!-- Column: Map -->

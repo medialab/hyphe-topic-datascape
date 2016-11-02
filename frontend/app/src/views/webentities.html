@@ -1,7 +1,11 @@
 <div layout="row" flex>
 
-  <!-- Column 1: Web entities table -->
-  <div flex="50" layout="column">
+  <!-- (Hidden) Column: Left Handle -->
+  <div ng-style="{'width': widthLeftHandle+'px'}" class="flex-transition" layout="column" layout-align="center left" md-colors="{background: 'default-background-50-.2'}" ng-click="transition('webentities')">
+  </div>
+
+  <!-- Column: Web entities table -->
+  <div flex="{{flexColWebentities}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50'}">
     List of web entities
     <ul>
       <li>TODO</li>
@@ -14,9 +18,25 @@
     </ul>
   </div>
 
-  <!-- Column 2: Web entities map -->
-  <div flex="50" layout="column">
+  <!-- Column: Web entities map -->
+  <div flex="{{flexColMap}}" class="flex-transition" layout="column">
     <div flex layout id="sigmaContainer"><div layout layout-fill layout-align="center center">LOADING NETWORK</div></div>
+  </div>
+
+  <!-- (Hidden) Column: Search -->
+  <div flex="{{flexColSearch}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50'}">
+  </div>
+
+  <!-- (Hidden) Column: Topics -->
+  <div flex="{{flexColTopics}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50-.6'}">
+  </div>
+
+  <!-- Column: Right Handle -->
+  <div ng-style="{'width': widthRightHandle+'px'}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50-.2'}" ng-click="transition('search')">
+    <md-button class="handle-button md-primary">
+      <md-icon aria-label="right">chevron_right</md-icon>
+      <div class="right-handle-text">Search</div>
+    </md-button>
   </div>
 
 </div>

@@ -9,10 +9,33 @@ angular.module('app.webentities', ['ngRoute'])
   })
 })
 
-.controller('WebentitiesController', function($scope, $location, $translate, $translatePartialLoader, $timeout, solrEndpoint) {
+.controller('WebentitiesController', function($scope, $location, $translate, $translatePartialLoader, $timeout, solrEndpoint, columnMeasures) {
 
   $translatePartialLoader.addPart('webentities')
   $translate.refresh()
+
+  // Columns dynamic width
+	$scope.flexColWebentities = columnMeasures.we.we
+	$scope.flexColMap = columnMeasures.we.map
+	$scope.flexColSearch = 0
+	$scope.flexColTopics = 0
+	$scope.widthLeftHandle = 0
+	$scope.widthRightHandle = columnMeasures.handle
+
+  $scope.transition = function(destination) {
+  	var transitionTime = 200
+  	switch (destination) {
+  		case 'search':
+  			$scope.flexColWebentities = 0
+  			$scope.flexColMap = columnMeasures.search.map
+				$scope.flexColSearch = columnMeasures.search.search
+				$scope.flexColTopics = columnMeasures.search.topics
+				$scope.widthLeftHandle = columnMeasures.handle
+				$scope.widthRightHandle = columnMeasures.handle
+				$timeout(function(){ $location.path('/') }, transitionTime)
+  			break
+  	}
+  }
 
   init()
 
