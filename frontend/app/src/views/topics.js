@@ -15,6 +15,7 @@ angular.module('app.topics', ['ngRoute'])
   $translate.refresh()
 
   // Columns dynamic width
+	$scope.transitioning = false
 	$scope.flexColMap = 0
 	$scope.flexColSearch = 0
 	$scope.flexColTopics = columnMeasures.topics.topics
@@ -26,6 +27,7 @@ angular.module('app.topics', ['ngRoute'])
   	var transitionTime = 200
   	switch (destination) {
   		case 'search':
+  			$scope.transitioning = true
   			$scope.flexColMap = columnMeasures.search.map
 				$scope.flexColSearch = columnMeasures.search.search
 				$scope.flexColTopics = columnMeasures.search.topics

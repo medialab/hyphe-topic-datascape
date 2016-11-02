@@ -6,21 +6,23 @@
 
   <!-- Column: Web entities table -->
   <div flex="{{flexColWebentities}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50'}">
-    List of web entities
-    <ul>
-      <li>TODO</li>
-      <li>TODO</li>
-      <li>TODO</li>
-      <li>TODO</li>
-      <li>TODO</li>
-      <li>TODO</li>
-      <li>TODO</li>
-    </ul>
+    <div ng-show="!transitioning">
+      List of web entities {{transitioning}}
+      <ul>
+        <li>TODO</li>
+        <li>TODO</li>
+        <li>TODO</li>
+        <li>TODO</li>
+        <li>TODO</li>
+        <li>TODO</li>
+        <li>TODO</li>
+      </ul>
+    </div>
   </div>
 
   <!-- Column: Web entities map -->
   <div flex="{{flexColMap}}" class="flex-transition" layout="column">
-    <div flex layout id="sigmaContainer"><div layout layout-fill layout-align="center center">LOADING NETWORK</div></div>
+    <div flex layout id="sigmaContainer" ng-show="!transitioning"><div layout layout-fill layout-align="center center">LOADING NETWORK</div></div>
   </div>
 
   <!-- (Hidden) Column: Search -->
@@ -33,7 +35,7 @@
 
   <!-- Column: Right Handle -->
   <div ng-style="{'width': widthRightHandle+'px'}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50-.2'}" ng-click="transition('search')">
-    <md-button class="handle-button md-primary">
+    <md-button class="handle-button md-primary" ng-show="!transitioning">
       <md-icon aria-label="right">chevron_right</md-icon>
       <div class="right-handle-text">Search</div>
     </md-button>

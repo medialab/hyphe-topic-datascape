@@ -2,7 +2,7 @@
 
 	<!-- Column: Left Handle -->
   <div ng-style="{'width': widthLeftHandle+'px'}" class="flex-transition" layout="column" layout-align="center left" md-colors="{background: 'default-background-50-.2'}" ng-click="transition('search')">
-    <md-button class="handle-button md-primary">
+    <md-button class="handle-button md-primary" ng-show="!transitioning">
       <md-icon aria-label="left">chevron_left</md-icon>
       <div class="left-handle-text">Search</div>
     </md-button>
@@ -18,12 +18,16 @@
 
   <!-- Column: Topics vis -->
   <div flex="{{flexColTopics}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50-.6'}">
-    Topics crossing vis
+    <div ng-show="!transitioning">
+    	Topics crossing vis
+  	</div>
   </div>
 
   <!-- Column: Topics zoom -->
   <div flex="{{flexColSide}}" class="flex-transition" layout="column">
-    TODO: topics zoom
+    <div ng-show="!transitioning">
+    	TODO: topics zoom
+    </div>
   </div>
 
 </div>

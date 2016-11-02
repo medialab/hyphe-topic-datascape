@@ -2,7 +2,7 @@
 
   <!-- Column: Left Handle -->
   <div ng-style="{'width': widthLeftHandle+'px'}" class="flex-transition" layout="column" layout-align="center left" md-colors="{background: 'default-background-50-.2'}" ng-click="transition('webentities')">
-    <md-button class="handle-button md-primary">
+    <md-button class="handle-button md-primary" ng-show="!transitioning">
       <md-icon aria-label="left">chevron_left</md-icon>
       <div class="left-handle-text">Explore Web Entities</div>
     </md-button>
@@ -17,19 +17,19 @@
     <!-- <div>
       <img src="res/logo.png">
     </div> -->
-    <div flex layout id="sigmaContainer"><div layout layout-fill layout-align="center center">LOADING NETWORK</div></div>
+    <div flex layout id="sigmaContainer" ng-show="!transitioning"><div layout layout-fill layout-align="center center">LOADING NETWORK</div></div>
   </div>
 
   <!-- Column: Search -->
   <div flex="{{flexColSearch}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50'}">
-    <div layout="column" class="search-container">
+    <div layout="column" class="search-container" ng-show="!transitioning">
       <md-input-container class="md-primary md-icon-float">
         <label>Search</label>
         <md-icon aria-label="search">search</md-icon>
         <input ng-model="searchQuery" type="text" ng-press-enter="execSearchQuery()">
       </md-input-container>
     </div>
-    <div flex layout layout-align="center center" class="searchResults">
+    <div flex layout layout-align="center center" class="searchResults" ng-show="!transitioning">
       <md-list class="md-dense" flex layout layout-fill>
         <md-virtual-repeat-container flex layout layout-fill ng-show="resultsLoaded">
           <div
@@ -55,12 +55,12 @@
 
   <!-- Column 3: topics -->
   <div flex="{{flexColTopics}}" class="flex-transition" layout="column">
-    <md-toolbar layout="row" class="md-hue-1">
+    <md-toolbar layout="row" class="md-hue-1" ng-show="!transitioning">
       <div class="md-toolbar-tools">
         <span>Topics</span>
       </div>
     </md-toolbar>
-    <md-list flex class="topics-list" md-colors="{background: 'default-background-50-.6'}">
+    <md-list flex class="topics-list" ng-show="!transitioning" md-colors="{background: 'default-background-50-.6'}">
       <md-list-item class="sm-1-line" ng-repeat="topic in topics" ng-click="null">
         <div class="md-list-item-text" layout="column">
           {{topic}}
@@ -74,7 +74,7 @@
 
   <!-- Column: Right Handle -->
   <div ng-style="{'width': widthRightHandle+'px'}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50-.2'}" ng-click="transition('topics')">
-    <md-button class="handle-button md-primary">
+    <md-button class="handle-button md-primary" ng-show="!transitioning">
       <md-icon aria-label="right">chevron_right</md-icon>
       <div class="right-handle-text">Explore Topics</div>
     </md-button>

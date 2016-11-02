@@ -19,6 +19,7 @@ angular.module('app.home', ['ngRoute'])
 	$scope.topics = ['dummy', 'topic', 'list', 'hold the door', 'hold th door', 'hold t door', 'Hol t door', 'Hol door', 'Ho door', 'Hodor', '100', '200', '300', '400', '500', '600', '700']
 
 	// Columns dynamic width
+	$scope.transitioning = false
 	$scope.flexColWebentities = 0
 	$scope.flexColMap = columnMeasures.search.map
 	$scope.flexColSearch = columnMeasures.search.search
@@ -30,6 +31,7 @@ angular.module('app.home', ['ngRoute'])
   	var transitionTime = 200
   	switch (destination) {
   		case 'webentities':
+  			$scope.transitioning = true
   			$scope.flexColMap = columnMeasures.we.map
   			$scope.flexColWebentities = columnMeasures.we.we
 				$scope.flexColSearch = 0
@@ -39,6 +41,7 @@ angular.module('app.home', ['ngRoute'])
 				$timeout(function(){ $location.path('/webentities') }, transitionTime)
   			break
   		case 'topics':
+  			$scope.transitioning = true
   			$scope.flexColMap = 0
   			$scope.flexColWebentities = 0
 				$scope.flexColSearch = 0

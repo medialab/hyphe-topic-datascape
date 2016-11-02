@@ -15,6 +15,7 @@ angular.module('app.webentities', ['ngRoute'])
   $translate.refresh()
 
   // Columns dynamic width
+	$scope.transitioning = false
 	$scope.flexColWebentities = columnMeasures.we.we
 	$scope.flexColMap = columnMeasures.we.map
 	$scope.flexColSearch = 0
@@ -26,6 +27,7 @@ angular.module('app.webentities', ['ngRoute'])
   	var transitionTime = 200
   	switch (destination) {
   		case 'search':
+  			$scope.transitioning = true
   			$scope.flexColWebentities = 0
   			$scope.flexColMap = columnMeasures.search.map
 				$scope.flexColSearch = columnMeasures.search.search
