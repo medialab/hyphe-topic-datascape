@@ -17,12 +17,12 @@ angular.module('app.home', ['ngRoute'])
 	$scope.results
 	$scope.resultsHighlighting
 
-	$scope.topics = ['dummy', 'topic', 'list', 'hold the door', 'hold th door', 'hold t door', 'Hol t door', 'Hol door', 'Ho door', 'Hodor']
+	$scope.topics = ['dummy', 'topic', 'list', 'hold the door', 'hold th door', 'hold t door', 'Hol t door', 'Hol door', 'Ho door', 'Hodor', '100', '200', '300', '400', '500', '600', '700']
 
 	// Columns dynamic width
 	$scope.flexColWebentities = 0
 	$scope.flexColMap = 50
-	$scope.flexColSearch = 35
+	$scope.flexColSearch = 30
 	$scope.flexColTopics = 15
 	$scope.widthLeftHandle = defaultHandleSize
 	$scope.widthRightHandle = defaultHandleSize

@@ -28,7 +28,8 @@
   top: 50%;
 }
 
-/* Search results */
+/* Home page */
+
 .search-container md-input-container{
   margin-bottom: 0px;
   margin-left: 12px;
@@ -96,4 +97,9 @@
   color: rgba(0,0,0,0.54);
   font-weight: 500;
   letter-spacing: .01em;
+}
+
+.topics-list {
+  overflow-y: auto;
+  overflow-x: hidden;
 }
