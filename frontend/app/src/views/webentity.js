@@ -9,10 +9,22 @@ angular.module('app.webentity', ['ngRoute'])
   })
 })
 
-.controller('WebentityController', function($scope, $location, $translate, $translatePartialLoader, $timeout, $mdColors, solrEndpoint, columnMeasures) {
+.controller('WebentityController', function (
+	$scope,
+	$location,
+	$translate,
+	$translatePartialLoader,
+	$timeout,
+	$mdColors,
+	solrEndpoint,
+	columnMeasures,
+	$routeParams
+) {
 
   $translatePartialLoader.addPart('webentity')
   $translate.refresh()
+
+  $scope.pagesLoaded = false
 
 	// Columns dynamic width
 	$scope.transitioning = false
@@ -23,7 +35,7 @@ angular.module('app.webentity', ['ngRoute'])
 	$scope.flexColTopics = 0
 	$scope.widthLeftHandle = 0
 
-  $scope.transition = function(destination) {
+  $scope.transition = function(destination, settings) {
   	var transitionTime = 200
   	switch (destination) {
   		case 'verbatim':
@@ -34,7 +46,7 @@ angular.module('app.webentity', ['ngRoute'])
 				$scope.flexColVerbatim = columnMeasures.verbatim.verbatim
 				$scope.flexColTopics = columnMeasures.verbatim.topics
 				$scope.widthLeftHandle = columnMeasures.handle
-				$timeout(function(){ $location.path('/verbatim') }, transitionTime)
+				$timeout(function(){ $location.path('/verbatim/'+encodeURIComponent(settings.verbatim)) }, transitionTime)
   			break
   	}
   }
@@ -73,22 +85,33 @@ angular.module('app.webentity', ['ngRoute'])
   init()
 
   function init() {
-  	/*sigma.parsers.gexf(
-    	'data/network.gexf',
-	    {
-	      container: 'sigmaContainer',
-	      settings: {
-	      	drawNodes: false,
-	      	drawEdges: false,
-	      	labelThreshold: Infinity
-	      }
-	    },
-	    function(s) {
-	      // This function will be executed when the
-	      // graph is displayed, with "s" the related
-	      // sigma instance.
-	    }
-	  )*/
+  	$scope.weId = decodeURIComponent($routeParams.id)
+  	if ($scope.weId == '') {
+  		$location.path('/')
+  	} else {
+  		query('web_entity_id:"'+$scope.weId+'"')
+  	}
   }
+
+  function query(q) {
+  	var url = solrEndpoint + 'select?q='+encodeURIComponent(q)
+  	url += '&rows=1000'
+  	url += '&wt=json'
+  	url += '&indent=false'
+   	queryUrl(url)
+  }
+
+  function queryUrl(url) {
+  	$scope.resultsLoading = true
+		$scope.resultsLoaded = false
+  	d3.json(url)
+    	.get(function(data){
+    		$timeout(function(){
+	    		$scope.pagesLoaded = true
+	    		$scope.results = data.response.docs
+	    		$scope.$apply()
+    		})
+    	});
+   }
 
 })

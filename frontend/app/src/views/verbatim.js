@@ -96,7 +96,7 @@ angular.module('app.verbatim', ['ngRoute'])
   	var url = solrEndpoint + 'select?q='+encodeURIComponent(q)
   	url += '&rows=1'
   	url += '&wt=json'
-  	url += '&indent=true'
+  	url += '&indent=false'
    	queryUrl(url)
   }
 
