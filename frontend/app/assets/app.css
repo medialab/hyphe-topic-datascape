@@ -103,3 +103,9 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+/* Web entities page */
+
+#vertical-container .repeated-item {
+  /*height: 60px;*/
+}

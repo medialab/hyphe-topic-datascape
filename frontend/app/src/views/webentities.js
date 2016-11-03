@@ -80,6 +80,13 @@ angular.module('app.webentities', ['ngRoute'])
 			.replace(/7/gi, 'e')
 			.replace(/8/gi, 'y')
 			.replace(/9/gi, 'g')
+		we.text = (''+seed).replace('0.', 'Hold the door, ')
+			.replace(/[012]/gi, 'hold te door, ')
+			.replace(/[345]/gi, 'hol te door, ')
+			.replace(/[67]/gi, 'hol door, ')
+			.replace(/[89]/gi, 'Hodor. Hold the door, ')
+			+ 'Hodor.'
+		we.flag = seed > 0.5
 		return we
 	}
 

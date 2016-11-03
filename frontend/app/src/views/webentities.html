@@ -11,11 +11,18 @@
         <span>Web entities</span>
       </div>
     </md-toolbar>
-    <md-virtual-repeat-container id="vertical-container" flex ng-show="!transitioning">
-      <div md-virtual-repeat="we in webentities" class="repeated-item" flex>
-        {{we.name}}
-      </div>
-    </md-virtual-repeat-container>
+    <md-list flex ng-show="!transitioning">
+      <md-virtual-repeat-container id="vertical-container" layout-fill>
+        <md-list-item md-virtual-repeat="we in webentities" class="md-3-line md-long-text repeated-item" flex>
+          <div class="md-list-item-text" layout="column">
+            <h3>{{ we.name }}</h3>
+            <h4>{{ we.id }}</h4>
+            <p>{{ we.text }}</p>
+          </div>
+          <md-checkbox class="md-secondary" ng-model="we.flag"></md-checkbox>
+        </md-list-item>
+      </md-virtual-repeat-container>
+    </md-list>
   </div>
 
   <!-- Column: Web entities map -->
