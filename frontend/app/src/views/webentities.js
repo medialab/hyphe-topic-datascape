@@ -39,6 +39,13 @@ angular.module('app.webentities', ['ngRoute'])
   	}
   }
 
+  $scope.webentities = []
+  for (var i=0; i<10000; i++) {
+  	$scope.webentities.push(createDummyWe())
+  }
+
+
+
   init()
 
   function init() {
@@ -59,5 +66,21 @@ angular.module('app.webentities', ['ngRoute'])
 	    }
 	  )*/
   }
+
+  // Dummy web entity generation for the demo
+	function createDummyWe() {
+		var we = {}
+		var seed = Math.random()
+		we.id = (''+seed).replace(/\./, '-')
+		we.name = (''+seed).replace('0.', 'Hodor ')
+			.replace(/[0123]/gi, ' ')
+			.replace(/4/gi, 'p')
+			.replace(/5/gi, 'o')
+			.replace(/6/gi, 'n')
+			.replace(/7/gi, 'e')
+			.replace(/8/gi, 'y')
+			.replace(/9/gi, 'g')
+		return we
+	}
 
 })
