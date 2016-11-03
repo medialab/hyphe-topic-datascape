@@ -1,0 +1,47 @@
+<div layout="row" flex>
+
+  <!-- (Hidden) Column: Left Handle -->
+  <div ng-style="{'width': widthLeftHandle+'px'}" class="flex-transition" layout="column" layout-align="center left" md-colors="{background: 'default-background-50-.2'}">
+  </div>
+
+  <!-- Column: Web entity -->
+  <div flex="{{flexColWebentityExpanded}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50'}">
+    <div ng-show="!transitioning">
+      TODO: Web entity info
+    </div>
+  </div>
+
+  <!-- Column: Map + docs-->
+  <div flex="{{flexColMapDocs}}" class="flex-transition" layout="column">
+    <div flex="{{flexColMap}}" class="flex-transition" layout>
+      <div flex layout id="sigmaContainer" ng-show="!transitioning"><div layout layout-fill layout-align="center center" translate>LOADING_NETWORK</div></div>
+    </div>
+    <div flex layout="column">
+      <md-toolbar layout="row" class="md-hue-1" ng-show="!transitioning">
+        <div class="md-toolbar-tools">
+          <span translate>DOCUMENTS</span>
+        </div>
+      </md-toolbar>
+      <md-list flex ng-show="!transitioning">
+        <md-virtual-repeat-container id="vertical-container" layout-fill>
+          <md-list-item md-virtual-repeat="page in pages" class="md-2-line md-long-text repeated-item" flex ng-click="transition('verbatim')">
+            <div class="md-list-item-text" layout="column">
+              <h3>{{ page.title }}</h3>
+              <h4>{{ page.url }}</h4>
+              <p>{{ page.text }}</p>
+            </div>
+          </md-list-item>
+        </md-virtual-repeat-container>
+      </md-list>
+    </div>
+  </div>
+
+  <!-- (Hidden) Column: Verbatim -->
+  <div flex="{{flexColVerbatim}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50'}">
+  </div>
+
+  <!-- (Hidden) Column: Topics -->
+  <div flex="{{flexColTopics}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50-.6'}">
+  </div>
+
+</div>

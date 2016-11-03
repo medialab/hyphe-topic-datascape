@@ -27,7 +27,7 @@ angular.module('app.services', [])
   we: {
   	we: 75,
   	map: 40,
-  	mapdocs: 24
+  	mapdocs: 25
   }
 })
 
