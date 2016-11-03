@@ -28,6 +28,9 @@ angular.module('app.services', [])
   	we: 75,
   	map: 40,
   	mapdocs: 25
+  },
+  topic: {
+  	topic: 100
   }
 })
 
