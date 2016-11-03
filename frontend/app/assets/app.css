@@ -47,8 +47,16 @@ md-list {
 }
 
 .searchResults .repeated-item {
-  height: 120px;
+  /*height: 120px;*/
   overflow: hidden;
+}
+
+.resultHighlight {
+  opacity: 0.8;
+}
+
+.resultHighlight strong{
+  background-color: rgba(255, 255, 255, .8);
 }
 
 .topics-list {

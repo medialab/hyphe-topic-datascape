@@ -31,18 +31,19 @@
       </md-input-container>
     </div>
     <div flex layout layout-align="center center" class="searchResults" ng-show="!transitioning">
-      <md-list class="md-dense" flex layout layout-fill>
-        <md-virtual-repeat-container flex layout layout-fill ng-show="resultsLoaded">
+      <md-progress-circular md-mode="indeterminate" ng-show="resultsLoading"></md-progress-circular>
+      <md-list class="md-dense" flex layout layout-fill ng-show="resultsLoaded">
+        <md-virtual-repeat-container flex layout layout-fill>
           <md-list-item
             md-virtual-repeat="r in results"
             class="repeated-item md-3-line"
             ng-click="transition('verbatim')"
           >
             <div class="md-list-item-text" layout="column">
-              <h3 class="weName">
+              <h3 md-colors="{color: 'default-primary-900'}">
                 {{r.web_entity}}
               </h3>
-              <h4 class="pageUrl" lru="{{r.lru}}">
+              <h4 md-colors="{color: 'default-primary-900-.8'}">
                 {{r.url}}
               </h4>
               <p class="resultHighlight" lru="{{r.lru}}" data-ng-bind-html="resultsHighlighting[r.id].text[0]">
@@ -62,9 +63,9 @@
       </div>
     </md-toolbar>
     <md-list flex class="topics-list" ng-show="!transitioning" md-colors="{background: 'default-background-50-.6'}">
-      <md-list-item class="sm-1-line" ng-repeat="topic in topics" ng-click="null">
+      <md-list-item class="sm-1-line" ng-repeat="topic in topics" ng-click="topicQuery(topic)">
         <div class="md-list-item-text" layout="column">
-          {{topic}}
+          {{topic.name}}
         </div>
     </md-list>
   </div>

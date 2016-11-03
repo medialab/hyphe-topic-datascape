@@ -34,3 +34,11 @@ angular.module('app.services', [])
   }
 })
 
+.factory('topics', function topicsFactory() {
+  return [
+  	{name: "Hacking", id: "hacking"},
+  	{name: "Big Data", id: "bigdata"},
+  	{name: "Bitcoin", id: "bitcoin"}
+  ];
+})
+

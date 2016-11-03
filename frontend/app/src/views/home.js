@@ -9,14 +9,25 @@ angular.module('app.home', ['ngRoute'])
   })
 })
 
-.controller('HomeController', function($scope, $location, $translate, $translatePartialLoader, $timeout, $mdColors, solrEndpoint, columnMeasures) {
+.controller('HomeController', function(
+	$scope,
+	$location,
+	$translate,
+	$translatePartialLoader,
+	$timeout,
+	$mdColors,
+	solrEndpoint,
+	columnMeasures,
+	topics
+) {
 
 	$scope.searchQuery
 	$scope.resultsLoaded = false
+	$scope.resultsLoading = false
 	$scope.results
 	$scope.resultsHighlighting
 
-	$scope.topics = ['dummy', 'topic', 'list', 'hold the door', 'hold th door', 'hold t door', 'Hol t door', 'Hol door', 'Ho door', 'Hodor', '100', '200', '300', '400', '500', '600', '700']
+	$scope.topics = topics
 
 	// Columns dynamic width
 	$scope.transitioning = false
@@ -64,18 +75,12 @@ angular.module('app.home', ['ngRoute'])
 
   $scope.execSearchQuery = function() {
   	var query_simple = $scope.searchQuery
-  	// var url = solrEndpoint + 'select?q='+encodeURIComponent(query_simple)+'&rows=0&fl=url+web_entity_id&wt=json&indent=true&facet=true&facet.field=web_entity_id&facet.limit=1000'
-  	var url = solrEndpoint + 'select?q='+encodeURIComponent(query_simple)+'&rows=1000&fl=web_entity+web_entity_id+url+lru+id&wt=json&indent=true&hl=true&hl.simple.pre=<strong>&hl.simple.post=<%2Fstrong>&hl.usePhraseHighlighter=true&hl.fragsize=1000&hl.mergeContiguous=true'
-  	d3.json(url)
-    	.get(function(data){
-    		$timeout(function(){
-	    		console.log('data received', data)
-	    		$scope.resultsLoaded = true
-	    		$scope.resultsHighlighting = data.highlighting
-	    		$scope.results = data.response.docs
-	    		$scope.$apply()
-    		})
-    	});
+  	query($scope.searchQuery)
+  }
+
+  $scope.topicQuery = function(topic) {
+  	$scope.searchQuery = topic.id+':true'
+  	query($scope.searchQuery)
   }
 
 
@@ -101,6 +106,69 @@ angular.module('app.home', ['ngRoute'])
 	      // sigma instance.
 	    }
 	  )*/
+  }
+  function query(q) {
+  	var url = solrEndpoint + 'select?q='+encodeURIComponent(q)
+
+  	// We break down the query for more readability and sustainability.
+  	// See parameters there: https://wiki.apache.org/solr/CommonQueryParameters
+  	
+  	// Rows
+  	url += '&rows=1000'
+
+  	// Fields list
+
+  	// Available fields:
+  	// - Topics: wearables, airspace, data_transmission, data_regulation_us, copyright, data_regulation_eu,
+		//           bitcoin, cyberdefense, social_media, business_media, personal_records, surveillance_us,
+		//           hacking, id_fraud, cookies, cybersecurity, crypto_access, education, telecom_ops_fr,
+		//           surveillance_fr, bigdata, web_entity_id, cloud_security, health, research_it, citizen_freedom
+		//           websecurity, terms_use, data_regulation_fr, mobile, comm_traces, transports, consumer_data
+  	// - Web entity: web_entity, web_entity_status, 
+  	// - Verbatim: text, html, textCanola
+  	// - Other: id, corpus, encoding, original_encoding, lru, url, depth, _version_
+
+  	var fields = [
+  		'web_entity',
+  		'web_entity_id',
+  		'url',
+  		'id'
+  	]
+  	url += '&fl=' + fields.map(encodeURIComponent).join('+')
+
+  	// Output format
+  	url += '&wt=json'
+  	url += '&indent=false'
+
+  	// Highlight
+  	var highlight = true
+  	if (highlight) {
+  		var highlight_before = '<strong>'
+  		var highlight_after = '</strong>'
+	  	url += '&hl=true'
+	  	url += '&hl.simple.pre=' + encodeURIComponent(highlight_before)
+	  	url += '&hl.simple.post=' + encodeURIComponent(highlight_after)
+	  	url += '&hl.usePhraseHighlighter=true'
+	  	url += '&hl.fragsize=100'	// Fragment 
+	  	url += '&hl.mergeContiguous=true'
+  	}
+  	queryUrl(url)
+  }
+
+  function queryUrl(url) {
+  	$scope.resultsLoading = true
+		$scope.resultsLoaded = false
+  	d3.json(url)
+    	.get(function(data){
+    		$timeout(function(){
+	    		console.log('data received', data)
+	    		$scope.resultsLoaded = true
+	    		$scope.resultsLoading = false
+	    		$scope.resultsHighlighting = data.highlighting
+	    		$scope.results = data.response.docs
+	    		$scope.$apply()
+    		})
+    	});
   }
 
 })
