@@ -4,7 +4,7 @@
   <div ng-style="{'width': widthLeftHandle+'px'}" class="flex-transition" layout="column" layout-align="center left" md-colors="{background: 'default-background-50-.2'}" ng-click="transition('webentities')">
     <md-button class="handle-button md-primary" ng-show="!transitioning">
       <md-icon aria-label="left">chevron_left</md-icon>
-      <div class="left-handle-text">Explore Web Entities</div>
+      <div class="left-handle-text" translate>EXPLORE_WES</div>
     </md-button>
   </div>
 
@@ -17,14 +17,14 @@
     <!-- <div>
       <img src="res/logo.png">
     </div> -->
-    <div flex layout id="sigmaContainer" ng-show="!transitioning"><div layout layout-fill layout-align="center center">LOADING NETWORK</div></div>
+    <div flex layout id="sigmaContainer" ng-show="!transitioning"><div layout layout-fill layout-align="center center" translate>LOADING_NETWORK</div></div>
   </div>
 
   <!-- Column: Search -->
   <div flex="{{flexColSearch}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50'}">
     <div layout="column" class="search-container" ng-show="!transitioning">
       <md-input-container class="md-primary md-icon-float">
-        <label>Search</label>
+        <label translate>SEARCH</label>
         <md-icon aria-label="search">search</md-icon>
         <input ng-model="searchQuery" type="text" ng-press-enter="execSearchQuery()">
       </md-input-container>
@@ -57,7 +57,7 @@
   <div flex="{{flexColTopics}}" class="flex-transition" layout="column">
     <md-toolbar layout="row" class="md-hue-1">
       <div class="md-toolbar-tools">
-        <span>Topics</span>
+        <span translate>TOPICS_TITLE</span>
       </div>
     </md-toolbar>
     <md-list flex class="topics-list" ng-show="!transitioning" md-colors="{background: 'default-background-50-.6'}">
@@ -76,7 +76,7 @@
   <div ng-style="{'width': widthRightHandle+'px'}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50-.2'}" ng-click="transition('topics')">
     <md-button class="handle-button md-primary" ng-show="!transitioning">
       <md-icon aria-label="right">chevron_right</md-icon>
-      <div class="right-handle-text">Explore Topics</div>
+      <div class="right-handle-text" translate>EXPLORE_TOPICS</div>
     </md-button>
   </div>
 

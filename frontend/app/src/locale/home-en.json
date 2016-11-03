@@ -1,3 +1,7 @@
 {
-	"KEY": "Value"
+	"TOPICS_TITLE": "Topics",
+	"EXPLORE_TOPICS": "Explore Topics",
+	"EXPLORE_WES": "Explore Web Entities",
+	"SEARCH": "Search",
+	"LOADING_NETWORK": "LOADING NETWORK"
 }
