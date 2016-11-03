@@ -52,7 +52,7 @@ angular.module('app.verbatim', ['ngRoute'])
 				$scope.flexColTopics = 0
 				$scope.widthLeftHandle = 0
 				$scope.widthRightHandle = 0
-				$timeout(function(){ $location.path('/webentity') }, transitionTime)
+				$timeout(function(){ $location.path('/webentity/'+$scope.result.web_entity_id) }, transitionTime)
   			break
   		case 'topic':
   			$scope.transitioning = true

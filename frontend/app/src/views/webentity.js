@@ -3,7 +3,7 @@
 angular.module('app.webentity', ['ngRoute'])
 
 .config(function($routeProvider) {
-  $routeProvider.when('/webentity', {
+  $routeProvider.when('/webentity/:id', {
     templateUrl: 'src/views/webentity.html'
   , controller: 'WebentityController'
   })
