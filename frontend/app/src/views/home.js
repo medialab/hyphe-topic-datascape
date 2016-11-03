@@ -39,7 +39,7 @@ angular.module('app.home', ['ngRoute'])
 	$scope.widthLeftHandle = columnMeasures.handle
 	$scope.widthRightHandle = columnMeasures.handle
 
-  $scope.transition = function(destination) {
+  $scope.transition = function(destination, settings) {
   	var transitionTime = 200
   	switch (destination) {
   		case 'webentities':
@@ -60,7 +60,8 @@ angular.module('app.home', ['ngRoute'])
 				$scope.flexColTopics = columnMeasures.verbatim.topics
 				$scope.widthLeftHandle = columnMeasures.handle
 				$scope.widthRightHandle = 0
-				$timeout(function(){ $location.path('/verbatim') }, transitionTime)
+				console.log('/verbatim/'+settings.verbatim)
+				$timeout(function(){ $location.path('/verbatim/'+encodeURIComponent(settings.verbatim)) }, transitionTime)
   			break
   		case 'topics':
   			$scope.transitioning = true
@@ -84,8 +85,8 @@ angular.module('app.home', ['ngRoute'])
   }
 
 
-  $translatePartialLoader.addPart('data')
   $translatePartialLoader.addPart('home')
+  $translatePartialLoader.addPart('data')
   $translate.refresh()
 
   init()

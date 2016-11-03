@@ -1,5 +1,9 @@
 {
 	"TOPICS": "Topics",
 	"WE": "Web entity",
-	"VERBATIM": "Verbatim"
+	"VERBATIM": "Verbatim",
+	"MODE_TEXT": "txt",
+	"MODE_HTML": "html",
+	"MODE_CANOLA": "canola"
+
 }

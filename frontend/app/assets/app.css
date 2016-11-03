@@ -69,3 +69,16 @@ md-list {
 #vertical-container .repeated-item {
   /*height: 60px;*/
 }
+
+/* Verbatim page */
+.subheader-link {
+  color: inherit;
+  text-decoration: inherit;
+}
+.verbatim-preview {
+  overflow: scroll;
+}
+.verbatim-preview pre {
+  margin: 0px;
+  width: 100px; /*dirty hack*/
+}

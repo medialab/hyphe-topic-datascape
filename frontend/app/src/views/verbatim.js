@@ -3,18 +3,32 @@
 angular.module('app.verbatim', ['ngRoute'])
 
 .config(function($routeProvider) {
-  $routeProvider.when('/verbatim', {
+  $routeProvider.when('/verbatim/:id', {
     templateUrl: 'src/views/verbatim.html'
   , controller: 'VerbatimController'
   })
 })
 
-.controller('VerbatimController', function($scope, $location, $translate, $translatePartialLoader, $timeout, $mdColors, solrEndpoint, columnMeasures) {
+.controller('VerbatimController', function(
+	$scope,
+	$location,
+	$translate,
+	$translatePartialLoader,
+	$timeout,
+	$mdColors,
+	solrEndpoint,
+	columnMeasures,
+	topics,
+	$routeParams
+) {
 
+	$translatePartialLoader.addPart('data')
   $translatePartialLoader.addPart('verbatim')
   $translate.refresh()
 
-	$scope.topics = ['dummy', 'topic', 'list']
+	$scope.topics = []
+	$scope.verbatimLoaded = false
+	$scope.verbatimMode = "text"
 
 	// Columns dynamic width
 	$scope.transitioning = false
@@ -69,22 +83,39 @@ angular.module('app.verbatim', ['ngRoute'])
   init()
 
   function init() {
-  	/*sigma.parsers.gexf(
-    	'data/network.gexf',
-	    {
-	      container: 'sigmaContainer',
-	      settings: {
-	      	drawNodes: false,
-	      	drawEdges: false,
-	      	labelThreshold: Infinity
-	      }
-	    },
-	    function(s) {
-	      // This function will be executed when the
-	      // graph is displayed, with "s" the related
-	      // sigma instance.
-	    }
-	  )*/
+  	$scope.verbatimId = decodeURIComponent($routeParams.id)
+  	if ($scope.verbatimId == '') {
+  		$location.path('/')
+  	} else {
+  		query('id:"'+$scope.verbatimId+'"')
+  		// query('id:'+$scope.verbatimId.replace(/:/gi, '\\:'))
+  	}
+  }
+
+  function query(q) {
+  	var url = solrEndpoint + 'select?q='+encodeURIComponent(q)
+  	url += '&rows=1'
+  	url += '&wt=json'
+  	url += '&indent=true'
+   	queryUrl(url)
+  }
+
+  function queryUrl(url) {
+  	$scope.resultsLoading = true
+		$scope.resultsLoaded = false
+		console.log('query', url)
+  	d3.json(url)
+    	.get(function(data){
+    		$timeout(function(){
+	    		console.log('data received', data)
+	    		$scope.verbatimLoaded = true
+	    		$scope.result = data.response.docs[0]
+	    		$scope.topics = topics.filter(function(t){
+	    			return $scope.result[t]
+	    		})
+	    		$scope.$apply()
+    		})
+    	});
   }
 
 })
