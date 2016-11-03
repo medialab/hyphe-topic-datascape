@@ -153,12 +153,22 @@ angular.module('app.home', ['ngRoute'])
 	  	url += '&hl.fragsize=100'	// Fragment 
 	  	url += '&hl.mergeContiguous=true'
   	}
+
+  	// Facet
+  	var facet = true
+  	if (facet) {
+  		url += '&facet=true'
+  		url += '&facet.limit=10000'
+  		url += '&facet.field=web_entity_id'
+  	}
+
   	queryUrl(url)
   }
 
   function queryUrl(url) {
   	$scope.resultsLoading = true
 		$scope.resultsLoaded = false
+		console.log('query', url)
   	d3.json(url)
     	.get(function(data){
     		$timeout(function(){
