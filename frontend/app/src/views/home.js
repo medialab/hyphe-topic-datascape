@@ -115,7 +115,7 @@ angular.module('app.home', ['ngRoute'])
   	// See parameters there: https://wiki.apache.org/solr/CommonQueryParameters
   	
   	// Rows
-  	url += '&rows=1000'
+  	url += '&rows=100'
 
   	// Fields list
 
