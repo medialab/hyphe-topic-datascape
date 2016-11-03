@@ -1,4 +1,34 @@
-
-  "KEY": "Value"
-
+{
+  "airspace": "Airspace Security",
+  "bigdata": "Big data & Analytics",
+  "bitcoin": "Bitcoin",
+  "business_media": "Business Tech and new media",
+  "transports": "Car and transport",
+  "id_fraud": "Card and ID fraud",
+  "cloud_security": "Cloud & server security",
+  "comm_traces": "Communication traces",
+  "consumer_data": "Consumer data",
+  "cookies": "Cookies and tracking",
+  "copyright": "Copyright",
+  "crypto_access": "Crypto & Access",
+  "cyberdefense": "Cyberdefense",
+  "cybersecurity": "Cybersecurity",
+  "data_regulation_eu": "Data Regulation EU",
+  "data_regulation_fr": "Data Regulation FR",
+  "data_regulation_us": "Data Regulation US",
+  "data_transmission": "Data transmission",
+  "education": "Education",
+  "citizen_freedom": "Freedom of citizens",
+  "hacking": "Hacking",
+  "health": "Health",
+  "mobile": "Mobile OS and App",
+  "personal_records": "Personal records",
+  "research_it": "Research IT",
+  "social_media": "Social Media",
+  "surveillance_fr": "Surveillance FR",
+  "surveillance_us": "Surveillance US",
+  "telecom_ops_fr": "Telecom Operators FR",
+  "terms_use": "Terms of use",
+  "wearables": "Wearable & IOT",
+  "websecurity": "Web and Computer security"
 }

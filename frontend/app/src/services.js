@@ -34,11 +34,37 @@ angular.module('app.services', [])
   }
 })
 
-.factory('topics', function topicsFactory() {
-  return [
-  	{name: "Hacking", id: "hacking"},
-  	{name: "Big Data", id: "bigdata"},
-  	{name: "Bitcoin", id: "bitcoin"}
-  ];
-})
-
+.constant('topics', [
+  "airspace",
+  "bigdata",
+  "bitcoin",
+  "business_media",
+  "transports",
+  "id_fraud",
+  "cloud_security",
+  "comm_traces",
+  "consumer_data",
+  "cookies",
+  "copyright",
+  "crypto_access",
+  "cyberdefense",
+  "cybersecurity",
+  "data_regulation_eu",
+  "data_regulation_fr",
+  "data_regulation_us",
+  "data_transmission",
+  "education",
+  "citizen_freedom",
+  "hacking",
+  "health",
+  "mobile",
+  "personal_records",
+  "research_it",
+  "social_media",
+  "surveillance_fr",
+  "surveillance_us",
+  "telecom_ops_fr",
+  "terms_use",
+  "wearables",
+  "websecurity"
+])

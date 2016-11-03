@@ -79,11 +79,12 @@ angular.module('app.home', ['ngRoute'])
   }
 
   $scope.topicQuery = function(topic) {
-  	$scope.searchQuery = topic.id+':true'
+  	$scope.searchQuery = topic+':true'
   	query($scope.searchQuery)
   }
 
 
+  $translatePartialLoader.addPart('data')
   $translatePartialLoader.addPart('home')
   $translate.refresh()
 

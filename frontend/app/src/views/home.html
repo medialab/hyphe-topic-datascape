@@ -64,8 +64,8 @@
     </md-toolbar>
     <md-list flex class="topics-list" ng-show="!transitioning" md-colors="{background: 'default-background-50-.6'}">
       <md-list-item class="sm-1-line" ng-repeat="topic in topics" ng-click="topicQuery(topic)">
-        <div class="md-list-item-text" layout="column">
-          {{topic.name}}
+        <div class="md-list-item-text" layout="column" translate>
+          {{topic}}
         </div>
     </md-list>
   </div>
