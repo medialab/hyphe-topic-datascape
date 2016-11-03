@@ -36,6 +36,14 @@ angular.module('app.webentities', ['ngRoute'])
 				$scope.widthRightHandle = columnMeasures.handle
 				$timeout(function(){ $location.path('/') }, transitionTime)
   			break
+  		case 'webentity':
+  			$scope.transitioning = true
+  			$scope.flexColWebentities = columnMeasures.we.we
+  			$scope.flexColMap = columnMeasures.we.mapdocs
+				$scope.widthLeftHandle = 0
+				$scope.widthRightHandle = 0
+				$timeout(function(){ $location.path('/webentity') }, transitionTime)
+  			break
   	}
   }
 
