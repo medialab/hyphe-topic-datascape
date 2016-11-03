@@ -32,8 +32,8 @@ angular.module('app.home', ['ngRoute'])
   	switch (destination) {
   		case 'webentities':
   			$scope.transitioning = true
-  			$scope.flexColMap = columnMeasures.we.map
-  			$scope.flexColWebentities = columnMeasures.we.we
+  			$scope.flexColMap = columnMeasures.wes.map
+  			$scope.flexColWebentities = columnMeasures.wes.wes
 				$scope.flexColSearch = 0
 				$scope.flexColTopics = 0
 				$scope.widthLeftHandle = 0

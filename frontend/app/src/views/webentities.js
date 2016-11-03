@@ -16,8 +16,8 @@ angular.module('app.webentities', ['ngRoute'])
 
   // Columns dynamic width
 	$scope.transitioning = false
-	$scope.flexColWebentities = columnMeasures.we.we
-	$scope.flexColMap = columnMeasures.we.map
+	$scope.flexColWebentities = columnMeasures.wes.wes
+	$scope.flexColMap = columnMeasures.wes.map
 	$scope.flexColSearch = 0
 	$scope.flexColTopics = 0
 	$scope.widthLeftHandle = 0

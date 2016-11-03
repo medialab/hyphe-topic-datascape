@@ -10,13 +10,24 @@ angular.module('app.services', [])
   	search: 30,
   	topics: 15
   },
-  we: { // webentities
+  wes: { // webentities
   	map: 50,
-  	we: 50
+  	wes: 50
   },
   topics: {
   	topics: 80,
   	side: 20
+  },
+  verbatim: {
+  	mapwe: 25,
+  	map: 40,
+  	verbatim: 60,
+  	topics: 15
+  },
+  we: {
+  	we: 75,
+  	map: 40,
+  	mapdocs: 24
   }
 })
 
