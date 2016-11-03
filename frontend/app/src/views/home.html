@@ -14,10 +14,11 @@
 
   <!-- Column: Map -->
   <div flex="{{flexColMap}}" class="flex-transition" layout="column">
-    <!-- <div>
-      <img src="res/logo.png">
-    </div> -->
-    <div flex layout id="sigmaContainer" ng-show="!transitioning"><div layout layout-fill layout-align="center center" translate>LOADING_NETWORK</div></div>
+    <div flex="{{flexColMapH}}" layout id="sigmaContainer" ng-show="!transitioning">
+      <div layout layout-fill layout-align="center center" translate>LOADING_NETWORK</div>
+    </div>
+    <div flex>
+    </div>
   </div>
 
   <!-- Column: Search -->
@@ -32,22 +33,22 @@
     <div flex layout layout-align="center center" class="searchResults" ng-show="!transitioning">
       <md-list class="md-dense" flex layout layout-fill>
         <md-virtual-repeat-container flex layout layout-fill ng-show="resultsLoaded">
-          <div
-            class="repeated-item md-long-text"
+          <md-list-item
             md-virtual-repeat="r in results"
-            we-id="{{r.web_entity_id}}"
-            doc-id="{{r.id}}"
-            ng-click="null"
+            class="repeated-item md-3-line"
+            ng-click="transition('verbatim')"
           >
-            <h3 class="weName">
-              {{r.web_entity}}
-            </h3>
-            <h4 class="pageUrl" lru="{{r.lru}}">
-              {{r.url}}
-            </h4>
-            <p class="resultHighlight" lru="{{r.lru}}" data-ng-bind-html="resultsHighlighting[r.id].text[0]">
-            </p>
-          </div>
+            <div class="md-list-item-text" layout="column">
+              <h3 class="weName">
+                {{r.web_entity}}
+              </h3>
+              <h4 class="pageUrl" lru="{{r.lru}}">
+                {{r.url}}
+              </h4>
+              <p class="resultHighlight" lru="{{r.lru}}" data-ng-bind-html="resultsHighlighting[r.id].text[0]">
+              </p>
+            </div>
+          </md-list-item>
         </md-virtual-repeat-container>
       </md-list>
     </div>
