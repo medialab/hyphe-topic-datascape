@@ -15,16 +15,25 @@
   <!-- Column: Map + web entity summary-->
   <div flex="{{flexColMapWe}}" class="flex-transition" layout="column">
     <div flex="{{flexColMap}}" class="flex-transition" layout>
-      <div flex layout id="sigmaContainer" ng-show="!transitioning"><div layout layout-fill layout-align="center center" translate>LOADING_NETWORK</div></div>
+      <div flex layout id="sigmaContainer" ng-show="!transitioning">
+        <div layout="column" layout-fill layout-align="center center">
+          <span translate>LOADING_NETWORK</span>
+          <md-button ng-click="transition('home')">
+            Back to general map
+          </md-button>
+        </div>
+      </div>
     </div>
-    <div flex layout>
-      TODO: Web entity info
+    <div flex layout="column">
+      <div ng-show="!transitioning">
+        TODO: Web entity info
+      </div>
     </div>
   </div>
 
   <!-- Column: Verbatim -->
   <div flex="{{flexColVerbatim}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50'}">
-    <md-toolbar layout="row" class="md-accent">
+    <md-toolbar layout="row" class="md-accent" ng-show="!transitioning">
       <div class="md-toolbar-tools">
         <span translate>VERBATIM</span>
       </div>
@@ -41,12 +50,16 @@
         <span translate>TOPICS</span>
       </div>
     </md-toolbar>
-    <md-list flex class="topics-list" ng-show="!transitioning" md-colors="{background: 'default-background-50-.6'}">
+    <md-list flex class="topics-list" md-colors="{background: 'default-background-50-.6'}">
       <md-list-item class="sm-1-line" ng-repeat="topic in topics" ng-click="transition('topic')">
         <div class="md-list-item-text" layout="column">
           {{topic}}
         </div>
     </md-list>
+  </div>
+
+  <!-- (Hidden) Column: Right Handle -->
+  <div ng-style="{'width': widthRightHandle+'px'}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50-.2'}">
   </div>
 
 </div>

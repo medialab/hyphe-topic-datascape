@@ -24,6 +24,7 @@ angular.module('app.verbatim', ['ngRoute'])
 	$scope.flexColVerbatim = columnMeasures.verbatim.verbatim
 	$scope.flexColTopics = columnMeasures.verbatim.topics
 	$scope.widthLeftHandle = columnMeasures.handle
+	$scope.widthRightHandle = 0
 
   $scope.transition = function(destination) {
   	var transitionTime = 200
@@ -36,6 +37,7 @@ angular.module('app.verbatim', ['ngRoute'])
 				$scope.flexColVerbatim = 0
 				$scope.flexColTopics = 0
 				$scope.widthLeftHandle = 0
+				$scope.widthRightHandle = 0
 				$timeout(function(){ $location.path('/webentity') }, transitionTime)
   			break
   		case 'topic':
@@ -46,7 +48,19 @@ angular.module('app.verbatim', ['ngRoute'])
 				$scope.flexColVerbatim = 0
 				$scope.flexColTopics = columnMeasures.topic.topic
 				$scope.widthLeftHandle = 0
+				$scope.widthRightHandle = 0
 				$timeout(function(){ $location.path('/topic') }, transitionTime)
+  			break
+  		case 'home':
+  			$scope.transitioning = true
+  			$scope.flexColWebentityExpanded = 0
+				$scope.flexColMapWe = columnMeasures.search.map
+				$scope.flexColMap = 100
+				$scope.flexColVerbatim = columnMeasures.search.search
+				$scope.flexColTopics = columnMeasures.search.topics
+				$scope.widthLeftHandle = columnMeasures.handle
+				$scope.widthRightHandle = columnMeasures.handle
+				$timeout(function(){ $location.path('/') }, transitionTime)
   			break
   	}
   }
