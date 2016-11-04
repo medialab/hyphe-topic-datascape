@@ -29,8 +29,8 @@
         <md-virtual-repeat-container id="vertical-container" layout-fill>
           <md-list-item md-virtual-repeat="page in results" class="md-2-line repeated-item" flex ng-click="transition('verbatim', {'verbatim': page.id})">
             <div class="md-list-item-text" layout="column">
-              <h3>{{ page.url }}</h3>
-              <p>{{ page.textCanola.substr(0, 50) }}...</p>
+              <h3 class="page-url-in-list">{{ page.url }}</h3>
+              <h4>{{ page.textCanola.substr(0, 100) }}</h4>
             </div>
           </md-list-item>
         </md-virtual-repeat-container>

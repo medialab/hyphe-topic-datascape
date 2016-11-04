@@ -3,6 +3,10 @@ md-list {
   padding: 0px;
 }
 
+.page-url-in-list {
+  direction: rtl;
+}
+
 /* Flex transition between paged */
 .flex-transition {
   transition: all .2s ease;
