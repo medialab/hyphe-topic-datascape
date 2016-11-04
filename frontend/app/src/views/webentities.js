@@ -9,10 +9,22 @@ angular.module('app.webentities', ['ngRoute'])
   })
 })
 
-.controller('WebentitiesController', function($scope, $location, $translate, $translatePartialLoader, $timeout, solrEndpoint, columnMeasures) {
+.controller('WebentitiesController', function(
+	$scope,
+	$location,
+	$translate,
+	$translatePartialLoader,
+	$timeout,
+	solrEndpoint,
+	columnMeasures,
+	webentitiesService
+) {
 
   $translatePartialLoader.addPart('webentities')
   $translate.refresh()
+
+  $scope.webentities = []
+  $scope.webentitiesLoaded = false
 
   // Columns dynamic width
 	$scope.transitioning = false
@@ -47,55 +59,14 @@ angular.module('app.webentities', ['ngRoute'])
   	}
   }
 
-  $scope.webentities = []
-  for (var i=0; i<10000; i++) {
-  	$scope.webentities.push(createDummyWe())
-  }
-
-
-
   init()
 
   function init() {
-  	/*sigma.parsers.gexf(
-    	'data/network.gexf',
-	    {
-	      container: 'sigmaContainer',
-	      settings: {
-	      	drawNodes: false,
-	      	drawEdges: false,
-	      	labelThreshold: Infinity
-	      }
-	    },
-	    function(s) {
-	      // This function will be executed when the
-	      // graph is displayed, with "s" the related
-	      // sigma instance.
-	    }
-	  )*/
+  	webentitiesService.get(function(wes){
+  		console.log(wes[0])
+  		$scope.webentities = wes
+  		$scope.webentitiesLoaded = true
+  	})
   }
-
-  // Dummy web entity generation for the demo
-	function createDummyWe() {
-		var we = {}
-		var seed = Math.random()
-		we.id = (''+seed).replace(/\./, '-')
-		we.name = (''+seed).replace('0.', 'Hodor ')
-			.replace(/[0123]/gi, ' ')
-			.replace(/4/gi, 'p')
-			.replace(/5/gi, 'o')
-			.replace(/6/gi, 'n')
-			.replace(/7/gi, 'e')
-			.replace(/8/gi, 'y')
-			.replace(/9/gi, 'g')
-		we.text = (''+seed).replace('0.', 'Hold the door, ')
-			.replace(/[012]/gi, 'hold te door, ')
-			.replace(/[345]/gi, 'hol te door, ')
-			.replace(/[67]/gi, 'hol door, ')
-			.replace(/[89]/gi, 'Hodor. Hold the door, ')
-			+ 'Hodor.'
-		we.flag = seed > 0.5
-		return we
-	}
 
 })

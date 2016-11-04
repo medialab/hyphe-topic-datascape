@@ -68,3 +68,22 @@ angular.module('app.services', [])
   "wearables",
   "websecurity"
 ])
+
+.factory('webentitiesService', function webentitiesServiceFactory() {
+  var ns = {}
+  ns._webentities = []
+  ns._ready = false
+  ns.isReady = function() { return ns._ready }
+  ns.get = function(callback) {
+    if (ns._ready) {
+      callback(ns._webentities)
+    } else {
+      d3.csv('data/webentities.csv', function(data){
+        ns._webentities = data
+        ns._ready = true
+        callback(data)
+      })
+    }
+  }
+  return ns
+})

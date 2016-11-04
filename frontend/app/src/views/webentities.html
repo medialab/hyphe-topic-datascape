@@ -6,17 +6,20 @@
 
   <!-- Column: Web entities table -->
   <div flex="{{flexColWebentities}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50'}">
-    <md-toolbar layout="row" class="md-hue-1" ng-show="!transitioning">
+    <div layout layout-fill layout-align="center center" ng-show="!webentitiesLoaded && !transitioning">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <md-toolbar layout="row" class="md-hue-1" ng-show="webentitiesLoaded && !transitioning">
       <div class="md-toolbar-tools">
         <span translate>WES</span>
       </div>
     </md-toolbar>
-    <md-list flex ng-show="!transitioning">
+    <md-list flex ng-show="webentitiesLoaded && !transitioning">
       <md-virtual-repeat-container id="vertical-container" layout-fill>
         <md-list-item md-virtual-repeat="we in webentities" class="md-3-line repeated-item" flex ng-click="transition('webentity')">
           <div class="md-list-item-text" layout="column">
-            <h3>{{ we.name }}</h3>
-            <h4>{{ we.id }}</h4>
+            <h3>{{ we.NAME }}</h3>
+            <h4>{{ we.ID }}</h4>
             <p>{{ we.text }}</p>
           </div>
           <!-- <md-checkbox class="md-secondary" ng-model="we.flag"></md-checkbox> -->
