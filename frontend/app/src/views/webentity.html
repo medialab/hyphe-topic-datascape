@@ -6,14 +6,21 @@
 
   <!-- Column: Web entity -->
   <div flex="{{flexColWebentityExpanded}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50'}">
-    <div ng-show="!transitioning">
-      TODO: Web entity info
+    <div layout layout-fill layout-align="center center" ng-show="!webentityLoaded && !transitioning">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <div layout="column" layout-padding ng-show="webentityLoaded && !transitioning">
+      <h3>{{webentity.NAME}}</h3>
     </div>
   </div>
 
   <!-- Column: Map + docs-->
   <div flex="{{flexColMapDocs}}" class="flex-transition" layout="column">
-    <div flex="{{flexColMap}}" class="flex-transition" layout>
+    <div flex="{{flexColMap}}" class="flex-transition" layout="column">
+      <md-button class="md-primary" ng-click="transition('webentities')">
+        <md-icon>keyboard_arrow_up</md-icon>
+        <span translate>BACK_TO_WES</span>
+      </md-button>
       <div flex layout id="sigmaContainer" ng-show="!transitioning"><div layout layout-fill layout-align="center center" translate>LOADING_NETWORK</div></div>
     </div>
     <div flex layout="column">
@@ -44,6 +51,10 @@
 
   <!-- (Hidden) Column: Topics -->
   <div flex="{{flexColTopics}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50-.6'}">
+  </div>
+
+  <!-- (Hidden) Column: Right Handle -->
+  <div ng-style="{'width': widthRightHandle+'px'}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50-.2'}">
   </div>
 
 </div>

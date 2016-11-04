@@ -4,6 +4,6 @@
 	"VERBATIM": "Verbatim",
 	"MODE_TEXT": "Raw text",
 	"MODE_HTML": "html",
-	"MODE_CANOLA": "Clean text"
-
+	"MODE_CANOLA": "Clean text",
+	"BACK_TO_SEARCH": "Back to Search"
 }

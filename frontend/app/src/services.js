@@ -72,18 +72,34 @@ angular.module('app.services', [])
 .factory('webentitiesService', function webentitiesServiceFactory() {
   var ns = {}
   ns._webentities = []
+  ns._webentities_byId = {}
   ns._ready = false
   ns.isReady = function() { return ns._ready }
+
   ns.get = function(callback) {
     if (ns._ready) {
       callback(ns._webentities)
     } else {
       d3.csv('data/webentities.csv', function(data){
         ns._webentities = data
+        data.forEach(function(we){
+          ns._webentities_byId[we.ID] = we
+        })
         ns._ready = true
         callback(data)
       })
     }
   }
+
+  ns.getIndex = function(callback) {
+    if (ns._ready) {
+      callback(ns._webentities_byId)
+    } else {
+      ns.get(function(){
+        callback(ns._webentities_byId)
+      })
+    }
+  }
+  
   return ns
 })

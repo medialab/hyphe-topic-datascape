@@ -35,7 +35,7 @@ angular.module('app.webentities', ['ngRoute'])
 	$scope.widthLeftHandle = 0
 	$scope.widthRightHandle = columnMeasures.handle
 
-  $scope.transition = function(destination) {
+  $scope.transition = function(destination, settings) {
   	var transitionTime = 200
   	switch (destination) {
   		case 'search':
@@ -54,7 +54,7 @@ angular.module('app.webentities', ['ngRoute'])
   			$scope.flexColMap = columnMeasures.we.mapdocs
 				$scope.widthLeftHandle = 0
 				$scope.widthRightHandle = 0
-				$timeout(function(){ $location.path('/webentity') }, transitionTime)
+				$timeout(function(){ $location.path('/webentity/'+settings.webentity) }, transitionTime)
   			break
   	}
   }

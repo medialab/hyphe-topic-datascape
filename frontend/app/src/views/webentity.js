@@ -18,12 +18,15 @@ angular.module('app.webentity', ['ngRoute'])
 	$mdColors,
 	solrEndpoint,
 	columnMeasures,
-	$routeParams
+	$routeParams,
+	webentitiesService
 ) {
 
   $translatePartialLoader.addPart('webentity')
   $translate.refresh()
 
+  $scope.webentity
+	$scope.webentityLoaded = false
   $scope.pagesLoaded = false
 
 	// Columns dynamic width
@@ -34,6 +37,7 @@ angular.module('app.webentity', ['ngRoute'])
 	$scope.flexColVerbatim = 0
 	$scope.flexColTopics = 0
 	$scope.widthLeftHandle = 0
+	$scope.widthRightHandle = 0
 
   $scope.transition = function(destination, settings) {
   	var transitionTime = 200
@@ -47,6 +51,15 @@ angular.module('app.webentity', ['ngRoute'])
 				$scope.flexColTopics = columnMeasures.verbatim.topics
 				$scope.widthLeftHandle = columnMeasures.handle
 				$timeout(function(){ $location.path('/verbatim/'+encodeURIComponent(settings.verbatim)) }, transitionTime)
+  			break
+  		case 'webentities':
+	  		$scope.transitioning = true
+				$scope.flexColWebentityExpanded = columnMeasures.wes.wes
+				$scope.flexColMapDocs = columnMeasures.wes.map
+				$scope.flexColMap = 100
+				$scope.widthLeftHandle = columnMeasures.handle
+				$scope.widthRightHandle = columnMeasures.handle
+				$timeout(function(){ $location.path('/webentities') }, transitionTime)
   			break
   	}
   }
@@ -90,6 +103,10 @@ angular.module('app.webentity', ['ngRoute'])
   		$location.path('/')
   	} else {
   		query('web_entity_id:"'+$scope.weId+'"')
+  		webentitiesService.getIndex(function(index){
+	  		$scope.webentity = index[$scope.weId]
+	  		$scope.webentityLoaded = true
+	  	})
   	}
   }
 
