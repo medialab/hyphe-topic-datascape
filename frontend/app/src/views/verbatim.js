@@ -28,7 +28,7 @@ angular.module('app.verbatim', ['ngRoute'])
 
 	$scope.topics = []
 	$scope.verbatimLoaded = false
-	$scope.verbatimMode = "text"
+	$scope.verbatimMode = "canola"
 
 	// Columns dynamic width
 	$scope.transitioning = false

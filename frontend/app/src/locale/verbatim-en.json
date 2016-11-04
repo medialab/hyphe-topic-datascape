@@ -2,8 +2,8 @@
 	"TOPICS": "Topics",
 	"WE": "Web entity",
 	"VERBATIM": "Verbatim",
-	"MODE_TEXT": "txt",
+	"MODE_TEXT": "Raw text",
 	"MODE_HTML": "html",
-	"MODE_CANOLA": "canola"
+	"MODE_CANOLA": "Clean text"
 
 }

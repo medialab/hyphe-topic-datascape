@@ -38,13 +38,19 @@
       <div class="md-toolbar-tools">
         <span translate>VERBATIM</span>
         <span flex></span>
-        <md-button class="" aria-label="text" ng-click="verbatimMode = 'text'">
-          <span translate>MODE_TEXT</span>
-        </md-button>
         <md-button class="" aria-label="canola" ng-click="verbatimMode = 'canola'">
+          <md-icon ng-show="verbatimMode != 'canola'">radio_button_unchecked</md-icon>
+          <md-icon ng-show="verbatimMode == 'canola'">radio_button_checked</md-icon>
           <span translate>MODE_CANOLA</span>
         </md-button>
+        <md-button class="" aria-label="text" ng-click="verbatimMode = 'text'">
+          <md-icon ng-show="verbatimMode != 'text'">radio_button_unchecked</md-icon>
+          <md-icon ng-show="verbatimMode == 'text'">radio_button_checked</md-icon>
+          <span translate>MODE_TEXT</span>
+        </md-button>
         <md-button class="" aria-label="html" ng-click="verbatimMode = 'html'">
+          <md-icon ng-show="verbatimMode != 'html'">radio_button_unchecked</md-icon>
+          <md-icon ng-show="verbatimMode == 'html'">radio_button_checked</md-icon>
           <span translate>MODE_HTML</span>
         </md-button>
       </div>
