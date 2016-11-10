@@ -14,6 +14,13 @@
         <span translate>WES</span>
       </div>
     </md-toolbar>
+    <md-subheader class="md-primary" ng-show="webentitiesLoaded && !transitioning" md-colors="{background: 'default-background-100-0.3'}">
+      <md-input-container class="md-primary md-icon-float" layout layout-fill>
+        <label translate>SEARCH</label>
+        <md-icon aria-label="search">search</md-icon>
+        <input ng-model="searchQuery" type="text" ng-press-enter="execSearchQuery()">
+      </md-input-container>
+    </md-subheader>
     <md-list flex ng-show="webentitiesLoaded && !transitioning">
       <md-virtual-repeat-container id="vertical-container" layout-fill>
         <md-list-item md-virtual-repeat="we in webentities" class="md-2-line repeated-item" flex ng-click="transition('webentity', {webentity: we.id})">
