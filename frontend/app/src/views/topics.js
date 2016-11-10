@@ -9,7 +9,16 @@ angular.module('app.topics', ['ngRoute'])
   })
 })
 
-.controller('TopicsController', function($scope, $location, $translate, $translatePartialLoader, $timeout, solrEndpoint, columnMeasures) {
+.controller('TopicsController', function(
+  $scope,
+  $location,
+  $translate,
+  $translatePartialLoader,
+  $timeout,
+  solrEndpoint,
+  columnMeasures,
+  topicsService
+) {
 
   $translatePartialLoader.addPart('topics')
   $translate.refresh()
@@ -22,6 +31,9 @@ angular.module('app.topics', ['ngRoute'])
 	$scope.flexColSide = columnMeasures.topics.side
 	$scope.widthLeftHandle = columnMeasures.handle
 	$scope.widthRightHandle = 0
+
+  $scope.topics = []
+  $scope.topicsLoaded = false
 
   $scope.transition = function(destination) {
   	var transitionTime = 200
@@ -42,6 +54,10 @@ angular.module('app.topics', ['ngRoute'])
   init()
 
   function init() {
+    topicsService.get(function(topics){
+      $scope.topics = topics
+      $scope.topicsLoaded = true
+    })
   }
 
 })

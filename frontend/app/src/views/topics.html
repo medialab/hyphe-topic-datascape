@@ -18,12 +18,15 @@
 
   <!-- Column: Topics vis -->
   <div flex="{{flexColTopics}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50-.6'}">
-    <md-toolbar layout="row" class="md-hue-1">
+    <div layout layout-fill layout-align="center center" ng-show="!topicsLoaded && !transitioning">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <md-toolbar layout="row" class="md-hue-1" ng-show="topicsLoaded && !transitioning">
       <div class="md-toolbar-tools">
         <span translate>TOPICS</span>
       </div>
     </md-toolbar>
-    <div ng-show="!transitioning">
+    <div ng-show="topicsLoaded && !transitioning">
     	TODO: topic crossings
   	</div>
   </div>

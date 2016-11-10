@@ -103,3 +103,38 @@ angular.module('app.services', [])
   
   return ns
 })
+
+.factory('topicsService', function topicsServiceFactory() {
+  var ns = {}
+  ns._topics = []
+  ns._topics_byId = {}
+  ns._ready = false
+  ns.isReady = function() { return ns._ready }
+
+  ns.get = function(callback) {
+    if (ns._ready) {
+      callback(ns._webentities)
+    } else {
+      d3.csv('data/topics-topics.csv', function(data){
+        ns._topics = data
+        data.forEach(function(t){
+          ns._topics_byId[t.id] = t
+        })
+        ns._ready = true
+        callback(data)
+      })
+    }
+  }
+
+  ns.getIndex = function(callback) {
+    if (ns._ready) {
+      callback(ns._topics_byId)
+    } else {
+      ns.get(function(){
+        callback(ns._topics_byId)
+      })
+    }
+  }
+  
+  return ns
+})
