@@ -138,3 +138,7 @@ angular.module('app.services', [])
   
   return ns
 })
+
+.value('persistance', {
+  lastQuery: undefined
+})

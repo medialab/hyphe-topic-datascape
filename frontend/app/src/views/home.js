@@ -7,6 +7,14 @@ angular.module('app.home', ['ngRoute'])
     templateUrl: 'src/views/home.html'
   , controller: 'HomeController'
   })
+  $routeProvider.when('/search/', {
+    templateUrl: 'src/views/home.html'
+  , controller: 'HomeController'
+  })
+  $routeProvider.when('/search/:query', {
+    templateUrl: 'src/views/home.html'
+  , controller: 'HomeController'
+  })
 })
 
 .controller('HomeController', function(
@@ -18,7 +26,9 @@ angular.module('app.home', ['ngRoute'])
 	$mdColors,
 	solrEndpoint,
 	columnMeasures,
-	topics
+	topics,
+  $routeParams,
+  persistance
 ) {
 
 	$scope.searchQuery
@@ -92,6 +102,14 @@ angular.module('app.home', ['ngRoute'])
   init()
 
   function init() {
+    if ($routeParams.query !== undefined && $routeParams.query !== 'undefined' && $routeParams.query !== '') {
+      $scope.searchQuery = decodeURIComponent($routeParams.query)
+      $scope.execSearchQuery()
+    } else if(persistance.lastQuery !== undefined && persistance.lastQuery !== 'undefined' && persistance.lastQuery !== '') {
+      $scope.searchQuery = decodeURIComponent(persistance.lastQuery)
+      $scope.execSearchQuery()
+    }
+
   	/*sigma.parsers.gexf(
     	'data/network.gexf',
 	    {
@@ -109,7 +127,10 @@ angular.module('app.home', ['ngRoute'])
 	    }
 	  )*/
   }
+
   function query(q) {
+    updateSearchQuery(q)
+
   	var url = solrEndpoint + 'select?q='+encodeURIComponent(q)
 
   	// We break down the query for more readability and sustainability.
@@ -181,6 +202,11 @@ angular.module('app.home', ['ngRoute'])
 	    		$scope.$apply()
     		})
     	});
+  }
+
+  function updateSearchQuery(q) {
+    persistance.lastQuery = q
+    $location.path('/search/' + encodeURIComponent(q))
   }
 
 })
