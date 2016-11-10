@@ -35,6 +35,8 @@ angular.module('app.topics', ['ngRoute'])
   $scope.topics = []
   $scope.topicsLoaded = false
 
+  $scope.$watch('topics', updateMatrix)
+
   $scope.transition = function(destination) {
   	var transitionTime = 200
   	switch (destination) {
@@ -58,6 +60,19 @@ angular.module('app.topics', ['ngRoute'])
       $scope.topics = topics
       $scope.topicsLoaded = true
     })
+  }
+
+  function updateMatrix() {
+    var container = document.querySelector('#topics-matrix')
+
+    // clear
+    container.innerHTML = ''
+
+    var margin = {top: 20, right: 20, bottom: 30, left: 50}
+    var width = container.clientWidth - margin.left - margin.right
+    var height = container.clientHeight - margin.top - margin.bottom
+
+    
   }
 
 })
