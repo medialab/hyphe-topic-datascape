@@ -7,7 +7,7 @@ angular.module('app.services', [])
   handle: 48,
   search: {
   	map: 50,
-  	search: 30,
+  	search: 35,
   	topics: 15
   },
   wes: { // webentities
