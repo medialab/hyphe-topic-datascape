@@ -60,7 +60,7 @@ angular.module('app.home', ['ngRoute'])
 				$scope.flexColTopics = 0
 				$scope.widthLeftHandle = 0
 				$scope.widthRightHandle = columnMeasures.handle
-				$timeout(function(){ $location.path('/webentities') }, transitionTime)
+				$timeout(function(){ $location.path('/webentities/'+encodeURIComponent($scope.searchQuery)) }, transitionTime)
   			break
   		case 'verbatim':
   			$scope.transitioning = true

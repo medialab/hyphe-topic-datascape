@@ -83,7 +83,7 @@ angular.module('app.services', [])
       d3.csv('data/webentities.csv', function(data){
         ns._webentities = data
         data.forEach(function(we){
-          ns._webentities_byId[we.ID] = we
+          ns._webentities_byId[we.id] = we
         })
         ns._ready = true
         callback(data)
