@@ -31,6 +31,9 @@ angular.module('app.webentities', ['ngRoute'])
 
   $scope.webentities = []
   $scope.webentitiesLoaded = false
+  
+  $scope.pagesPerEntity = {}
+  $scope.searchQueryLoaded = false
 
   // Columns dynamic width
 	$scope.transitioning = false
@@ -79,6 +82,8 @@ angular.module('app.webentities', ['ngRoute'])
     } else if(persistance.lastQuery !== undefined && persistance.lastQuery !== 'undefined' && persistance.lastQuery !== '') {
       $scope.searchQuery = decodeURIComponent(persistance.lastQuery)
       $scope.execSearchQuery()
+    } else {
+      $scope.searchQueryLoaded = true
     }
 
   	webentitiesService.get(function(wes){
@@ -115,14 +120,24 @@ angular.module('app.webentities', ['ngRoute'])
   }
 
   function queryUrl(url) {
-    $scope.resultsLoading = true
-    $scope.resultsLoaded = false
+    $scope.searchQueryLoaded = false
     console.log('query', url)
     d3.json(url)
       .get(function(data){
         $timeout(function(){
           console.log('data received', data)
-          // $scope.results = data.response.docs
+          $scope.searchQueryLoaded = true
+
+          // Extract
+          $scope.pagesPerEntity = {}
+          var id
+          data.facet_counts.facet_fields.web_entity_id.forEach(function(d, i){
+            if (i%2 == 0) {
+              id = d
+            } else {
+              $scope.pagesPerEntity[id] = d
+            }
+          })
           $scope.$apply()
         })
       });
