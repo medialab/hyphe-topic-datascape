@@ -12,6 +12,10 @@ md-list {
   transition: all .2s ease;
 }
 
+.text-muted {
+  opacity: 0.5;
+}
+
 /* Handles */
 .handle-button {
   height: 100%;

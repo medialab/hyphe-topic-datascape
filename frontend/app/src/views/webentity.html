@@ -9,8 +9,41 @@
     <div layout layout-fill layout-align="center center" ng-show="!webentityLoaded && !transitioning">
       <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
-    <div layout="column" layout-padding ng-show="webentityLoaded && !transitioning">
-      <h3>{{webentity.name}}</h3>
+    <div layout="column" ng-show="webentityLoaded && !transitioning">
+      <div layout layout-padding>
+        <h3 style="word-break: break-all;">
+          {{webentity.name}}
+          <md-button class="md-icon-button" ng-href="{{webentity['attr_home']}}" target="_blank" class="subheader-link"><md-icon class="md-primary">link</md-icon></md-button>
+        </h3>
+      </div>
+      <div layout="row">
+        <div layout="column" layout-padding flex="50">
+          <p>
+            This web entity has {{webentity['nb_indexed_pages']|number}} indexed pages. It is cited by {{webentity['weighted indegree']|number}} other entities in the corpus and cites {{webentity['weighted outdegree']|number}}, for a total degree of {{webentity['weighted degree']|number}}.
+          </p>
+          <p>
+            Bridging score =
+            {{webentity['betweenesscentrality']|number}}
+            <span class="text-muted">(betweenness centrality)</span>
+            <br>
+            Centrality score =
+            {{webentity['pageranks']|number}}
+            <span class="text-muted">(page rank in the corpus)</span>
+          </p>
+          <p>
+            URL prefixes defining the entity:
+            <br>
+            <span ng-repeat="url in webentity['prefixes'].split(' ') track by $index">
+              <br>
+              <a ng-href="{{webentity['attr_home']}}" target="_blank" class="subheader-link"><md-icon class="md-primary">link</md-icon></a>
+              {{url}}
+            </span>
+          </p>
+        </div>
+        <div layout="column" layout-padding flex="50">
+          <p>Main topics</p>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -29,7 +62,7 @@
       </div>
       <md-toolbar layout="row" class="md-hue-1" ng-show="pagesLoaded && !transitioning">
         <div class="md-toolbar-tools">
-          <span translate>DOCUMENTS</span>
+          <span translate>DOCUMENTS</span>&nbsp;<small style="opacity: 0.4">{{webentity['nb_indexed_pages']|number}}</small>
         </div>
       </md-toolbar>
       <md-list flex ng-show="pagesLoaded && !transitioning">
