@@ -1,5 +1,12 @@
 {
 	"WES": "Web entities",
 	"LOADING_NETWORK": "LOADING NETWORK",
-	"SEARCH": "Search"
+	"SEARCH": "Search",
+	"SORT BY": "Sort by",
+	"DEGREE": "Degree",
+	"INDEGREE": "Indegree",
+	"OUTDEGREE": "Outdegree",
+	"BETWEENNESS": "Betweenness C.",
+	"PAGES": "# of Pages",
+	"NAME": "Name"
 }

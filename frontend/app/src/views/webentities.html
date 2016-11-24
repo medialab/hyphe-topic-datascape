@@ -14,19 +14,39 @@
         <span translate>WES</span>
       </div>
     </md-toolbar>
-    <md-subheader class="md-primary" ng-show="webentitiesLoaded && searchQueryLoaded && !transitioning" md-colors="{background: 'default-background-100-0.3'}">
-      <md-input-container class="md-primary md-icon-float" layout layout-fill>
+    <div class="md-primary search-subheader" ng-show="webentitiesLoaded && searchQueryLoaded && !transitioning" md-colors="{background: 'default-background-100-0.5'}" layout="row" layout-align="start">
+
+      <!-- <md-input-container class="md-primary md-icon-float" layout="row" layout-fill>
         <label translate>SEARCH</label>
         <md-icon aria-label="search">search</md-icon>
         <input ng-model="searchQuery" type="text" ng-press-enter="execSearchQuery()">
-      </md-input-container>
-    </md-subheader>
+      </md-input-container> -->
+
+        <md-input-container class="md-primary md-icon-float" flex>
+          <label translate>SEARCH</label>
+          <md-icon aria-label="search">search</md-icon>
+          <input ng-model="searchQuery" type="text" ng-press-enter="execSearchQuery()">
+        </md-input-container>
+
+        <md-input-container>
+          <label translate>SORT BY</label>
+          <md-select name="sortBy" ng-model="sortBy">
+            <md-option value="degree" translate>DEGREE</md-option>
+            <md-option value="indegree" translate>INDEGREE</md-option>
+            <md-option value="outdegree" translate>OUTDEGREE</md-option>
+            <md-option value="betwenness" translate>BETWEENNESS</md-option>
+            <md-option value="pages" translate>PAGES</md-option>
+            <md-option value="name" translate>NAME</md-option>
+          </md-select>
+        </md-input-container>
+
+    </div>
     <md-list flex ng-show="webentitiesLoaded && searchQueryLoaded && !transitioning">
       <md-virtual-repeat-container id="vertical-container" layout-fill>
         <md-list-item md-virtual-repeat="we in webentities" class="md-2-line repeated-item" flex ng-click="transition('webentity', {webentity: we.id})">
           <div class="md-list-item-text" layout="column">
             <h3>{{ we.label }}</h3>
-            <h4>Degree {{ we['weighted degree']|number }} - Cited by {{ we['weighted indegree']|number }} - Citing {{ we['weighted outdegree']|number }} - Betweenness c. {{ we['betweenesscentrality']|number }} - Pages: {{pagesPerEntity[we.id]}}/XXX</h4>
+            <h4>Degree {{ we['weighted degree']|number }} - Cited by {{ we['weighted indegree']|number }} - Citing {{ we['weighted outdegree']|number }} - Betweenness c. {{ we['betweenesscentrality']|number }} - Pages: {{pagesPerEntity[we.id] || 0}}/XXX</h4>
           </div>
           <!-- <md-checkbox class="md-secondary" ng-model="we.flag"></md-checkbox> -->
         </md-list-item>
