@@ -74,6 +74,15 @@ md-list {
   /*height: 60px;*/
 }
 
+.search-subheader {
+}
+
+.search-subheader md-input-container{
+  margin-left: 12px;
+  margin-right: 12px;
+  margin-bottom: 0px;
+}
+
 /* Verbatim page */
 .subheader-link {
   color: inherit;

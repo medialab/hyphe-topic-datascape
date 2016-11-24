@@ -131,4 +131,27 @@ angular.module('app.webentity', ['ngRoute'])
     	});
    }
 
+
+   /*
+		NOTE: attributes to display
+
+attr_home : conserver comme lien de l'entité
+betweenesscentrality : comme score de bridging
+closnesscentrality : NON
+id : NON
+label : NON (car label)
+name : Le nom de l'entité
+nb_indexed_pages : Nombre de pages connues par l'index
+pageranks : Oui (SUR LE CORPUS)
+prefixes : OUI
+start pages : NON
+tags : NON
+timeset : NON
+weighted degree : OUI
+weighted indegree : OUI
+weighted outdegree : OUI
+
++ Topics avec leurs score
+
+   */
 })
