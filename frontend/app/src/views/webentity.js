@@ -151,5 +151,7 @@ weighted degree : OUI
 weighted indegree : OUI
 weighted outdegree : OUI
 
++ Topics avec leurs score
+
    */
 })
