@@ -46,7 +46,7 @@
         <md-list-item md-virtual-repeat="we in webentities" class="md-2-line repeated-item" flex ng-click="transition('webentity', {webentity: we.id})">
           <div class="md-list-item-text" layout="column">
             <h3>{{ we.label }}</h3>
-            <h4>Degree {{ we['weighted degree']|number }} - Cited by {{ we['weighted indegree']|number }} - Citing {{ we['weighted outdegree']|number }} - Betweenness c. {{ we['betweenesscentrality']|number }} - Pages: {{pagesPerEntity[we.id] || 0}}/XXX</h4>
+            <h4>Degree {{ we['weighted degree']|number }} - Cited by {{ we['weighted indegree']|number }} - Citing {{ we['weighted outdegree']|number }} - Betweenness c. {{ we['betweenesscentrality']|number }} - Pages: {{pagesPerEntity[we.id] || 0}}&nbsp;/&nbsp;{{ we['nb_indexed_pages']|number }}</h4>
           </div>
           <!-- <md-checkbox class="md-secondary" ng-model="we.flag"></md-checkbox> -->
         </md-list-item>
