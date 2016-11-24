@@ -26,10 +26,12 @@
       </div>
     </div>
     <div flex layout="column">
-      <div layout="column" layout-padding ng-show="verbatimLoaded && !transitioning">
+      <md-content layout="column" layout-padding ng-show="verbatimLoaded && !transitioning">
         <h3>{{result.web_entity}}</h3>
-        <p>{{result.web_entity_id}}</p>
-      </div>
+        <p ng-show="webentity">
+          This web entity has {{webentity['nb_indexed_pages']|number}} indexed pages. It is cited by {{webentity['weighted indegree']|number}} other entities in the corpus and cites {{webentity['weighted outdegree']|number}}, for a total degree of {{webentity['weighted degree']|number}}.
+        </p>
+      </md-content>
     </div>
   </div>
 

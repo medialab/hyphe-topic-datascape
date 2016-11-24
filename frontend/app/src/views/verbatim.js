@@ -19,7 +19,8 @@ angular.module('app.verbatim', ['ngRoute'])
 	solrEndpoint,
 	columnMeasures,
 	topics,
-	$routeParams
+	$routeParams,
+	webentitiesService
 ) {
 
 	$translatePartialLoader.addPart('data')
@@ -29,6 +30,7 @@ angular.module('app.verbatim', ['ngRoute'])
 	$scope.topics = []
 	$scope.verbatimLoaded = false
 	$scope.verbatimMode = "canola"
+	$scope.webentity
 
 	// Columns dynamic width
 	$scope.transitioning = false
@@ -113,6 +115,12 @@ angular.module('app.verbatim', ['ngRoute'])
 	    		$scope.topics = topics.filter(function(t){
 	    			return $scope.result[t]
 	    		})
+
+	    		webentitiesService.getIndex(function(index){
+			  		$scope.webentity = index[$scope.result.web_entity_id]
+			  		$scope.$apply()
+			  	})
+
 	    		$scope.$apply()
     		})
     	});

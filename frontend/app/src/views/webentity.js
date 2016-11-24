@@ -109,6 +109,8 @@ angular.module('app.webentity', ['ngRoute'])
   		webentitiesService.getIndex(function(index){
 	  		$scope.webentity = index[$scope.weId]
 	  		$scope.webentityLoaded = true
+	  		// FIXME: adding this breaks the page when we come from verbatim
+	  		// $scope.$apply()
 	  	})
   	}
   }
