@@ -17,7 +17,7 @@
         </h3>
       </div>
       <div layout="row">
-        <div layout="column" layout-padding flex="50">
+        <div class="webentity-info" layout="column" layout-padding flex="60">
           <p>
             This web entity has {{webentity['nb_indexed_pages']|number}} indexed pages. It is cited by {{webentity['weighted indegree']|number}} other entities in the corpus and cites {{webentity['weighted outdegree']|number}}, for a total degree of {{webentity['weighted degree']|number}}.
           </p>
@@ -40,8 +40,16 @@
             </span>
           </p>
         </div>
-        <div layout="column" layout-padding flex="50">
-          <p>Main topics</p>
+        <div class="webentity-topics" layout="column"  flex="40">
+          <h3 translate>TOPIC SCORES</h3>
+          <div ng-repeat="topic in topics" ng-if="webentity[topic] > 0" layout="row">
+            <div class="text-muted topic-score">
+              {{webentity[topic]|number}}
+            </div>
+            <div flex translate>
+              {{topic}}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -62,7 +70,7 @@
       </div>
       <md-toolbar layout="row" class="md-hue-1" ng-show="pagesLoaded && !transitioning">
         <div class="md-toolbar-tools">
-          <span translate>DOCUMENTS</span>&nbsp;<small style="opacity: 0.4">{{webentity['nb_indexed_pages']|number}}</small>
+          <span translate>DOCUMENTS</span>&nbsp;<span style="opacity: 0.4">{{webentity['nb_indexed_pages']|number}}</span>
         </div>
       </md-toolbar>
       <md-list flex ng-show="pagesLoaded && !transitioning">

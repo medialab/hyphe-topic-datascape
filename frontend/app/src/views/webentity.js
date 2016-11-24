@@ -19,15 +19,18 @@ angular.module('app.webentity', ['ngRoute'])
 	solrEndpoint,
 	columnMeasures,
 	$routeParams,
-	webentitiesService
+	webentitiesService,
+	topics
 ) {
 
   $translatePartialLoader.addPart('webentity')
+  $translatePartialLoader.addPart('data')
   $translate.refresh()
 
-  $scope.webentity
+	$scope.webentity
 	$scope.webentityLoaded = false
   $scope.pagesLoaded = false
+  $scope.topics = topics
 
 	// Columns dynamic width
 	$scope.transitioning = false

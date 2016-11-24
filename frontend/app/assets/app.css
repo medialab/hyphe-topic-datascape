@@ -72,6 +72,7 @@ md-list {
   overflow-x: hidden;
 }
 
+
 /* Web entities page */
 
 #vertical-container .repeated-item {
@@ -86,6 +87,18 @@ md-list {
   margin-right: 12px;
   margin-bottom: 0px;
 }
+
+
+/* Web entity page */
+
+.webentity-topics, .webentity-info {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.webentity-topics .topic-score{
+  width: 48px;  
+}
+
 
 /* Verbatim page */
 .subheader-link {
