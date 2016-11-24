@@ -49,3 +49,53 @@ angular.module('app.filters', [])
       }
     }
   }])
+
+  .filter('sortEntities', [function() {
+    return function(list, crit, ppe) {
+      var output = list.slice(0)
+      switch(crit) {
+        case 'degree':
+          output.sort(function(a, b){
+            return b['weighted degree'] - a['weighted degree']
+          })
+          break
+
+        case 'indegree':
+          output.sort(function(a, b){
+            return b['weighted indegree'] - a['weighted indegree']
+          })
+          break
+
+        case 'outdegree':
+          output.sort(function(a, b){
+            return b['weighted outdegree'] - a['weighted outdegree']
+          })
+          break
+
+        case 'betweenness':
+          output.sort(function(a, b){
+            return b['betweenesscentrality'] - a['betweenesscentrality']
+          })
+          break
+
+        case 'pages':
+          output.sort(function(a, b){
+            return ppe[b.id] - ppe[a.id]
+          })
+          break
+
+        case 'name':
+          output.sort(function(a, b){
+            if(a.name < b.name) return -1;
+            if(a.name > b.name) return 1;
+            return 0;
+          })
+          break
+
+        default:
+          // Nothing
+          break;
+      }
+      return output
+    }
+  }])

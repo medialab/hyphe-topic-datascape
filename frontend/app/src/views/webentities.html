@@ -34,7 +34,7 @@
             <md-option value="degree" translate>DEGREE</md-option>
             <md-option value="indegree" translate>INDEGREE</md-option>
             <md-option value="outdegree" translate>OUTDEGREE</md-option>
-            <md-option value="betwenness" translate>BETWEENNESS</md-option>
+            <md-option value="betweenness" translate>BETWEENNESS</md-option>
             <md-option value="pages" translate>PAGES</md-option>
             <md-option value="name" translate>NAME</md-option>
           </md-select>
@@ -43,10 +43,16 @@
     </div>
     <md-list flex ng-show="webentitiesLoaded && searchQueryLoaded && !transitioning">
       <md-virtual-repeat-container id="vertical-container" layout-fill>
-        <md-list-item md-virtual-repeat="we in webentities" class="md-2-line repeated-item" flex ng-click="transition('webentity', {webentity: we.id})">
+        <md-list-item md-virtual-repeat="we in webentities|sortEntities:sortBy:pagesPerEntity" class="md-2-line repeated-item" flex ng-click="transition('webentity', {webentity: we.id})">
           <div class="md-list-item-text" layout="column">
             <h3>{{ we.label }}</h3>
-            <h4>Degree {{ we['weighted degree']|number }} - Cited by {{ we['weighted indegree']|number }} - Citing {{ we['weighted outdegree']|number }} - Betweenness c. {{ we['betweenesscentrality']|number }} - Pages: {{pagesPerEntity[we.id] || 0}}&nbsp;/&nbsp;{{ we['nb_indexed_pages']|number }}</h4>
+            <h4>
+              Degree {{ we['weighted degree']|number }}&nbsp;&nbsp;
+              Cited by {{ we['weighted indegree']|number }}&nbsp;&nbsp;
+              Citing {{ we['weighted outdegree']|number }}&nbsp;&nbsp;
+              Bridging {{ we['betweenesscentrality']|number }}&nbsp;&nbsp;
+              Pages: {{pagesPerEntity[we.id] || 0}}&nbsp;/&nbsp;{{ we['nb_indexed_pages'] }}
+            </h4>
           </div>
           <!-- <md-checkbox class="md-secondary" ng-model="we.flag"></md-checkbox> -->
         </md-list-item>

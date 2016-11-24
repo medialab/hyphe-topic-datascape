@@ -34,6 +34,7 @@ angular.module('app.webentities', ['ngRoute'])
   
   $scope.pagesPerEntity = {}
   $scope.searchQueryLoaded = false
+  $scope.sortBy = 'degree'
 
   // Columns dynamic width
 	$scope.transitioning = false
@@ -88,9 +89,7 @@ angular.module('app.webentities', ['ngRoute'])
 
   	webentitiesService.get(function(wes){
   		console.log('web entity sample:', wes[Math.floor(Math.random()*wes.length)])
-  		$scope.webentities = wes.sort(function(a, b){
-        return b['weighted degree'] - a['weighted degree']
-      })
+  		$scope.webentities = wes
   		$scope.webentitiesLoaded = true
   	})
   }
