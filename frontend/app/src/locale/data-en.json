@@ -2,13 +2,13 @@
   "airspace": "Airspace Security",
   "bigdata": "Big data & Analytics",
   "bitcoin": "Bitcoin",
-  "business_media": "Business & New Media",
+  "business_media": "Business & Media",
   "transports": "Car and transport",
   "id_fraud": "Card and ID fraud",
-  "cloud_security": "Cloud & server security",
+  "cloud_security": "Cloud security",
   "comm_traces": "Communication traces",
   "consumer_data": "Consumer data",
-  "cookies": "Cookies and tracking",
+  "cookies": "Cookies & Tracking",
   "copyright": "Copyright",
   "crypto_access": "Crypto & Access",
   "cyberdefense": "Cyberdefense",
@@ -27,8 +27,8 @@
   "social_media": "Social Media",
   "surveillance_fr": "Surveillance FR",
   "surveillance_us": "Surveillance US",
-  "telecom_ops_fr": "Telecom Operators FR",
+  "telecom_ops_fr": "Telec Operators FR",
   "terms_use": "Terms of use",
   "wearables": "Wearable & IOT",
-  "websecurity": "Web and Computer security"
+  "websecurity": "Web & Comp security"
 }
