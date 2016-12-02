@@ -94,14 +94,16 @@ angular.module('app.topics', ['ngRoute'])
       var width = container.clientWidth - margin.left - margin.right
       var height = width // square space
 
+      var maxR = width / (2 * $scope.topics.length)
+
       var x = d3.scaleLinear()
         .range([0, width]);
 
       var y = d3.scaleLinear()
-        .range([height, 0]);
+        .range([0, height]);
 
       var size = d3.scaleLinear()
-        .range([0, width / (2 * $scope.topics.length)])
+        .range([0, maxR])
 
       var a = function(r){
         return Math.PI * Math.pow(r, 2)
@@ -121,15 +123,24 @@ angular.module('app.topics', ['ngRoute'])
         .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
       
-      svg.selectAll(".dot")
+      var dot = svg.selectAll(".dot")
           .data(crossings)
-        .enter().append("circle")
-          .attr("class", "dot")
-          .attr("r", function(d) { return size(r(d.val) ); }) // A = PI.r² ; r = SQRT(A/PI)
-          .attr("cx", function(d) { return x(topicRanks[d.t1]); })
-          .attr("cy", function(d) { return y(topicRanks[d.t2]); })
-          .style("fill", function(d) { return '#000000'; });
+        .enter().append('g')
+          .style('cursor', 'pointer')
 
+      dot.append("circle")
+        .attr("class", "dot")
+        .attr("r", maxR) // A = PI.r² ; r = SQRT(A/PI)
+        .attr("cx", function(d) { return x(topicRanks[d.t1]); })
+        .attr("cy", function(d) { return y(topicRanks[d.t2]); })
+        .style("fill", 'rgba(255, 255, 255, 0.0)')
+        
+      dot.append("circle")
+        .attr("class", "dot")
+        .attr("r", function(d) { return size(r(d.val) ); }) // A = PI.r² ; r = SQRT(A/PI)
+        .attr("cx", function(d) { return x(topicRanks[d.t1]); })
+        .attr("cy", function(d) { return y(topicRanks[d.t2]); })
+        .style("fill", function(d) { return 'rgba(0, 0, 0, 0.6'; });
 
       $scope.$apply()
     })
