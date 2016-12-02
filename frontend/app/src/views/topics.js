@@ -123,6 +123,29 @@ angular.module('app.topics', ['ngRoute'])
         .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
       
+      // Horizontal lines
+      svg.selectAll('line.h')
+          .data($scope.topics)
+        .enter().append('line')
+          .attr('class', 'h')
+          .attr('x1', 0)
+          .attr('y1', function(d){ return y(topicRanks[d.id]) })
+          .attr('x2', width)
+          .attr('y2', function(d){ return y(topicRanks[d.id]) })
+          .style("stroke", 'rgba(0, 0, 0, 0.06)')
+
+      // Vertical lines
+      svg.selectAll('line.v')
+          .data($scope.topics)
+        .enter().append('line')
+          .attr('class', 'v')
+          .attr('x1', function(d){ return x(topicRanks[d.id]) })
+          .attr('y1', 0)
+          .attr('x2', function(d){ return x(topicRanks[d.id]) })
+          .attr('y2', height)
+          .style("stroke", 'rgba(0, 0, 0, 0.06)')
+
+      // Dots
       var dot = svg.selectAll(".dot")
           .data(crossings)
         .enter().append('g')
