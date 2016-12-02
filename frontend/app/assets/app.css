@@ -112,3 +112,8 @@ md-list {
   margin: 0px;
   width: 100px; /*dirty hack*/
 }
+
+/* Topics page */
+#topics-matrix {
+  overflow: auto;
+}
