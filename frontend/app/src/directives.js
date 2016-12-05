@@ -126,7 +126,10 @@ angular.module('app.directives', [])
                 .attr("font-family", "sans-serif")
                 .attr("font-size", "10px")
                 .attr("fill", function(d){
-                  if (d.id == $scope.selectedCrossing[0] || d.id == $scope.selectedCrossing[1]) {
+                  if (
+                    $scope.selectedCrossing !== undefined
+                    && (d.id == $scope.selectedCrossing[0] || d.id == $scope.selectedCrossing[1])
+                  ) {
                     return 'rgba(0, 0, 0, 1)'
                   } else {
                     return 'rgba(0, 0, 0, 0.5)'
@@ -146,7 +149,10 @@ angular.module('app.directives', [])
                 .attr("font-family", "sans-serif")
                 .attr("font-size", "10px")
                 .attr("fill", function(d){
-                  if (d.id == $scope.selectedCrossing[0] || d.id == $scope.selectedCrossing[1]) {
+                  if (
+                    $scope.selectedCrossing !== undefined
+                    && (d.id == $scope.selectedCrossing[0] || d.id == $scope.selectedCrossing[1])
+                  ) {
                     return 'rgba(0, 0, 0, 1)'
                   } else {
                     return 'rgba(0, 0, 0, 0.5)'
@@ -170,9 +176,9 @@ angular.module('app.directives', [])
               .attr("cx", function(d) { return x($scope.topicRanks[d.t1]); })
               .attr("cy", function(d) { return y($scope.topicRanks[d.t2]); })
               .style("fill", function(d){
-                if (d.t1 == $scope.selectedCrossing[0] && d.t2 == $scope.selectedCrossing[1]) {
+                if ($scope.selectedCrossing !== undefined && d.t1 == $scope.selectedCrossing[0] && d.t2 == $scope.selectedCrossing[1]) {
                   return 'rgba(255, 255, 255, 1)'
-                } else if (d.t1 == $scope.selectedCrossing[1] && d.t2 == $scope.selectedCrossing[0]) {
+                } else if ($scope.selectedCrossing !== undefined && d.t1 == $scope.selectedCrossing[1] && d.t2 == $scope.selectedCrossing[0]) {
                   return 'rgba(255, 255, 255, 1)'
                 } else {
                   return 'rgba(255, 255, 255, 0)'
@@ -185,15 +191,66 @@ angular.module('app.directives', [])
               .attr("cx", function(d) { return x($scope.topicRanks[d.t1]); })
               .attr("cy", function(d) { return y($scope.topicRanks[d.t2]); })
               .style("fill", function(d) {
-                if (d.t1 == $scope.selectedCrossing[0] && d.t2 == $scope.selectedCrossing[1]) {
+                if ($scope.selectedCrossing !== undefined && d.t1 == $scope.selectedCrossing[0] && d.t2 == $scope.selectedCrossing[1]) {
                   return 'rgba(0, 0, 0, 1)'
-                } else if (d.t1 == $scope.selectedCrossing[1] && d.t2 == $scope.selectedCrossing[0]) {
+                } else if ($scope.selectedCrossing !== undefined && d.t1 == $scope.selectedCrossing[1] && d.t2 == $scope.selectedCrossing[0]) {
                   return 'rgba(0, 0, 0, 1)'
                 } else {
                   return 'rgba(80, 80, 80, 0.7)'
                 }
               })
 
+          })
+        }
+      }
+    }
+  })
+
+.directive('topicsCrossing', function ($timeout, $translatePartialLoader, $translate, $rootScope) {
+    return {
+      restrict: 'A',
+      scope: {
+        topics: '=',
+        topicsIndex: '=',
+        crossing: '='
+      },
+      link: function($scope, el, attrs) {
+        var topicLabels = {}
+
+        el.html('<div><center>Loading...</center></div>')
+
+        $scope.$watchCollection(['topics', 'topicsIndex'], redraw)
+        $scope.$watch('crossing', redraw)
+
+        window.addEventListener('resize', redraw)
+        $scope.$on('$destroy', function(){
+          window.removeEventListener('resize', redraw)
+        })
+
+        // Translations
+        $translatePartialLoader.addPart('data');
+        $translate.refresh();
+        $rootScope.$on('$translateChangeSuccess', updateTranslations)
+        $timeout(updateTranslations)
+        function updateTranslations(){
+          $translate($scope.topics.map(function(t){return t.id})).then(function (translations) {
+            topicLabels = translations
+            redraw()
+          })
+        }
+
+        function redraw() {
+          console.log('redraw', $scope.crossing)
+          $timeout(function(){
+
+            // clear
+            el.html('')
+
+            var margin = {top: 50, right: 12, bottom: 12, left: 12}
+            var width = el[0].offsetWidth - margin.left - margin.right
+            var height = el[0].offsetHeight - margin.top - margin.bottom
+
+            el.html('<p>'+$scope.crossing[0] + ' - '+$scope.crossing[1]+'</p>')
           })
         }
       }

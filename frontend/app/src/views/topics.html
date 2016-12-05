@@ -23,7 +23,7 @@
     </div>
     <md-toolbar layout="row" class="md-hue-1" ng-show="topicsLoaded && !transitioning">
       <div class="md-toolbar-tools">
-        <span translate>TOPICS</span>
+        <span translate>TOPICS</span>{{selectedCrossing}}
       </div>
     </md-toolbar>
     <div
@@ -35,7 +35,6 @@
       <div
         id="topics-matrix-svg-container"
         topics="topics"
-        topics-index="topicsIndex"
         topic-ranks="topicRanks"
         crossings="crossings"
         selected-crossing="selectedCrossing"
@@ -48,7 +47,13 @@
   <!-- Column: Topics zoom -->
   <div flex="{{flexColSide}}" class="flex-transition" layout="column">
     <div ng-show="!transitioning">
-    	TODO: topics zoom
+    	<div
+        topics="topics"
+        topics-index="topicsIndex"
+        crossing="selectedCrossing"
+        topics-crossing
+        layout-fill
+      ></div>
     </div>
   </div>
 
