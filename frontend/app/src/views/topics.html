@@ -26,7 +26,18 @@
         <span translate>TOPICS</span>
       </div>
     </md-toolbar>
-    <div ng-show="topicsLoaded && !transitioning" id="topics-matrix" layout flex>
+    <div
+      ng-show="topicsLoaded && !transitioning"
+      id="topics-matrix"
+      topics="topics"
+      topics-index="topicsIndex"
+      topic-ranks="topicRanks"
+      crossings="crossings"
+      selected-crossing="selectedCrossing"
+      topics-matrix
+      layout
+      flex
+    >
   	</div>
   </div>
 

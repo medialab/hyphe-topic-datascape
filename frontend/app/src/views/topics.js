@@ -33,12 +33,13 @@ angular.module('app.topics', ['ngRoute'])
 	$scope.widthRightHandle = 0
 
   $scope.topics = []
-  $scope.topicsIndex
+  $scope.topicRanks = {}  // Orders the matrix rows & cols
+  $scope.crossings = []   // Matrix elements
+  $scope.topicsIndex      // Necessary to retrieve names from ids
   $scope.topicsLoaded = false
   $scope.selectedCrossing = [undefined, undefined]
 
-  $scope.$watch('topics', updateMatrix)
-  $scope.$watch('selectedCrossing', updateMatrix)
+  $scope.$watch('topics', buildCrossings)
 
   $scope.transition = function(destination) {
   	var transitionTime = 200
@@ -58,6 +59,24 @@ angular.module('app.topics', ['ngRoute'])
 
   init()
 
+  function buildCrossings() {
+    $scope.topicRanks = {}
+    // Rank = original index
+    $scope.topics.forEach(function(t,i){
+      $scope.topicRanks[t.id] = i
+    })
+    $scope.crossings = []
+    $scope.topics.forEach(function(t1){
+      $scope.topics.forEach(function(t2){
+        $scope.crossings.push({
+          t1: t1.id,
+          t2: t2.id,
+          val: +t1[t2.id]
+        })
+      })
+    })
+  }
+
   function init() {
     topicsService.get(function(topics){
       $scope.topics = topics
@@ -69,133 +88,6 @@ angular.module('app.topics', ['ngRoute'])
     })
   }
 
-  function updateMatrix() {
-    $timeout(function(){
-
-      // Build data
-      // ----------
-      var topicRanks = {}
-      // Rank = original index
-      $scope.topics.forEach(function(t,i){
-        topicRanks[t.id] = i
-      })
-      var crossings = []
-      $scope.topics.forEach(function(t1){
-        $scope.topics.forEach(function(t2){
-          crossings.push({
-            t1: t1.id,
-            t2: t2.id,
-            val: +t1[t2.id]
-          })
-        })
-      })
-
-      // Draw
-      // ----
-      var container = document.querySelector('#topics-matrix')
-
-      // clear
-      container.innerHTML = ''
-
-      var margin = {top: 150, right: 24, bottom: 64, left: 150}
-      var width = container.clientWidth - margin.left - margin.right
-      var height = width // square space
-
-      var maxR = width / (2 * $scope.topics.length)
-
-      var x = d3.scaleLinear()
-        .range([0, width]);
-
-      var y = d3.scaleLinear()
-        .range([0, height]);
-
-      var size = d3.scaleLinear()
-        .range([0, 0.85 * maxR])
-
-      var a = function(r){
-        return Math.PI * Math.pow(r, 2)
-      }
-
-      var r = function(a){
-        return Math.sqrt(a/Math.PI)
-      }
-
-      x.domain([0, $scope.topics.length - 1])
-      y.domain([0, $scope.topics.length - 1])
-      size.domain(d3.extent(crossings, function(d){return r(d.val)}))
-
-      var svg = d3.select(container).append("svg")
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-      
-      // Horizontal lines
-      svg.selectAll('line.h')
-          .data($scope.topics)
-        .enter().append('line')
-          .attr('class', 'h')
-          .attr('x1', 0)
-          .attr('y1', function(d){ return y(topicRanks[d.id]) })
-          .attr('x2', width)
-          .attr('y2', function(d){ return y(topicRanks[d.id]) })
-          .style("stroke", 'rgba(0, 0, 0, 0.06)')
-
-      // Vertical lines
-      svg.selectAll('line.v')
-          .data($scope.topics)
-        .enter().append('line')
-          .attr('class', 'v')
-          .attr('x1', function(d){ return x(topicRanks[d.id]) })
-          .attr('y1', 0)
-          .attr('x2', function(d){ return x(topicRanks[d.id]) })
-          .attr('y2', height)
-          .style("stroke", 'rgba(0, 0, 0, 0.06)')
-
-      // Dots
-      var dot = svg.selectAll(".dot")
-          .data(crossings)
-        .enter().append('g')
-          .style('cursor', 'pointer')
-          .on('click', function(d){
-            $timeout(function(){
-              $scope.selectedCrossing = [d.t1, d.t2]
-              $scope.$apply()
-            })
-          })
-
-      dot.append("circle")
-        .attr("class", "dot")
-        .attr("r", maxR)
-        .attr("cx", function(d) { return x(topicRanks[d.t1]); })
-        .attr("cy", function(d) { return y(topicRanks[d.t2]); })
-        .style("fill", function(d){
-          if (d.t1 == $scope.selectedCrossing[0] && d.t2 == $scope.selectedCrossing[1]) {
-            return 'rgba(255, 255, 255, 1)'
-          } else if (d.t1 == $scope.selectedCrossing[1] && d.t2 == $scope.selectedCrossing[0]) {
-            return 'rgba(255, 255, 255, 1)'
-          } else {
-            return 'rgba(255, 255, 255, 0)'
-          }
-        })
-        
-      dot.append("circle")
-        .attr("class", "dot")
-        .attr("r", function(d) { return size(r(d.val) ); })
-        .attr("cx", function(d) { return x(topicRanks[d.t1]); })
-        .attr("cy", function(d) { return y(topicRanks[d.t2]); })
-        .style("fill", function(d) {
-          if (d.t1 == $scope.selectedCrossing[0] && d.t2 == $scope.selectedCrossing[1]) {
-            return 'rgba(0, 0, 0, 1)'
-          } else if (d.t1 == $scope.selectedCrossing[1] && d.t2 == $scope.selectedCrossing[0]) {
-            return 'rgba(0, 0, 0, 1)'
-          } else {
-            return 'rgba(80, 80, 80, 0.7)'
-          }
-        })
-
-      $scope.$apply()
-    })
-  }
+  
 
 })
