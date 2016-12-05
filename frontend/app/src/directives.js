@@ -371,7 +371,7 @@ angular.module('app.directives', [])
     }
   })
 
-.directive('topicFocus', function ($timeout, $translatePartialLoader, $translate, $rootScope, topicsService){
+.directive('topicFocus', function ($timeout, $translatePartialLoader, $translate, $rootScope, topicsService, $location){
   return {
       restrict: 'A',
       scope: {
@@ -386,6 +386,10 @@ angular.module('app.directives', [])
         $translate.refresh()
 
         init()
+
+        $scope.searchWord = function(w) {
+          $location.path('/search/'+encodeURIComponent(w))
+        }
 
         function init() {          
           topicsService.get(function(topics){

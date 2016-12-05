@@ -12,7 +12,7 @@
 			<md-subheader><span translate>WORDS IN TOPIC</span></md-subheader>
 			<md-list flex>
         <md-virtual-repeat-container layout-fill>
-          <md-list-item md-virtual-repeat="word in words" class="md-1-line repeated-item" flex>
+          <md-list-item md-virtual-repeat="word in words" class="md-1-line repeated-item" ng-click="searchWord(word)" flex>
             <div class="md-list-item-text">
               <p>{{ word }}</p>
             </div>
