@@ -158,6 +158,7 @@ angular.module('app.directives', [])
                     return 'rgba(0, 0, 0, 0.5)'
                   }
                 })
+
             // Dots
             var dot = svg.selectAll(".dot")
                 .data($scope.crossings)
@@ -165,7 +166,7 @@ angular.module('app.directives', [])
                 .style('cursor', 'pointer')
                 .on('click', function(d){
                   $timeout(function(){
-                    $scope.selectedCrossing = [d.t1, d.t2]
+                    $scope.selectedCrossing = [d.t2, d.t1, d.val]
                     $scope.$apply()
                   })
                 })
@@ -206,7 +207,7 @@ angular.module('app.directives', [])
     }
   })
 
-.directive('topicsCrossing', function ($timeout, $translatePartialLoader, $translate, $rootScope) {
+.directive('topicsCrossing', function ($timeout, $translatePartialLoader, $translate, $rootScope, $filter) {
     return {
       restrict: 'A',
       scope: {
@@ -240,18 +241,123 @@ angular.module('app.directives', [])
         }
 
         function redraw() {
-          console.log('redraw', $scope.crossing)
-          $timeout(function(){
+          if ($scope.crossing && $scope.crossing.length > 0) {
 
-            // clear
-            el.html('')
+            $timeout(function(){
 
-            var margin = {top: 50, right: 12, bottom: 12, left: 12}
-            var width = el[0].offsetWidth - margin.left - margin.right
-            var height = el[0].offsetHeight - margin.top - margin.bottom
+              // clear
+              el.html('')
 
-            el.html('<p>'+$scope.crossing[0] + ' - '+$scope.crossing[1]+'</p>')
-          })
+              var margin = {top: 50, right: 12, bottom: 12, left: 12}
+              var width = el[0].offsetWidth - margin.left - margin.right
+              var height = width * 2
+
+              var svg = d3.select(el[0]).append("svg")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+              // Set text elements
+              var textElements = [
+                
+                // Top
+                {
+                  text: topicLabels[$scope.crossing[0]] || $scope.crossing[0],
+                  y: width/4 - 5,
+                  fontSize: '13px',
+                  opacity: 0.7
+                },
+                {
+                  text: $filter('number')($scope.topicsIndex[$scope.crossing[0]].nb_pages) + ' pages',
+                  y: width/4 + 15,
+                  fontSize: '14px',
+                  opacity: 1
+                },
+
+                // Bottom
+                {
+                  text: topicLabels[$scope.crossing[1]] || $scope.crossing[1],
+                  y: 5 * width / 4 - 15,
+                  fontSize: '13px',
+                  opacity: 0.7
+                },
+                {
+                  text: $filter('number')($scope.topicsIndex[$scope.crossing[1]].nb_pages) + ' pages',
+                  y: 5 * width / 4 + 5,
+                  fontSize: '14px',
+                  opacity: 1
+                },
+
+                // Center
+                {
+                  text: $filter('number')($scope.crossing[2]) + ' pages',
+                  y: 3 * width / 4,
+                  fontSize: '14px',
+                  opacity: 1
+                },
+                {
+                  text: $filter('number')(Math.round(100 * $scope.crossing[2]/$scope.topicsIndex[$scope.crossing[0]].nb_pages)) + '%',
+                  y: width/2 + 15,
+                  fontSize: '10px',
+                  opacity: 0.5
+                },
+                {
+                  text: $filter('number')(Math.round(100 * $scope.crossing[2]/$scope.topicsIndex[$scope.crossing[1]].nb_pages)) + '%',
+                  y: width - 15,
+                  fontSize: '10px',
+                  opacity: 0.5
+                }
+
+              ]
+
+              // Draw upper circle background
+              svg.append("circle")
+                .attr("class", "venn")
+                .attr("r", width/2)
+                .attr("cx", width/2)
+                .attr("cy", width/2)
+                .style("fill", 'rgba(255, 255, 255, .6)')
+
+              // Draw lower circle background
+              svg.append("circle")
+                .attr("class", "venn")
+                .attr("r", width/2)
+                .attr("cx", width/2)
+                .attr("cy", width)
+                .style("fill", 'rgba(255, 255, 255, .6)')
+
+              // Draw upper circle line
+              svg.append("circle")
+                .attr("class", "venn")
+                .attr("r", width/2)
+                .attr("cx", width/2)
+                .attr("cy", width/2)
+                .style("stroke", 'rgba(0, 0, 0, .1)')
+                .style('fill', 'none')
+
+              // Draw lower circle line
+              svg.append("circle")
+                .attr("class", "venn")
+                .attr("r", width/2)
+                .attr("cx", width/2)
+                .attr("cy", width)
+                .style("stroke", 'rgba(0, 0, 0, .1)')
+                .style('fill', 'none')
+
+              // Draw top text
+              svg.selectAll('text')
+                  .data(textElements)
+                .enter().append('text')
+                  .attr('x', width/2)
+                  .attr('y', function(d){ return d.y + 4 })
+                  .text( function (d) { return d.text })
+                  .style('text-anchor', 'middle')
+                  .attr('font-family', 'sans-serif')
+                  .attr('font-size', function(d){return d.fontSize})
+                  .attr('fill', function(d){ return 'rgba(0, 0, 0, ' + d.opacity + ')' })
+            })
+          }
         }
       }
     }

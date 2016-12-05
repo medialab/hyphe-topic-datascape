@@ -37,7 +37,7 @@ angular.module('app.topics', ['ngRoute'])
   $scope.crossings = []   // Matrix elements
   $scope.topicsIndex      // Necessary to retrieve names from ids
   $scope.topicsLoaded = false
-  $scope.selectedCrossing = [undefined, undefined]
+  $scope.selectedCrossing = undefined
 
   $scope.$watch('topics', buildCrossings)
 
