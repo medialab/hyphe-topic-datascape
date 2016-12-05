@@ -117,3 +117,6 @@ md-list {
 #topics-matrix {
   overflow: auto;
 }
+#topics-matrix-svg-container{
+  min-height: 1000px;
+}

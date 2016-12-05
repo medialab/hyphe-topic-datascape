@@ -113,7 +113,7 @@ angular.module('app.services', [])
 
   ns.get = function(callback) {
     if (ns._ready) {
-      callback(ns._webentities)
+      callback(ns._topics)
     } else {
       d3.csv('data/topics-topics.csv', function(data){
         ns._topics = data

@@ -29,15 +29,19 @@
     <div
       ng-show="topicsLoaded && !transitioning"
       id="topics-matrix"
-      topics="topics"
-      topics-index="topicsIndex"
-      topic-ranks="topicRanks"
-      crossings="crossings"
-      selected-crossing="selectedCrossing"
-      topics-matrix
       layout
       flex
     >
+      <div
+        id="topics-matrix-svg-container"
+        topics="topics"
+        topics-index="topicsIndex"
+        topic-ranks="topicRanks"
+        crossings="crossings"
+        selected-crossing="selectedCrossing"
+        topics-matrix
+        layout-fill
+      ></div>
   	</div>
   </div>
 

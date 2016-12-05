@@ -32,8 +32,11 @@ angular.module('app.directives', [])
 
         el.html('<div><center>Loading...</center></div>')
 
-        $scope.$watch('topics', redraw)
-        $scope.$watch('crossings', redraw)
+        $scope.$watchCollection(['topics', 'topicsRanks', 'crossings'], redraw)
+        // $scope.$watch('topicRanks', redraw)
+        // $scope.$watch('crossings', redraw)
+        $scope.$watch('selectedCrossing', redraw)
+
         window.addEventListener('resize', redraw)
         $scope.$on('$destroy', function(){
           window.removeEventListener('resize', redraw)
@@ -46,7 +49,7 @@ angular.module('app.directives', [])
             el.html('')
 
             var margin = {top: 150, right: 24, bottom: 64, left: 150}
-            var width = el[0].offsetWidth - margin.left - margin.right
+            var width = el[0].offsetWidth - margin.left - margin.right 
             var height = width // square space
 
             var maxR = width / (2 * $scope.topics.length)
