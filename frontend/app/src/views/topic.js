@@ -59,6 +59,10 @@ angular.module('app.topic', ['ngRoute'])
   	}
   }
 
+  $scope.compareTo = function(t2) {
+  	$timeout(function(){ $location.path('/topic/'+$scope.topic+'/'+t2) })
+  }
+
   $scope.closeTop = function() {
   	$timeout(function(){ $location.path('/topic/'+$scope.topic2) })
   }
@@ -74,6 +78,7 @@ angular.module('app.topic', ['ngRoute'])
 
   	topicsService.get(function(topics){
       $scope.topics = topics
+      $scope.otherTopics = topics.filter(function(t){return t.id != $scope.topic})
       $scope.topicsLoaded = true
 
       topicsService.getIndex(function(index){

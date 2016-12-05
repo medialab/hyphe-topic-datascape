@@ -38,6 +38,8 @@
 
   <!-- Column: Topics zoom -->
   <div flex="{{flexColSide}}" class="flex-transition" layout>
+
+    <!-- Mode: crossing -->
     <div ng-if="topicsLoaded && !transitioning && crossing" layout-fill layout="column" layout-align="center">
       <div flex layout="column">
         <md-button class="md-primary" ng-click="transition('topics')">
@@ -53,6 +55,29 @@
       ></div>
       <div flex layout="column">
       </div>
+    </div>
+
+    <!-- Mode: no crossing -->
+    <div ng-if="topicsLoaded && !transitioning && topic2 === undefined" layout-fill layout="column">
+      <md-toolbar layout="row" class="">
+        <div class="md-toolbar-tools" flex>
+          <span translate>OVERLAPPING TOPICS</span>
+        </div>
+      </md-toolbar>
+      <md-list flex>
+        <md-virtual-repeat-container layout-fill>
+          <md-list-item md-virtual-repeat="t2 in otherTopics" class="md-2-line repeated-item" flex ng-click="compareTo(t2.id)">
+            <div class="md-list-item-text">
+              <h3 translate>{{ t2.id }}</h3>
+              <h4>
+                <span style="opacity:0.7">
+                  {{t2[topic]|number}} <span translate>X PAGES OVERLAP</span>
+                </span>
+              </h4>
+            </div>
+          </md-list-item>
+        </md-virtual-repeat-container>
+      </md-list>
     </div>
   </div>
 
