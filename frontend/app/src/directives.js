@@ -379,6 +379,7 @@ angular.module('app.directives', [])
       },
       templateUrl: 'src/directives/topicFocus.html',
       link: function($scope, el, attrs) {
+
         $translatePartialLoader.addPart('data')
         $translate.refresh()
 
@@ -392,9 +393,15 @@ angular.module('app.directives', [])
             topicsService.getIndex(function(index){
               $scope.topicsIndex = index
               console.log($scope.topicsIndex[$scope.topic])
+              $scope.words = index[$scope.topic].words.split(';').map(capitalizeFirstLetter)
             })
           })
         }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
       }
     }
 })

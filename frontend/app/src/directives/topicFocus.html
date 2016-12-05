@@ -1,8 +1,24 @@
-<div layout="column" layout-fill layout-padding>
-	<div layout="row">
-		<h2 translate flex>{{topic}}</h2>
-		<md-button class="md-icon-button" aria-label="Close" ng-click="close()" ng-show="closeButton">
+<div layout="column" layout-fill>
+	<md-toolbar layout="row" class="md-hue-1">
+    <div class="md-toolbar-tools" flex>
+      <span translate>{{topic}}</span>
+    </div>
+    <md-button class="md-icon-button" aria-label="Close" ng-click="close()" ng-show="closeButton">
       <md-icon>close</md-icon>
     </md-button>
+  </md-toolbar>
+	<div layout="row" flex>
+		<div flex="40" layout="column">
+			<md-subheader><span translate>WORDS IN TOPIC</span></md-subheader>
+			<md-list flex>
+        <md-virtual-repeat-container layout-fill>
+          <md-list-item md-virtual-repeat="word in words" class="md-1-line repeated-item" flex>
+            <div class="md-list-item-text">
+              <p>{{ word }}</p>
+            </div>
+          </md-list-item>
+        </md-virtual-repeat-container>
+      </md-list>
+		</div>
 	</div>
 </div>
