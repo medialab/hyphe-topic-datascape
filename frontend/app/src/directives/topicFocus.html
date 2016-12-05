@@ -8,7 +8,7 @@
     </md-button>
   </md-toolbar>
 	<div layout="row" flex>
-		<div flex="25" layout="column">
+		<div flex="30" layout="column"  md-colors="{background: 'default-background-50-.6'}">
 			<md-subheader><span translate>WORDS IN TOPIC</span></md-subheader>
 			<md-list flex>
         <md-virtual-repeat-container layout-fill>
@@ -19,6 +19,14 @@
           </md-list-item>
         </md-virtual-repeat-container>
       </md-list>
+		</div>
+		<div flex="40" layout="column" layout-align="center center"  md-colors="{background: 'default-background-50-.2'}">
+			TODO: map preview
+		</div>
+		<div flex="30" layout-padding layout="column"  md-colors="{background: 'default-background-50-.6'}">
+			<md-button ng-href="#/search/{{topic}}%253Atrue">
+	      <md-icon>search</md-icon> {{pagesCount|number}} pages
+	    </md-button>
 		</div>
 	</div>
 </div>

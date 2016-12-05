@@ -396,6 +396,7 @@ angular.module('app.directives', [])
               $scope.topicsIndex = index
               console.log($scope.topicsIndex[$scope.topic])
               $scope.words = index[$scope.topic].words.split(';').map(capitalizeFirstLetter)
+              $scope.pagesCount = index[$scope.topic].nb_pages
             })
           })
         }
