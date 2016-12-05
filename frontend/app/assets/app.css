@@ -120,3 +120,8 @@ md-list {
 #topics-matrix-svg-container{
   min-height: 1000px;
 }
+
+/* Topic page */
+.bottom-topic {
+  border-top: 1px solid rgba(0, 0, 0, .2);
+}

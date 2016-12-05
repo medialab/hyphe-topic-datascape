@@ -30,7 +30,8 @@ angular.module('app.services', [])
   	mapdocs: 25
   },
   topic: {
-  	topic: 100
+  	topic: 80,
+    side: 20
   }
 })
 

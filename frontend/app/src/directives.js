@@ -64,6 +64,8 @@ angular.module('app.directives', [])
             var width = el[0].offsetWidth - margin.left - margin.right 
             var height = width // square space
 
+            if (width <= 50) return // Prevent some glitches during resizing
+
             var maxR = width / (2 * $scope.topics.length)
 
             var x = d3.scaleLinear()
@@ -254,6 +256,8 @@ angular.module('app.directives', [])
               var width = el[0].offsetWidth - margin.left - margin.right
               var height = width * 1.5
 
+              if (width <= 50) return // Prevent some glitches during resizing
+
               var svg = d3.select(el[0]).append("svg")
                   .attr("width", width + margin.left + margin.right)
                   .attr("height", height + margin.top + margin.bottom)
@@ -364,3 +368,33 @@ angular.module('app.directives', [])
       }
     }
   })
+
+.directive('topicFocus', function ($timeout, $translatePartialLoader, $translate, $rootScope, topicsService){
+  return {
+      restrict: 'A',
+      scope: {
+        topic: '=',
+        close: '=',
+        closeButton: '='
+      },
+      templateUrl: 'src/directives/topicFocus.html',
+      link: function($scope, el, attrs) {
+        $translatePartialLoader.addPart('data')
+        $translate.refresh()
+
+        init()
+
+        function init() {          
+          topicsService.get(function(topics){
+            $scope.topics = topics
+
+
+            topicsService.getIndex(function(index){
+              $scope.topicsIndex = index
+              console.log($scope.topicsIndex[$scope.topic])
+            })
+          })
+        }
+      }
+    }
+})
