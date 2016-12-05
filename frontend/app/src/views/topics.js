@@ -33,9 +33,12 @@ angular.module('app.topics', ['ngRoute'])
 	$scope.widthRightHandle = 0
 
   $scope.topics = []
+  $scope.topicsIndex
   $scope.topicsLoaded = false
+  $scope.selectedCrossing = [undefined, undefined]
 
   $scope.$watch('topics', updateMatrix)
+  $scope.$watch('selectedCrossing', updateMatrix)
 
   $scope.transition = function(destination) {
   	var transitionTime = 200
@@ -59,6 +62,10 @@ angular.module('app.topics', ['ngRoute'])
     topicsService.get(function(topics){
       $scope.topics = topics
       $scope.topicsLoaded = true
+
+      topicsService.getIndex(function(index){
+        $scope.topicsIndex = index
+      })
     })
   }
 
@@ -103,7 +110,7 @@ angular.module('app.topics', ['ngRoute'])
         .range([0, height]);
 
       var size = d3.scaleLinear()
-        .range([0, maxR])
+        .range([0, 0.85 * maxR])
 
       var a = function(r){
         return Math.PI * Math.pow(r, 2)
@@ -150,20 +157,42 @@ angular.module('app.topics', ['ngRoute'])
           .data(crossings)
         .enter().append('g')
           .style('cursor', 'pointer')
+          .on('click', function(d){
+            $timeout(function(){
+              $scope.selectedCrossing = [d.t1, d.t2]
+              $scope.$apply()
+            })
+          })
 
       dot.append("circle")
         .attr("class", "dot")
-        .attr("r", maxR) // A = PI.r² ; r = SQRT(A/PI)
+        .attr("r", maxR)
         .attr("cx", function(d) { return x(topicRanks[d.t1]); })
         .attr("cy", function(d) { return y(topicRanks[d.t2]); })
-        .style("fill", 'rgba(255, 255, 255, 0.0)')
+        .style("fill", function(d){
+          if (d.t1 == $scope.selectedCrossing[0] && d.t2 == $scope.selectedCrossing[1]) {
+            return 'rgba(255, 255, 255, 1)'
+          } else if (d.t1 == $scope.selectedCrossing[1] && d.t2 == $scope.selectedCrossing[0]) {
+            return 'rgba(255, 255, 255, 1)'
+          } else {
+            return 'rgba(255, 255, 255, 0)'
+          }
+        })
         
       dot.append("circle")
         .attr("class", "dot")
-        .attr("r", function(d) { return size(r(d.val) ); }) // A = PI.r² ; r = SQRT(A/PI)
+        .attr("r", function(d) { return size(r(d.val) ); })
         .attr("cx", function(d) { return x(topicRanks[d.t1]); })
         .attr("cy", function(d) { return y(topicRanks[d.t2]); })
-        .style("fill", function(d) { return 'rgba(0, 0, 0, 0.6'; });
+        .style("fill", function(d) {
+          if (d.t1 == $scope.selectedCrossing[0] && d.t2 == $scope.selectedCrossing[1]) {
+            return 'rgba(0, 0, 0, 1)'
+          } else if (d.t1 == $scope.selectedCrossing[1] && d.t2 == $scope.selectedCrossing[0]) {
+            return 'rgba(0, 0, 0, 1)'
+          } else {
+            return 'rgba(80, 80, 80, 0.7)'
+          }
+        })
 
       $scope.$apply()
     })
