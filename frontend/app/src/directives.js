@@ -168,10 +168,12 @@ angular.module('app.directives', [])
               .enter().append('g')
                 .style('cursor', 'pointer')
                 .on('click', function(d){
-                  $timeout(function(){
-                    $scope.selectedCrossing = [d.t2, d.t1, d.val]
-                    $scope.$apply()
-                  })
+                  if (d.t1 != d.t2) {
+                    $timeout(function(){
+                      $scope.selectedCrossing = [d.t2, d.t1, d.val]
+                      $scope.$apply()
+                    })
+                  }
                 })
 
             dot.append("circle")
