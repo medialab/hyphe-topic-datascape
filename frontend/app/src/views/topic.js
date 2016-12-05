@@ -59,6 +59,10 @@ angular.module('app.topic', ['ngRoute'])
   	}
   }
 
+  $scope.allTopics = function() {
+    $timeout(function(){ $location.path('/topics') })
+  }
+
   $scope.compareTo = function(t2) {
   	$timeout(function(){ $location.path('/topic/'+$scope.topic+'/'+t2) })
   }

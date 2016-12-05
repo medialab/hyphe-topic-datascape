@@ -22,8 +22,8 @@
       flex
       topic-focus
       topic="topic"
-      close="closeTop"
-      close-button="topic2 !== undefined"
+      close="topic2 ? closeTop : allTopics"
+      close-button="true"
     ></div>
     <div
       ng-if="topicsLoaded && !transitioning && topic2"
