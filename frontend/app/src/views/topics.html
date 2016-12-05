@@ -46,7 +46,10 @@
 
   <!-- Column: Topics zoom -->
   <div flex="{{flexColSide}}" class="flex-transition" layout>
-    <div ng-show="!transitioning && selectedCrossing" layout-fill layout="column" layout-align="center">
+    <div ng-if="!transitioning && !selectedCrossing" layout-fill layout="column" layout-align="center center" layout-padding>
+      <center style="opacity: 0.7" translate>CLICK MESSAGE</center>
+    </div>
+    <div ng-if="!transitioning && selectedCrossing" layout-fill layout="column" layout-align="center">
       <div flex layout="column" layout-align="start end">
         <md-button class="md-icon-button" aria-label="Close" ng-click="closeCrossing()">
           <md-icon>close</md-icon>

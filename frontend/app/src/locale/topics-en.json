@@ -1,5 +1,6 @@
 {
 	"SEARCH": "Search",
-	"TOPICS": "Topics",
+	"TOPICS": "Topics and their overlapping",
+	"CLICK MESSAGE": "Click on the matrix to explore topic overlaps",
 	"MORE DETAILS": "More details"
 }
