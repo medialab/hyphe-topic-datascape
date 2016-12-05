@@ -38,6 +38,7 @@ angular.module('app.directives', [])
 
         window.addEventListener('resize', redraw)
         $scope.$on('$destroy', function(){
+          redraw = function(){}
           window.removeEventListener('resize', redraw)
         })
 
@@ -225,6 +226,7 @@ angular.module('app.directives', [])
 
         window.addEventListener('resize', redraw)
         $scope.$on('$destroy', function(){
+          redraw = function(){}
           window.removeEventListener('resize', redraw)
         })
 
@@ -250,7 +252,7 @@ angular.module('app.directives', [])
 
               var margin = {top: 50, right: 12, bottom: 12, left: 12}
               var width = el[0].offsetWidth - margin.left - margin.right
-              var height = width * 2
+              var height = width * 1.5
 
               var svg = d3.select(el[0]).append("svg")
                   .attr("width", width + margin.left + margin.right)

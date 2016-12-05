@@ -47,14 +47,22 @@
   <!-- Column: Topics zoom -->
   <div flex="{{flexColSide}}" class="flex-transition" layout>
     <div ng-show="!transitioning && selectedCrossing" layout-fill layout="column" layout-align="center">
-      <div flex></div>
+      <div flex layout="column" layout-align="start end">
+        <md-button class="md-icon-button" aria-label="Close" ng-click="closeCrossing()">
+          <md-icon>close</md-icon>
+        </md-button>
+      </div>
     	<div
         topics="topics"
         topics-index="topicsIndex"
         crossing="selectedCrossing"
         topics-crossing
       ></div>
-      <div flex></div>
+      <div flex layout="column" layout-align="center center">
+        <md-button class="md-raised md-primary" aria-label="More" ng-href="#/topic/{{selectedCrossing[0]}}/{{selectedCrossing[1]}}" translate>
+          MORE DETAILS
+        </md-button>
+      </div>
     </div>
   </div>
 

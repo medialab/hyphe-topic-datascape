@@ -57,6 +57,10 @@ angular.module('app.topics', ['ngRoute'])
   	}
   }
 
+  $scope.closeCrossing = function() {
+    $scope.selectedCrossing = undefined
+  }
+
   init()
 
   function buildCrossings() {
