@@ -19,7 +19,7 @@ angular.module('app.directives', [])
     }
   }])
 
-.directive('topicsMatrix', function ($timeout) {
+.directive('topicsMatrix', function ($timeout, $translatePartialLoader, $translate, $rootScope) {
     return {
       restrict: 'A',
       scope: {
@@ -29,18 +29,29 @@ angular.module('app.directives', [])
         selectedCrossing: '='
       },
       link: function($scope, el, attrs) {
+        var topicLabels = {}
 
         el.html('<div><center>Loading...</center></div>')
 
         $scope.$watchCollection(['topics', 'topicsRanks', 'crossings'], redraw)
-        // $scope.$watch('topicRanks', redraw)
-        // $scope.$watch('crossings', redraw)
         $scope.$watch('selectedCrossing', redraw)
 
         window.addEventListener('resize', redraw)
         $scope.$on('$destroy', function(){
           window.removeEventListener('resize', redraw)
         })
+
+        // Translations
+        $translatePartialLoader.addPart('data');
+        $translate.refresh();
+        $rootScope.$on('$translateChangeSuccess', updateTranslations)
+        $timeout(updateTranslations)
+        function updateTranslations(){
+          $translate($scope.topics.map(function(t){return t.id})).then(function (translations) {
+            topicLabels = translations
+            redraw()
+          })
+        }
 
         function redraw() {
           $timeout(function(){
@@ -99,7 +110,7 @@ angular.module('app.directives', [])
                 .attr('class', 'h')
                 .attr('x', -12)
                 .attr('y', function(d){ return y($scope.topicRanks[d.id]) + 3 })
-                .text( function (d) { return d.id })
+                .text( function (d) { return topicLabels[d.id] || d.id })
                 .style("text-anchor", "end")
                 .attr("font-family", "sans-serif")
                 .attr("font-size", "10px")
