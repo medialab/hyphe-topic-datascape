@@ -103,25 +103,6 @@ angular.module('app.directives', [])
                 .attr('y2', function(d){ return y($scope.topicRanks[d.id]) })
                 .style("stroke", 'rgba(0, 0, 0, 0.06)')
 
-            // Horizontal labels
-            svg.selectAll('text.h')
-                .data($scope.topics)
-              .enter().append('text')
-                .attr('class', 'h')
-                .attr('x', -12)
-                .attr('y', function(d){ return y($scope.topicRanks[d.id]) + 3 })
-                .text( function (d) { return topicLabels[d.id] || d.id })
-                .style("text-anchor", "end")
-                .attr("font-family", "sans-serif")
-                .attr("font-size", "10px")
-                .attr("fill", function(d){
-                  if (d.id == $scope.selectedCrossing[0] || d.id == $scope.selectedCrossing[1]) {
-                    return 'rgba(0, 0, 0, 1)'
-                  } else {
-                    return 'rgba(0, 0, 0, 0.5)'
-                  }
-                })
-
             // Vertical lines
             svg.selectAll('line.v')
                 .data($scope.topics)
@@ -133,6 +114,44 @@ angular.module('app.directives', [])
                 .attr('y2', height)
                 .style("stroke", 'rgba(0, 0, 0, 0.06)')
 
+            // Horizontal labels
+            svg.selectAll('text.h')
+                .data($scope.topics)
+              .enter().append('text')
+                .attr('class', 'h')
+                .attr('x', -12)
+                .attr('y', function(d){ return y($scope.topicRanks[d.id]) + 3 })
+                .text( function (d) { return topicLabels[d.id] || d.id })
+                .style('text-anchor', 'end')
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "10px")
+                .attr("fill", function(d){
+                  if (d.id == $scope.selectedCrossing[0] || d.id == $scope.selectedCrossing[1]) {
+                    return 'rgba(0, 0, 0, 1)'
+                  } else {
+                    return 'rgba(0, 0, 0, 0.5)'
+                  }
+                })
+
+            // Vertical labels
+            svg.selectAll('text.v')
+                .data($scope.topics)
+              .enter().append('text')
+                .attr('class', 'v')
+                .attr('x', function(d){ return x($scope.topicRanks[d.id]) + 3 })
+                .attr('y', -12)
+                .text( function (d) { return topicLabels[d.id] || d.id })
+                .style('text-anchor', 'end')
+                .style('writing-mode', 'vertical-lr')
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "10px")
+                .attr("fill", function(d){
+                  if (d.id == $scope.selectedCrossing[0] || d.id == $scope.selectedCrossing[1]) {
+                    return 'rgba(0, 0, 0, 1)'
+                  } else {
+                    return 'rgba(0, 0, 0, 0.5)'
+                  }
+                })
             // Dots
             var dot = svg.selectAll(".dot")
                 .data($scope.crossings)
