@@ -73,8 +73,8 @@ angular.module('app.directives', [])
 
             var settings = {}
             settings.cloudRoundness = 0.025
-            settings.highlightSize = 4
-            settings.highlightMinimalOpacity = 0.05
+            settings.highlightSize = 2.5
+            settings.highlightMinimalOpacity = 0.1
 
             var bigRadius = settings.cloudRoundness * Math.min(el[0].offsetWidth, el[0].offsetHeight)
 
@@ -107,9 +107,10 @@ angular.module('app.directives', [])
               return height/2 + ((d - yMid) / (yRatio))
             }
 
+            var borderRGB = d3.rgb($mdColors.getThemeColor('default-background-200'))
             var borderLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
                 size: bigRadius,
-                rgb: [167, 181, 179],
+                rgb: [borderRGB.r, borderRGB.g, borderRGB.b],
                 opacity: .5,
                 blurRadius: 1.5 * bigRadius,
                 contrastFilter: true,
@@ -119,7 +120,6 @@ angular.module('app.directives', [])
 
             var fillingLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
                 size: bigRadius,
-                // rgb: [242, 245, 247],
                 rgb: [255, 255, 255],
                 opacity: 0.15,
                 blurRadius: 1.5 * bigRadius,
@@ -128,16 +128,7 @@ angular.module('app.directives', [])
                 contrastSteepness: 0.002
               })
 
-            /*var accentLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
-                size: 0.05 * bigRadius,
-                rgb: [255, 255, 255],
-                blurRadius: 0.5 * bigRadius,
-                contrastFilter: true,
-                contrastThreshold: 0.08,
-                contrastSteepness: 0.2
-              })*/
-
-            var imgd = mergeImgdLayers([borderLayer, fillingLayer/*, accentLayer*/], width, height)
+            var imgd = mergeImgdLayers([borderLayer, fillingLayer], width, height)
             context.putImageData( imgd, 0, 0 )
 
             if ($scope.scores) {
