@@ -19,11 +19,12 @@ angular.module('app.directives', [])
     }
 }])
 
-.directive('networkMap', function ($timeout, $translatePartialLoader, $translate, $rootScope, coordinatesService) {
+.directive('networkMap', function ($timeout, $translatePartialLoader, $translate, $rootScope, coordinatesService, $mdColors) {
     return {
       restrict: 'A',
       scope: {
-        transitioning: '='
+        transitioning: '=',
+        scores: '='
       },
       templateUrl: 'src/directives/networkMap.html',
       link: function($scope, el, attrs) {
@@ -35,7 +36,7 @@ angular.module('app.directives', [])
         
         var container = el[0].querySelector('.canvas-container')
         
-        // $scope.$watchCollection(['topics', 'topicsRanks', 'crossings'], redraw)
+        $scope.$watch('scores', redraw)
         $scope.$watch('transitioning', function(){
           if ($scope.transitioning && !$scope.frozen) {
             freeze()
@@ -66,12 +67,14 @@ angular.module('app.directives', [])
           if ($scope.frozen) return
           $timeout(function(){
             if ($scope.coordinatesIndex === undefined) return // Nothing to do if coordinates not loaded yet
-              
+
             // clear
             container.innerHTML = ''
 
             var settings = {}
             settings.cloudRoundness = 0.02
+            settings.highlightSize = 6
+            settings.highlightMinimalOpacity = 0.1
 
             var bigRadius = settings.cloudRoundness * Math.min(el[0].offsetWidth, el[0].offsetHeight)
 
@@ -122,7 +125,7 @@ angular.module('app.directives', [])
                 contrastSteepness: 0.002
               })
 
-             var accentLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
+            var accentLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
                 size: 0.05 * bigRadius,
                 rgb: [255, 255, 255],
                 blurRadius: 0.5 * bigRadius,
@@ -134,6 +137,31 @@ angular.module('app.directives', [])
             var imgd = mergeImgdLayers([borderLayer, fillingLayer, accentLayer], width, height)
             context.putImageData( imgd, 0, 0 )
 
+            if ($scope.scores) {
+              var id
+              var maxScore = 0
+              for (id in $scope.scores) {
+                maxScore = Math.max(maxScore, $scope.scores[id])
+
+              }
+
+              var opct = d3.scaleLinear()
+                .range([settings.highlightMinimalOpacity, 1])
+                .domain([0, maxScore])
+
+              // Draw filtered entities
+              for (id in $scope.scores) {
+                var score = $scope.scores[id]
+                var node = $scope.coordinatesIndex[id]
+                if (node) {
+                  context.beginPath()
+                  context.arc(x(node.x), y(node.y), settings.highlightSize, 0, 2*Math.PI, true)
+                  context.fillStyle = $mdColors.getThemeColor('default-primary-900-' + Math.round(100 * opct(score))/100 )
+                  context.fill()
+                  context.closePath()
+                }
+              }
+            }
           })
         }
 

@@ -36,6 +36,7 @@ angular.module('app.home', ['ngRoute'])
 	$scope.resultsLoading = false
 	$scope.results
 	$scope.resultsHighlighting
+  $scope.webentityScores
 
 	$scope.topics = topics
 
@@ -181,7 +182,8 @@ angular.module('app.home', ['ngRoute'])
 	    		$scope.resultsLoaded = true
 	    		$scope.resultsLoading = false
 	    		$scope.resultsHighlighting = data.highlighting
-	    		$scope.results = data.response.docs
+          $scope.results = data.response.docs
+          $scope.webentityScores = buildWebentityScores(data.facet_counts.facet_fields.web_entity_id)
 	    		$scope.$apply()
     		})
     	});
@@ -192,4 +194,21 @@ angular.module('app.home', ['ngRoute'])
     $location.path('/search/' + encodeURIComponent(q))
   }
 
+  function buildWebentityScores(alternateArray) {
+    var result = {}
+    var flag = true
+    var k
+    alternateArray.forEach(function(d){
+      if (flag) {
+        k = d
+        flag = false
+      } else {
+        if (d>0) {
+          result[k] = d
+        }
+        flag = true
+      }
+    })
+    return result
+  }
 })
