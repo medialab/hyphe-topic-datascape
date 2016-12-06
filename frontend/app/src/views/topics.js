@@ -41,7 +41,7 @@ angular.module('app.topics', ['ngRoute'])
 
   $scope.$watch('topics', buildCrossings)
 
-  $scope.transition = function(destination) {
+  $scope.transition = function(destination, settings) {
   	var transitionTime = 200
   	switch (destination) {
   		case 'search':
@@ -52,7 +52,11 @@ angular.module('app.topics', ['ngRoute'])
 				$scope.flexColSide = 0
 				$scope.widthLeftHandle = columnMeasures.handle
 				$scope.widthRightHandle = columnMeasures.handle
-				$timeout(function(){ $location.path('/') }, transitionTime)
+        if (settings && settings.topicsOverlap) {
+          $timeout(function(){ $location.path('/search/'+encodeURIComponent($scope.selectedCrossing[0] + ':true AND ' + $scope.selectedCrossing[1] + ':true')) }, transitionTime)
+        } else {
+  				$timeout(function(){ $location.path('/') }, transitionTime)
+        }
   			break
   	}
   }

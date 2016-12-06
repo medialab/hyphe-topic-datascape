@@ -62,6 +62,10 @@
         topics-crossing
       ></div>
       <div flex layout="column" layout-align="center center">
+        <md-button class="md-raised" aria-label="Search overlap" ng-click="transition('search', {topicsOverlap:true})" translate>
+          <md-icon>search</md-icon>
+          SEARCH OVERLAP
+        </md-button>
         <md-button class="md-raised md-primary" aria-label="More" ng-href="#/topic/{{selectedCrossing[0]}}/{{selectedCrossing[1]}}" translate>
           MORE DETAILS
         </md-button>

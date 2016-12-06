@@ -66,24 +66,7 @@ angular.module('app.directives', [])
           if ($scope.frozen) return
           $timeout(function(){
             if ($scope.coordinatesIndex === undefined) return // Nothing to do if coordinates not loaded yet
-
-            /*sigma.parsers.gexf(
-              'data/network.gexf',
-              {
-                container: 'sigmaContainer',
-                settings: {
-                  drawNodes: false,
-                  drawEdges: false,
-                  labelThreshold: Infinity
-                }
-              },
-              function(s) {
-                // This function will be executed when the
-                // graph is displayed, with "s" the related
-                // sigma instance.
-              }
-            )*/
-
+              
             // clear
             container.innerHTML = ''
 
