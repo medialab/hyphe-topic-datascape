@@ -7,6 +7,10 @@ md-list {
   direction: rtl;
 }
 
+.canvas-container {
+  overflow: hidden;
+}
+
 /* Flex transition between paged */
 .flex-transition {
   transition: all .2s ease;

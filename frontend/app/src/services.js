@@ -37,37 +37,37 @@ angular.module('app.services', [])
 
 .constant('topics', [
   "surveillance_fr",
-"business_media",
-"surveillance_us",
-"cybersecurity",
-"bigdata",
-"data_regulation_fr",
-"cookies",
-"telecom_ops_fr",
-"id_fraud",
-"hacking",
-"terms_use",
-"data_regulation_eu",
-"citizen_freedom",
-"cloud_security",
-"data_regulation_us",
-"personal_records",
-"crypto_access",
-"websecurity",
-"copyright",
-"consumer_data",
-"comm_traces",
-"research_it",
-"health",
-"social_media",
-"mobile",
-"data_transmission",
-"education",
-"airspace",
-"cyberdefense",
-"transports",
-"bitcoin",
-"wearables"
+  "business_media",
+  "surveillance_us",
+  "cybersecurity",
+  "bigdata",
+  "data_regulation_fr",
+  "cookies",
+  "telecom_ops_fr",
+  "id_fraud",
+  "hacking",
+  "terms_use",
+  "data_regulation_eu",
+  "citizen_freedom",
+  "cloud_security",
+  "data_regulation_us",
+  "personal_records",
+  "crypto_access",
+  "websecurity",
+  "copyright",
+  "consumer_data",
+  "comm_traces",
+  "research_it",
+  "health",
+  "social_media",
+  "mobile",
+  "data_transmission",
+  "education",
+  "airspace",
+  "cyberdefense",
+  "transports",
+  "bitcoin",
+  "wearables"
 ])
 
 .factory('webentitiesService', function webentitiesServiceFactory() {
@@ -133,6 +133,41 @@ angular.module('app.services', [])
     } else {
       ns.get(function(){
         callback(ns._topics_byId)
+      })
+    }
+  }
+  
+  return ns
+})
+
+.factory('coordinatesService', function coordinatesServiceFactory() {
+  var ns = {}
+  ns._coordinates = []
+  ns._coordinates_byId = {}
+  ns._ready = false
+  ns.isReady = function() { return ns._ready }
+
+  ns.get = function(callback) {
+    if (ns._ready) {
+      callback(ns._coordinates)
+    } else {
+      d3.csv('data/network-coordinates.csv', function(data){
+        ns._coordinates = data
+        data.forEach(function(d){
+          ns._coordinates_byId[d.id] = d
+        })
+        ns._ready = true
+        callback(data)
+      })
+    }
+  }
+
+  ns.getIndex = function(callback) {
+    if (ns._ready) {
+      callback(ns._coordinates_byId)
+    } else {
+      ns.get(function(){
+        callback(ns._coordinates_byId)
       })
     }
   }

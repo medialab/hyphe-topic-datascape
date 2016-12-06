@@ -19,7 +19,7 @@ angular.module('app.directives', [])
     }
 }])
 
-.directive('networkMap', function ($timeout, $translatePartialLoader, $translate, $rootScope) {
+.directive('networkMap', function ($timeout, $translatePartialLoader, $translate, $rootScope, coordinatesService) {
     return {
       restrict: 'A',
       scope: {
@@ -27,10 +27,13 @@ angular.module('app.directives', [])
       },
       templateUrl: 'src/directives/networkMap.html',
       link: function($scope, el, attrs) {
-        
-        var cel = el[0].querySelector('.canvas-container')
-        cel.innerHTML = ''
 
+        $scope.loaded = false
+        $scope.coordinates
+        $scope.coordinatesIndex
+        
+        var container = el[0].querySelector('.canvas-container')
+        
         // $scope.$watchCollection(['topics', 'topicsRanks', 'crossings'], redraw)
         // $scope.$watch('selectedCrossing', redraw)
 
@@ -52,9 +55,11 @@ angular.module('app.directives', [])
           })
         }*/
 
+        init()
+
         function redraw() {
           $timeout(function(){
-
+            if ($scope.coordinatesIndex === undefined) return // Nothing to do if coordinates not loaded yet
 
             /*sigma.parsers.gexf(
               'data/network.gexf',
@@ -74,15 +79,62 @@ angular.module('app.directives', [])
             )*/
 
             // clear
-            cel.innerHTML = ''
+            container.innerHTML = ''
 
-            var margin = {top: 150, right: 24, bottom: 64, left: 150}
-            var width = el[0].offsetWidth - margin.left - margin.right 
-            var height = width // square space
+            var margin = {top: 12, right: 12, bottom: 12, left: 12}
+            var width = el[0].offsetWidth
+            var height = el[0].offsetHeight
+
+            var chart = d3.select(container).append("canvas")
+              .attr("width", width)
+              .attr("height", height)
+
+            var context = chart.node().getContext("2d")
 
             if (width <= 50) return // Prevent some glitches during resizing
 
+            var xExtent = d3.extent($scope.coordinates.map(function(d){return +d.x}))
+            var yExtent = d3.extent($scope.coordinates.map(function(d){return +d.y}))
+            var xRatio = (xExtent[1] - xExtent[0]) / (width - margin.left - margin.right)
+            var yRatio = (yExtent[1] - yExtent[0]) / (height - margin.top - margin.bottom)
+            var xMid = (xExtent[0] + xExtent[1]) / 2
+            var yMid = (yExtent[0] + yExtent[1]) / 2
+            xRatio = Math.max(xRatio, yRatio)
+            yRatio = Math.max(xRatio, yRatio)
 
+            var x = function(d) {
+              return width/2 + ((d - xMid) / (xRatio))
+            }
+            
+            var y = function(d) {
+              return height/2 + ((d - yMid) / (yRatio))
+            }
+
+            drawLayer(context, {
+              size: 2,
+              color: 'rgba(255, 255, 255, 0.8)'
+            }, x, y)
+          })
+        }
+
+        function drawLayer(context, settings, x, y) {
+          $scope.coordinates.forEach(function(d){
+            context.beginPath()
+            context.arc(x(d.x), y(d.y), settings.size, 0, 2*Math.PI, true)
+            context.fillStyle = settings.color
+            context.fill()
+            context.closePath()
+          })
+        }
+
+        function init() {
+          coordinatesService.get(function(c){
+            $scope.coordinates = c
+            coordinatesService.getIndex(function(index){
+              $scope.coordinatesIndex = index
+              $scope.loaded = true
+              redraw()
+            })
           })
         }
       }
