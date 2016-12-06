@@ -88,7 +88,7 @@ angular.module('app.directives', [])
             container.innerHTML = ''
 
             var settings = {}
-            settings.cloudRoundness = 0.015
+            settings.cloudRoundness = 0.02
 
             var bigRadius = settings.cloudRoundness * Math.min(el[0].offsetWidth, el[0].offsetHeight)
 
@@ -132,20 +132,20 @@ angular.module('app.directives', [])
 
             var fillingLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
                 size: bigRadius,
-                rgb: [236, 239, 241],
+                rgb: [242, 245, 247],
                 blurRadius: 1.5 * bigRadius,
                 contrastFilter: true,
-                contrastThreshold: 0.90,
-                contrastSteepness: 0.006
+                contrastThreshold: 0.85,
+                contrastSteepness: 0.002
               })
 
              var accentLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
-                size: 0.1 * bigRadius,
+                size: 0.05 * bigRadius,
                 rgb: [255, 255, 255],
-                blurRadius: 0.3 * bigRadius,
+                blurRadius: 0.5 * bigRadius,
                 contrastFilter: true,
-                contrastThreshold: 0.5,
-                contrastSteepness: 0.05
+                contrastThreshold: 0.08,
+                contrastSteepness: 0.2
               })
 
             var imgd = mergeImgdLayers([borderLayer, fillingLayer, accentLayer], width, height)
