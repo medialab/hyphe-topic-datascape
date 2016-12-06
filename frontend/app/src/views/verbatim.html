@@ -20,9 +20,11 @@
         <span translate>BACK_TO_SEARCH</span>
       </md-button>
       <div flex layout id="sigmaContainer" ng-show="!transitioning">
-        <div layout="column" layout-fill layout-align="center center">
-          <span translate>LOADING_NETWORK</span>
-        </div>
+        <div
+          layout="column"
+          layout-fill
+          transitioning="transitioning"
+          network-map></div>
       </div>
     </div>
     <div flex layout="column">

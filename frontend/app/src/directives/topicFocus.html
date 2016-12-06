@@ -20,9 +20,12 @@
         </md-virtual-repeat-container>
       </md-list>
 		</div>
-		<div flex="40" layout="column" layout-align="center center"  md-colors="{background: 'default-background-50-.2'}">
-			TODO: map preview
-		</div>
+		<div flex="40"
+			layout="column"
+			layout-align="center center"
+			md-colors="{background: 'default-background-50-.2'}"
+			transitioning="transitioning"
+      network-map></div>
 		<div flex="30" layout-padding layout="column"  md-colors="{background: 'default-background-50-.6'}">
 			<md-button ng-href="#/search/{{topic}}%253Atrue">
 	      <md-icon>search</md-icon> {{pagesCount|number}} pages

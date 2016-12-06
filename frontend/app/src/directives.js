@@ -23,7 +23,7 @@ angular.module('app.directives', [])
     return {
       restrict: 'A',
       scope: {
-        
+        transitioning: '='
       },
       templateUrl: 'src/directives/networkMap.html',
       link: function($scope, el, attrs) {
