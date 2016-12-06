@@ -87,7 +87,13 @@ angular.module('app.directives', [])
             // clear
             container.innerHTML = ''
 
-            var margin = {top: 12, right: 12, bottom: 12, left: 12}
+            var settings = {}
+            settings.cloudRoundness = 0.08
+            settings.cloudAlpha = 0.05
+
+            var bigRadius = settings.cloudRoundness * Math.min(el[0].offsetWidth, el[0].offsetHeight)
+
+            var margin = {top: 12 + bigRadius, right: 12 + bigRadius, bottom: 12 + bigRadius, left: 12 + bigRadius}
             var width = el[0].offsetWidth
             var height = el[0].offsetHeight
 
@@ -117,8 +123,8 @@ angular.module('app.directives', [])
             }
 
             drawLayer(context, {
-              size: 2,
-              color: 'rgba(255, 255, 255, 0.8)'
+              size: bigRadius,
+              color: 'rgba(255, 255, 255, '+settings.cloudAlpha+')'
             }, x, y)
 
           })
