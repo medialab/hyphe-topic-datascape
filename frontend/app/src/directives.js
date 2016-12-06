@@ -17,7 +17,77 @@ angular.module('app.directives', [])
         }
       })
     }
-  }])
+}])
+
+.directive('networkMap', function ($timeout, $translatePartialLoader, $translate, $rootScope) {
+    return {
+      restrict: 'A',
+      scope: {
+        
+      },
+      templateUrl: 'src/directives/networkMap.html',
+      link: function($scope, el, attrs) {
+        
+        var cel = el[0].querySelector('.canvas-container')
+        cel.innerHTML = ''
+
+        // $scope.$watchCollection(['topics', 'topicsRanks', 'crossings'], redraw)
+        // $scope.$watch('selectedCrossing', redraw)
+
+        window.addEventListener('resize', redraw)
+        $scope.$on('$destroy', function(){
+          redraw = function(){}
+          window.removeEventListener('resize', redraw)
+        })
+
+        // Translations
+        /*$translatePartialLoader.addPart('data');
+        $translate.refresh();
+        $rootScope.$on('$translateChangeSuccess', updateTranslations)
+        $timeout(updateTranslations)
+        function updateTranslations(){
+          $translate($scope.topics.map(function(t){return t.id})).then(function (translations) {
+            topicLabels = translations
+            redraw()
+          })
+        }*/
+
+        function redraw() {
+          $timeout(function(){
+
+
+            /*sigma.parsers.gexf(
+              'data/network.gexf',
+              {
+                container: 'sigmaContainer',
+                settings: {
+                  drawNodes: false,
+                  drawEdges: false,
+                  labelThreshold: Infinity
+                }
+              },
+              function(s) {
+                // This function will be executed when the
+                // graph is displayed, with "s" the related
+                // sigma instance.
+              }
+            )*/
+
+            // clear
+            cel.innerHTML = ''
+
+            var margin = {top: 150, right: 24, bottom: 64, left: 150}
+            var width = el[0].offsetWidth - margin.left - margin.right 
+            var height = width // square space
+
+            if (width <= 50) return // Prevent some glitches during resizing
+
+
+          })
+        }
+      }
+    }
+})
 
 .directive('topicsMatrix', function ($timeout, $translatePartialLoader, $translate, $rootScope) {
     return {
@@ -210,7 +280,7 @@ angular.module('app.directives', [])
         }
       }
     }
-  })
+})
 
 .directive('topicsCrossing', function ($timeout, $translatePartialLoader, $translate, $rootScope, $filter) {
     return {
@@ -369,7 +439,7 @@ angular.module('app.directives', [])
         }
       }
     }
-  })
+})
 
 .directive('topicFocus', function ($timeout, $translatePartialLoader, $translate, $rootScope, topicsService, $location){
   return {

@@ -14,8 +14,11 @@
 
   <!-- Column: Map -->
   <div flex="{{flexColMap}}" class="flex-transition" layout="column">
-    <div flex="{{flexColMapH}}" layout id="sigmaContainer" ng-show="!transitioning">
-      <div layout layout-fill layout-align="center center" translate>LOADING_NETWORK</div>
+    <div
+      flex="{{flexColMapH}}"
+      ng-show="!transitioning"
+      network-map
+    >
     </div>
     <div flex>
     </div>

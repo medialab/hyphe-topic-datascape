@@ -109,23 +109,6 @@ angular.module('app.home', ['ngRoute'])
       $scope.searchQuery = decodeURIComponent(persistance.lastQuery)
       $scope.execSearchQuery()
     }
-
-  	/*sigma.parsers.gexf(
-    	'data/network.gexf',
-	    {
-	      container: 'sigmaContainer',
-	      settings: {
-	      	drawNodes: false,
-	      	drawEdges: false,
-	      	labelThreshold: Infinity
-	      }
-	    },
-	    function(s) {
-	      // This function will be executed when the
-	      // graph is displayed, with "s" the related
-	      // sigma instance.
-	    }
-	  )*/
   }
 
   function query(q) {
