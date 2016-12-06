@@ -19,13 +19,11 @@
         <md-icon>keyboard_arrow_up</md-icon>
         <span translate>BACK_TO_SEARCH</span>
       </md-button>
-      <div flex layout id="sigmaContainer" ng-show="!transitioning">
-        <div
-          layout="column"
-          layout-fill
-          transitioning="transitioning"
-          network-map></div>
-      </div>
+      <div
+        flex
+        transitioning="transitioning"
+        network-map
+      ></div>
     </div>
     <div flex layout="column">
       <md-content layout="column" layout-padding ng-show="verbatimLoaded && !transitioning">
@@ -82,7 +80,7 @@
   <div flex="{{flexColTopics}}" class="flex-transition" layout="column">
     <md-toolbar layout="row" class="md-hue-1">
       <div class="md-toolbar-tools">
-        <span translate>TOPICS</span>
+        <span translate>TOPICS IN VERBATIMS</span>
       </div>
     </md-toolbar>
     <md-list flex class="topics-list" ng-show="!transitioning" md-colors="{background: 'default-background-50-.6'}">

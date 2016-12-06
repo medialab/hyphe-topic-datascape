@@ -11,6 +11,11 @@ md-list {
   overflow: hidden;
 }
 
+.canvas-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 /* Flex transition between paged */
 .flex-transition {
   transition: all .2s ease;

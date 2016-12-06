@@ -28,6 +28,7 @@ angular.module('app.directives', [])
       templateUrl: 'src/directives/networkMap.html',
       link: function($scope, el, attrs) {
 
+        $scope.frozen = false
         $scope.loaded = false
         $scope.coordinates
         $scope.coordinatesIndex
@@ -35,7 +36,11 @@ angular.module('app.directives', [])
         var container = el[0].querySelector('.canvas-container')
         
         // $scope.$watchCollection(['topics', 'topicsRanks', 'crossings'], redraw)
-        // $scope.$watch('selectedCrossing', redraw)
+        $scope.$watch('transitioning', function(){
+          if ($scope.transitioning && !$scope.frozen) {
+            freeze()
+          }
+        })
 
         window.addEventListener('resize', redraw)
         $scope.$on('$destroy', function(){
@@ -58,6 +63,7 @@ angular.module('app.directives', [])
         init()
 
         function redraw() {
+          if ($scope.frozen) return
           $timeout(function(){
             if ($scope.coordinatesIndex === undefined) return // Nothing to do if coordinates not loaded yet
 
@@ -114,6 +120,7 @@ angular.module('app.directives', [])
               size: 2,
               color: 'rgba(255, 255, 255, 0.8)'
             }, x, y)
+
           })
         }
 
@@ -125,6 +132,15 @@ angular.module('app.directives', [])
             context.fill()
             context.closePath()
           })
+        }
+
+        function freeze() {
+          var context = container.querySelector('canvas').getContext("2d")
+          var image = new Image();
+          image.src = context.canvas.toDataURL("image/png");
+          container.innerHTML = ''
+          container.appendChild(image)
+          $scope.frozen = true
         }
 
         function init() {
