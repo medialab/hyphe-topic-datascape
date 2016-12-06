@@ -72,9 +72,9 @@ angular.module('app.directives', [])
             container.innerHTML = ''
 
             var settings = {}
-            settings.cloudRoundness = 0.02
-            settings.highlightSize = 6
-            settings.highlightMinimalOpacity = 0.1
+            settings.cloudRoundness = 0.025
+            settings.highlightSize = 4
+            settings.highlightMinimalOpacity = 0.05
 
             var bigRadius = settings.cloudRoundness * Math.min(el[0].offsetWidth, el[0].offsetHeight)
 
@@ -110,6 +110,7 @@ angular.module('app.directives', [])
             var borderLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
                 size: bigRadius,
                 rgb: [167, 181, 179],
+                opacity: .5,
                 blurRadius: 1.5 * bigRadius,
                 contrastFilter: true,
                 contrastThreshold: 0.8,
@@ -118,23 +119,25 @@ angular.module('app.directives', [])
 
             var fillingLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
                 size: bigRadius,
-                rgb: [242, 245, 247],
+                // rgb: [242, 245, 247],
+                rgb: [255, 255, 255],
+                opacity: 0.15,
                 blurRadius: 1.5 * bigRadius,
                 contrastFilter: true,
                 contrastThreshold: 0.85,
                 contrastSteepness: 0.002
               })
 
-            var accentLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
+            /*var accentLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
                 size: 0.05 * bigRadius,
                 rgb: [255, 255, 255],
                 blurRadius: 0.5 * bigRadius,
                 contrastFilter: true,
                 contrastThreshold: 0.08,
                 contrastSteepness: 0.2
-              })
+              })*/
 
-            var imgd = mergeImgdLayers([borderLayer, fillingLayer, accentLayer], width, height)
+            var imgd = mergeImgdLayers([borderLayer, fillingLayer/*, accentLayer*/], width, height)
             context.putImageData( imgd, 0, 0 )
 
             if ($scope.scores) {
@@ -585,7 +588,7 @@ angular.module('app.directives', [])
 function drawLayer(coordinates, context, xScale, yScale, width, height, settings) {
   context.clearRect(0, 0, width, height);
 
-  var color = 'rgba('+settings.rgb[0]+', '+settings.rgb[1]+', '+settings.rgb[2]+', 1)'
+  var color = 'rgba('+settings.rgb[0]+', '+settings.rgb[1]+', '+settings.rgb[2]+', '+settings.opacity+')'
   var minalpha = 0
 
   // This is to prevent transparent areas to be assimiled as "black"
