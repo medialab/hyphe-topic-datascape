@@ -88,8 +88,7 @@ angular.module('app.directives', [])
             container.innerHTML = ''
 
             var settings = {}
-            settings.cloudRoundness = 0.08
-            settings.cloudAlpha = 0.05
+            settings.cloudRoundness = 0.015
 
             var bigRadius = settings.cloudRoundness * Math.min(el[0].offsetWidth, el[0].offsetHeight)
 
@@ -122,21 +121,36 @@ angular.module('app.directives', [])
               return height/2 + ((d - yMid) / (yRatio))
             }
 
-            drawLayer(context, {
-              size: bigRadius,
-              color: 'rgba(255, 255, 255, '+settings.cloudAlpha+')'
-            }, x, y)
+            var borderLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
+                size: bigRadius,
+                rgb: [167, 181, 179],
+                blurRadius: 1.5 * bigRadius,
+                contrastFilter: true,
+                contrastThreshold: 0.8,
+                contrastSteepness: 0.03
+              })
 
-          })
-        }
+            var fillingLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
+                size: bigRadius,
+                rgb: [236, 239, 241],
+                blurRadius: 1.5 * bigRadius,
+                contrastFilter: true,
+                contrastThreshold: 0.90,
+                contrastSteepness: 0.006
+              })
 
-        function drawLayer(context, settings, x, y) {
-          $scope.coordinates.forEach(function(d){
-            context.beginPath()
-            context.arc(x(d.x), y(d.y), settings.size, 0, 2*Math.PI, true)
-            context.fillStyle = settings.color
-            context.fill()
-            context.closePath()
+             var accentLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
+                size: 0.1 * bigRadius,
+                rgb: [255, 255, 255],
+                blurRadius: 0.3 * bigRadius,
+                contrastFilter: true,
+                contrastThreshold: 0.5,
+                contrastSteepness: 0.05
+              })
+
+            var imgd = mergeImgdLayers([borderLayer, fillingLayer, accentLayer], width, height)
+            context.putImageData( imgd, 0, 0 )
+
           })
         }
 
@@ -556,3 +570,178 @@ angular.module('app.directives', [])
       }
     }
 })
+
+function drawLayer(coordinates, context, xScale, yScale, width, height, settings) {
+  context.clearRect(0, 0, width, height);
+
+  var color = 'rgba('+settings.rgb[0]+', '+settings.rgb[1]+', '+settings.rgb[2]+', 1)'
+  var minalpha = 0
+
+  // This is to prevent transparent areas to be assimiled as "black"
+  if (settings.contrastFilter) {
+    minalpha = 0.1
+    paintAll(context, width, height, 'rgba('+settings.rgb[0]+', '+settings.rgb[1]+', '+settings.rgb[2]+', '+minalpha+')')
+  }
+
+  coordinates.forEach(function(d){
+    context.beginPath()
+    context.arc(xScale(d.x), yScale(d.y), settings.size, 0, 2*Math.PI, true)
+    context.fillStyle = color
+    context.fill()
+    context.closePath()
+  })
+
+  var imgd = context.getImageData(0, 0, width, height)
+
+  if (settings.blurRadius > 0) {
+    blur(imgd, width, height, settings.blurRadius)
+  }
+
+  if (settings.contrastFilter) {
+    alphacontrast(imgd, width, height, minalpha, settings.contrastThreshold, settings.contrastSteepness)
+  }
+
+  return imgd
+}
+
+// Demanding functions used for rendering canvas layers
+function mergeImgdLayers(imgdArray, w, h) {
+  var imgd = imgdArray.shift()
+  var imgd2
+  while (imgd2 = imgdArray.shift()) {
+    var pix = imgd.data
+    var pix2 = imgd2.data
+    for ( var i = 0, pixlen = pix.length; i < pixlen; i += 4 ) {
+      var src_rgb = [pix2[i  ]/255, pix2[i+1]/255, pix2[i+2]/255]
+      var src_alpha = pix2[i+3]/255
+      var dst_rgb = [pix[i  ]/255, pix[i+1]/255, pix[i+2]/255]
+      var dst_alpha = pix[i+3]/255
+      var out_alpha = src_alpha + dst_alpha * (1 - src_alpha)
+      var out_rgb = [0, 0, 0]
+      if (out_alpha > 0) {
+        out_rgb[0] = (src_rgb[0] * src_alpha + dst_rgb[0] * dst_alpha * (1 - src_alpha)) / out_alpha
+        out_rgb[1] = (src_rgb[1] * src_alpha + dst_rgb[1] * dst_alpha * (1 - src_alpha)) / out_alpha
+        out_rgb[2] = (src_rgb[2] * src_alpha + dst_rgb[2] * dst_alpha * (1 - src_alpha)) / out_alpha
+      }
+      pix[i  ] = Math.floor(out_rgb[0] * 255)
+      pix[i+1] = Math.floor(out_rgb[1] * 255)
+      pix[i+2] = Math.floor(out_rgb[2] * 255)
+      pix[i+3] = Math.floor(out_alpha * 255)
+    }
+  }
+  return imgd
+}
+
+function paintAll(ctx, w, h, color) {
+  ctx.beginPath()
+  ctx.rect(0, 0, w, h)
+  ctx.fillStyle = color
+  ctx.fill()
+  ctx.closePath()
+}
+
+function alphacontrast(imgd, w, h, minalpha, threshold, factor) {
+  var threshold255 = threshold * 255
+  var contrast = buildConstrastFunction(factor, threshold255, minalpha)
+  var pix = imgd.data
+
+  // Split channels
+  var channels = [[], [], [], []] // rgba
+  for ( var i = 0, pixlen = pix.length; i < pixlen; i += 4 ) {
+    // Just process the alpha channel
+    pix[i+3] = contrast(pix[i+3])
+  }
+
+}
+
+function buildConstrastFunction(factor, threshold255, minalpha) {
+  var samin = 255 / (1 + Math.exp( -factor * (0 - threshold255) ))
+  var samax = 255 / (1 + Math.exp( -factor * (1 - threshold255) ))
+  var contrast = function(alpha) {
+    var alpha2 = alpha / ( 1 - minalpha ) - 255 * minalpha // Alpha corrected to remove the minalpha
+    var s_alpha = 255 / (1 + Math.exp( -factor * (alpha2 - threshold255) )) // Sigmoid contrast
+    return (s_alpha - samin) / (samax - samin) // Correct the extent of the sigmoid function
+  }
+  return contrast
+}
+
+function blur(imgd, w, h, r) {
+  var i
+  var pix = imgd.data
+  var pixlen = pix.length
+
+  // Split channels
+  var channels = [] // rgba
+  for ( i=0; i<4; i++) {
+    var channel = new Uint8ClampedArray(pixlen/4);
+    channels.push(channel)
+  }
+  for ( i = 0; i < pixlen; i += 4 ) {
+    channels[0][i/4] = pix[i  ]
+    channels[1][i/4] = pix[i+1]
+    channels[2][i/4] = pix[i+2]
+    channels[3][i/4] = pix[i+3]
+  }
+
+  channels.forEach(function(scl){
+    var tcl = scl.slice(0)
+    var bxs = boxesForGauss(r, 3);
+    boxBlur (scl, tcl, w, h, (bxs[0]-1)/2);
+    boxBlur (tcl, scl, w, h, (bxs[1]-1)/2);
+    boxBlur (scl, tcl, w, h, (bxs[2]-1)/2);
+    scl = tcl
+  })
+
+  // Merge channels
+  for ( var i = 0, pixlen = pix.length; i < pixlen; i += 4 ) {
+    pix[i  ] = channels[0][i/4]
+    pix[i+1] = channels[1][i/4]
+    pix[i+2] = channels[2][i/4]
+    pix[i+3] = channels[3][i/4]
+  }
+}
+
+// From http://blog.ivank.net/fastest-gaussian-blur.html
+function boxesForGauss(sigma, n) { // standard deviation, number of boxes
+
+  var wIdeal = Math.sqrt((12*sigma*sigma/n)+1);  // Ideal averaging filter width 
+  var wl = Math.floor(wIdeal);  if(wl%2==0) wl--;
+  var wu = wl+2;
+  
+  var mIdeal = (12*sigma*sigma - n*wl*wl - 4*n*wl - 3*n)/(-4*wl - 4);
+  var m = Math.round(mIdeal);
+  // var sigmaActual = Math.sqrt( (m*wl*wl + (n-m)*wu*wu - n)/12 );
+      
+  var sizes = [];  for(var i=0; i<n; i++) sizes.push(i<m?wl:wu);
+  return sizes;
+}
+
+function boxBlur (scl, tcl, w, h, r) {
+  for(var i=0; i<scl.length; i++) tcl[i] = scl[i];
+  boxBlurH(tcl, scl, w, h, r);
+  boxBlurT(scl, tcl, w, h, r);
+}
+
+function boxBlurH (scl, tcl, w, h, r) {
+  var iarr = 1 / (r+r+1);
+  for(var i=0; i<h; i++) {
+    var ti = i*w, li = ti, ri = ti+r;
+    var fv = scl[ti], lv = scl[ti+w-1], val = (r+1)*fv;
+    for(var j=0; j<r; j++) val += scl[ti+j];
+    for(var j=0  ; j<=r ; j++) { val += scl[ri++] - fv       ;   tcl[ti++] = Math.round(val*iarr); }
+    for(var j=r+1; j<w-r; j++) { val += scl[ri++] - scl[li++];   tcl[ti++] = Math.round(val*iarr); }
+    for(var j=w-r; j<w  ; j++) { val += lv        - scl[li++];   tcl[ti++] = Math.round(val*iarr); }
+  }
+}
+
+function boxBlurT (scl, tcl, w, h, r) {
+  var iarr = 1 / (r+r+1);
+  for(var i=0; i<w; i++) {
+    var ti = i, li = ti, ri = ti+r*w;
+    var fv = scl[ti], lv = scl[ti+w*(h-1)], val = (r+1)*fv;
+    for(var j=0; j<r; j++) val += scl[ti+j*w];
+    for(var j=0  ; j<=r ; j++) { val += scl[ri] - fv     ;  tcl[ti] = Math.round(val*iarr);  ri+=w; ti+=w; }
+    for(var j=r+1; j<h-r; j++) { val += scl[ri] - scl[li];  tcl[ti] = Math.round(val*iarr);  li+=w; ri+=w; ti+=w; }
+    for(var j=h-r; j<h  ; j++) { val += lv      - scl[li];  tcl[ti] = Math.round(val*iarr);  li+=w; ti+=w; }
+  }
+}
