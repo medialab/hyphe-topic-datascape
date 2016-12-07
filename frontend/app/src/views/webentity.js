@@ -109,6 +109,7 @@ angular.module('app.webentity', ['ngRoute'])
   		webentitiesService.getIndex(function(index){
 	  		$scope.webentity = index[$scope.weId]
 	  		$scope.webentityLoaded = true
+	  		sortTopics()
 	  		// FIXME: adding this breaks the page when we come from verbatim
 	  		// $scope.$apply()
 	  	})
@@ -134,5 +135,13 @@ angular.module('app.webentity', ['ngRoute'])
 	    		$scope.$apply()
     		})
     	});
+   }
+
+   function sortTopics() {
+   	if ($scope.topics && $scope.webentity) {
+	   	$scope.topics.sort(function(a, b){
+				return (+$scope.webentity[b] || 0) - (+$scope.webentity[a] || 0)
+			})
+   	}
    }
 })

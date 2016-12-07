@@ -44,7 +44,7 @@
           <h3 translate>TOPIC SCORES</h3>
           <div ng-repeat="topic in topics" ng-if="webentity[topic] > 0" layout="row">
             <div class="text-muted topic-score">
-              {{webentity[topic]|number}}
+              {{+webentity[topic]|number:2}}
             </div>
             <div flex translate>
               {{topic}}
