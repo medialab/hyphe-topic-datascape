@@ -2,9 +2,6 @@
 
 /* Services */
 
-// FIXME: clean this dirty hack
-var stickyModeHeight = 80;
-
 angular.module('app.directives', [])
   
 .directive('ngPressEnter', [function () {
@@ -581,6 +578,11 @@ angular.module('app.directives', [])
     }
 })
 
+
+
+
+// Demanding functions used for rendering canvas layers
+
 function drawLayer(coordinates, context, xScale, yScale, width, height, settings) {
   context.clearRect(0, 0, width, height);
 
@@ -614,7 +616,6 @@ function drawLayer(coordinates, context, xScale, yScale, width, height, settings
   return imgd
 }
 
-// Demanding functions used for rendering canvas layers
 function mergeImgdLayers(imgdArray, w, h) {
   var imgd = imgdArray.shift()
   var imgd2
