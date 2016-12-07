@@ -147,6 +147,7 @@ md-list {
 
 .network-map .canvas-supercontainer {
   position: relative;
+  overflow: hidden;
 }
 
 .network-map .canvas-container, .network-map .canvas-container-highlight{

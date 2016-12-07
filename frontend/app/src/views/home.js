@@ -37,6 +37,7 @@ angular.module('app.home', ['ngRoute'])
 	$scope.results
 	$scope.resultsHighlighting
   $scope.webentityScores
+  $scope.highlightedEntity
 
 	$scope.topics = topics
 
@@ -95,6 +96,19 @@ angular.module('app.home', ['ngRoute'])
   	query($scope.searchQuery)
   }
 
+  $scope.highlight = function(id) {
+    $timeout(function(){
+      $scope.highlightedEntity = id
+    })
+  }
+
+  $scope.dishighlight = function(id) {
+    $timeout(function(){
+      if ($scope.highlightedEntity == id) {
+        $scope.highlightedEntity = undefined
+      }
+    })
+  }
 
   $translatePartialLoader.addPart('home')
   $translatePartialLoader.addPart('data')
