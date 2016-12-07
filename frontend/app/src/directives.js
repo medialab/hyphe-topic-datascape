@@ -21,7 +21,8 @@ angular.module('app.directives', [])
       restrict: 'A',
       scope: {
         transitioning: '=',
-        scores: '='
+        scores: '=',
+        singleHighlight: '='
       },
       templateUrl: 'src/directives/networkMap.html',
       link: function($scope, el, attrs) {
@@ -34,6 +35,7 @@ angular.module('app.directives', [])
         var container = el[0].querySelector('.canvas-container')
         
         $scope.$watch('scores', redraw)
+        $scope.$watch('singleHighlight', redraw)
         $scope.$watch('transitioning', function(){
           if ($scope.transitioning && !$scope.frozen) {
             freeze()
@@ -70,8 +72,10 @@ angular.module('app.directives', [])
 
             var settings = {}
             settings.cloudRoundness = 0.025
-            settings.highlightSize = 4
-            settings.highlightMinimalOpacity = 0.2
+            settings.dotsSize = 4
+            settings.dotsMinimalOpacity = 0.2
+            settings.highlightWhiteRadius = 12
+            settings.highlightDotRadius = 5
 
             var bigRadius = settings.cloudRoundness * Math.min(el[0].offsetWidth, el[0].offsetHeight)
 
@@ -137,7 +141,7 @@ angular.module('app.directives', [])
               }
 
               var opct = d3.scaleLinear()
-                .range([settings.highlightMinimalOpacity, 1])
+                .range([settings.dotsMinimalOpacity, 1])
                 .domain([0, maxScore])
 
               // Draw filtered entities
@@ -150,13 +154,33 @@ angular.module('app.directives', [])
                   var l
                   for (l=1/layers_count; l<=1; l+=1/layers_count) {
                     context.beginPath()
-                    context.arc(x(node.x), y(node.y), l * l * settings.highlightSize, 0, 2*Math.PI, true)
+                    context.arc(x(node.x), y(node.y), l * l * settings.dotsSize, 0, 2*Math.PI, true)
                     context.fillStyle = $mdColors.getThemeColor('default-primary-900-' + Math.round(100 * opct(score) / layers_count)/100 )
                     context.fill()
                     context.closePath()
                   }
                 }
               }
+            }
+
+            // Draw highlight
+            if ($scope.singleHighlight) {
+              console.log('Single Highlight', $scope.singleHighlight)
+              var node = $scope.coordinatesIndex[$scope.singleHighlight]
+
+              // White background
+              context.beginPath()
+              context.arc(x(node.x), y(node.y), settings.highlightWhiteRadius, 0, 2*Math.PI, true)
+              context.fillStyle = '#FFF'
+              context.fill()
+              context.closePath()
+
+              // Dot
+              context.beginPath()
+              context.arc(x(node.x), y(node.y), settings.highlightDotRadius, 0, 2*Math.PI, true)
+              context.fillStyle = $mdColors.getThemeColor('default-primary-900-1')
+              context.fill()
+              context.closePath()
             }
           })
         }
