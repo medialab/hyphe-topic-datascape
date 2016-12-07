@@ -24,8 +24,10 @@
 			layout="column"
 			layout-align="center center"
 			md-colors="{background: 'default-background-50-.2'}"
+      network-map
 			transitioning="transitioning"
-      network-map></div>
+			scores="webentityScores"
+    ></div>
 		<div flex="30" layout-padding layout="column"  md-colors="{background: 'default-background-50-.6'}">
 			<md-button ng-href="#/search/{{topic}}%253Atrue">
 	      <md-icon>search</md-icon> {{pagesCount|number}} pages

@@ -536,7 +536,7 @@ angular.module('app.directives', [])
     }
 })
 
-.directive('topicFocus', function ($timeout, $translatePartialLoader, $translate, $rootScope, topicsService, $location){
+.directive('topicFocus', function ($timeout, $translatePartialLoader, $translate, $rootScope, topicsService, $location, solrEndpoint){
   return {
       restrict: 'A',
       scope: {
@@ -546,6 +546,8 @@ angular.module('app.directives', [])
       },
       templateUrl: 'src/directives/topicFocus.html',
       link: function($scope, el, attrs) {
+
+        $scope.webentityScores
 
         $translatePartialLoader.addPart('data')
         $translate.refresh()
@@ -557,21 +559,75 @@ angular.module('app.directives', [])
         }
 
         function init() {          
+          query($scope.topic + ':true')
           topicsService.get(function(topics){
             $scope.topics = topics
-
 
             topicsService.getIndex(function(index){
               $scope.topicsIndex = index
               console.log($scope.topicsIndex[$scope.topic])
               $scope.words = index[$scope.topic].words.split(';').map(capitalizeFirstLetter)
               $scope.pagesCount = index[$scope.topic].nb_pages
+
             })
           })
         }
 
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function query(q) {
+
+          var url = solrEndpoint + 'select?q='+encodeURIComponent(q)
+
+          // We break down the query for more readability and sustainability.
+          // See parameters there: https://wiki.apache.org/solr/CommonQueryParameters
+          
+          // Rows
+          url += '&rows=0'
+
+          // Output format
+          url += '&wt=json'
+          url += '&indent=false'
+
+          // Facet
+          var facet = true
+          if (facet) {
+            url += '&facet=true'
+            url += '&facet.limit=10000'
+            url += '&facet.field=web_entity_id'
+          }
+
+          queryUrl(url)
+        }
+
+        function queryUrl(url) {
+          d3.json(url)
+            .get(function(data){
+              $timeout(function(){
+                $scope.webentityScores = buildWebentityScores(data.facet_counts.facet_fields.web_entity_id)
+                $scope.$apply()
+              })
+            });
+        }
+
+        function buildWebentityScores(alternateArray) {
+          var result = {}
+          var flag = true
+          var k
+          alternateArray.forEach(function(d){
+            if (flag) {
+              k = d
+              flag = false
+            } else {
+              if (d>0) {
+                result[k] = d
+              }
+              flag = true
+            }
+          })
+          return result
         }
 
       }
