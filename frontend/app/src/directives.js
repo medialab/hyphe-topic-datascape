@@ -73,8 +73,8 @@ angular.module('app.directives', [])
 
             var settings = {}
             settings.cloudRoundness = 0.025
-            settings.highlightSize = 2.5
-            settings.highlightMinimalOpacity = 0.1
+            settings.highlightSize = 4
+            settings.highlightMinimalOpacity = 0.2
 
             var bigRadius = settings.cloudRoundness * Math.min(el[0].offsetWidth, el[0].offsetHeight)
 
@@ -148,11 +148,16 @@ angular.module('app.directives', [])
                 var score = $scope.scores[id]
                 var node = $scope.coordinatesIndex[id]
                 if (node) {
-                  context.beginPath()
-                  context.arc(x(node.x), y(node.y), settings.highlightSize, 0, 2*Math.PI, true)
-                  context.fillStyle = $mdColors.getThemeColor('default-primary-900-' + Math.round(100 * opct(score))/100 )
-                  context.fill()
-                  context.closePath()
+                  // A series of layers to simulate an opacity gradient
+                  var layers_count = 6
+                  var l
+                  for (l=1/layers_count; l<=1; l+=1/layers_count) {
+                    context.beginPath()
+                    context.arc(x(node.x), y(node.y), l * l * settings.highlightSize, 0, 2*Math.PI, true)
+                    context.fillStyle = $mdColors.getThemeColor('default-primary-900-' + Math.round(100 * opct(score) / layers_count)/100 )
+                    context.fill()
+                    context.closePath()
+                  }
                 }
               }
             }
