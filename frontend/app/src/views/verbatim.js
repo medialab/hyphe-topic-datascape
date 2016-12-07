@@ -110,6 +110,10 @@ angular.module('app.verbatim', ['ngRoute'])
     		$timeout(function(){
 	    		$scope.verbatimLoaded = true
 	    		$scope.result = data.response.docs[0]
+	    		// Tweak: add new lines in the CANOLA version
+	    		$scope.result.textCanolaTWEAKED = $scope.result.textCanola.replace(/[\r\n]/gi, '<br><br>')
+	    		console.log($scope.result.textCanola)
+
 	    		$scope.topics = topics.filter(function(t){
 	    			return $scope.result[t]
 	    		})
