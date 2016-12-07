@@ -64,8 +64,8 @@ angular.module('app.directives', [])
         settings.cloudRoundness = 0.025
         settings.dotsSize = 4
         settings.dotsMinimalOpacity = 0.2
-        settings.highlightWhiteRadius = 12
-        settings.highlightDotRadius = 5
+        settings.highlightWhiteRadius = 24
+        settings.highlightDotRadius = 7
         var bigRadius
         var margin
         var width
