@@ -174,11 +174,11 @@ angular.module('app.home', ['ngRoute'])
   function queryUrl(url) {
   	$scope.resultsLoading = true
 		$scope.resultsLoaded = false
-		console.log('query', url)
+		console.log('Query:', url)
   	d3.json(url)
     	.get(function(data){
     		$timeout(function(){
-	    		console.log('data received', data)
+	    		// console.log('data received', data)
 	    		$scope.resultsLoaded = true
 	    		$scope.resultsLoading = false
 	    		$scope.resultsHighlighting = data.highlighting

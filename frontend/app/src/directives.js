@@ -597,7 +597,6 @@ angular.module('app.directives', [])
 
             topicsService.getIndex(function(index){
               $scope.topicsIndex = index
-              console.log($scope.topicsIndex[$scope.topic])
               $scope.words = index[$scope.topic].words.split(';').map(capitalizeFirstLetter)
               $scope.pagesCount = index[$scope.topic].nb_pages
 

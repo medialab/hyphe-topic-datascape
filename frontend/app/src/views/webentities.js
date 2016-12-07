@@ -122,7 +122,6 @@ angular.module('app.webentities', ['ngRoute'])
 
   function queryUrl(url) {
     $scope.searchQueryLoaded = false
-    console.log('query', url)
     d3.json(url)
       .get(function(data){
         $timeout(function(){
