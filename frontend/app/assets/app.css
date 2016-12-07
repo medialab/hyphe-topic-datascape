@@ -7,23 +7,6 @@ md-list {
   direction: rtl;
 }
 
-.canvas-container {
-  overflow: hidden;
-}
-
-.canvas-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-img.blurred {
-  filter: blur(10px);
-  -webkit-filter: blur(10px);
-  -moz-filter: blur(10px);
-  -o-filter: blur(10px);
-  -ms-filter: blur(10px);
-}
 
 /* Flex transition between paged */
 .flex-transition {
@@ -142,4 +125,38 @@ img.blurred {
 /* Topic page */
 .bottom-topic {
   border-top: 1px solid rgba(0, 0, 0, .2);
+}
+
+/* Network map directive */
+.network-map-info {
+  height: 64px;
+  margin-top: -64px;
+  z-index: 1;
+}
+
+.network-map-info .highlighted-entities {
+  font-size: 1.2em;
+  height: 28px;
+}
+
+.network-map-info .total-entities {
+  font-size: 0.8em;
+}
+
+.network-map .canvas-container {
+  overflow: hidden;
+}
+
+.network-map .canvas-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.network-map img.blurred {
+  filter: blur(10px);
+  -webkit-filter: blur(10px);
+  -moz-filter: blur(10px);
+  -o-filter: blur(10px);
+  -ms-filter: blur(10px);
 }

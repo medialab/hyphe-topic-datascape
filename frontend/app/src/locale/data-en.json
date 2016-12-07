@@ -32,5 +32,7 @@
   "wearables": "Wearable & IOT",
   "websecurity": "Web & Comp security",
   
-  "WORDS IN TOPIC": "Words composing the topic"
+  "WORDS IN TOPIC": "Words composing the topic",
+  "HIGHLIGHTED ENTITIES": "ENTITIES",
+  "TOTAL ENTITIES": "entities represented as a cloud"
 }

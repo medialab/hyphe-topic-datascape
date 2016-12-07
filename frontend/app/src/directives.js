@@ -16,7 +16,7 @@ angular.module('app.directives', [])
     }
 }])
 
-.directive('networkMap', function ($timeout, $translatePartialLoader, $translate, $rootScope, coordinatesService, $mdColors, persistance) {
+.directive('networkMap', function ($timeout, $translatePartialLoader, $translate, $rootScope, coordinatesService, $mdColors, persistance, webentitiesService) {
     return {
       restrict: 'A',
       scope: {
@@ -31,6 +31,8 @@ angular.module('app.directives', [])
         $scope.loaded = false
         $scope.coordinates
         $scope.coordinatesIndex
+        $scope.totalEntitiesCount
+        $scope.filteredEntitiesCount
         
         var container = el[0].querySelector('.canvas-container')
         
@@ -49,20 +51,18 @@ angular.module('app.directives', [])
         })
 
         // Translations
-        /*$translatePartialLoader.addPart('data');
+        $translatePartialLoader.addPart('data');
         $translate.refresh();
-        $rootScope.$on('$translateChangeSuccess', updateTranslations)
-        $timeout(updateTranslations)
-        function updateTranslations(){
-          $translate($scope.topics.map(function(t){return t.id})).then(function (translations) {
-            topicLabels = translations
-            redraw()
-          })
-        }*/
 
         init()
 
         function redraw() {
+
+          // NOTE: this is in the redraw function for convenience
+          if ($scope.scores) {
+            $scope.filteredEntitiesCount = d3.keys($scope.scores).length
+          }
+
           if ($scope.frozen) return
           $timeout(function(){
             if ($scope.coordinatesIndex === undefined) return // Nothing to do if coordinates not loaded yet
@@ -79,7 +79,7 @@ angular.module('app.directives', [])
 
             var bigRadius = settings.cloudRoundness * Math.min(el[0].offsetWidth, el[0].offsetHeight)
 
-            var margin = {top: 12 + bigRadius, right: 12 + bigRadius, bottom: 12 + bigRadius, left: 12 + bigRadius}
+            var margin = {top: 12 + bigRadius, right: 12 + bigRadius, bottom: 52 + bigRadius, left: 12 + bigRadius}
             var width = el[0].offsetWidth
             var height = el[0].offsetHeight
 
@@ -101,11 +101,11 @@ angular.module('app.directives', [])
             yRatio = Math.max(xRatio, yRatio)
 
             var x = function(d) {
-              return width/2 + ((d - xMid) / (xRatio))
+              return margin.left + (width - margin.left - margin.right)/2 + ((d - xMid) / (xRatio))
             }
             
             var y = function(d) {
-              return height/2 + ((d - yMid) / (yRatio))
+              return margin.top + (height - margin.top - margin.bottom)/2 + ((d - yMid) / (yRatio))
             }
 
             var borderRGB = d3.rgb($mdColors.getThemeColor('default-background-200'))
@@ -212,6 +212,10 @@ angular.module('app.directives', [])
               $scope.loaded = true
               redraw()
             })
+          })
+
+          webentitiesService.get(function(welist){
+            $scope.totalEntitiesCount = welist.length
           })
         }
       }

@@ -1,4 +1,16 @@
-<div layout="column" layout-fill layout-align="center center">
+<div layout="column" layout-fill layout-align="center center" class="network-map">
 	<div ng-show="!loaded" layout-fill>Loading network...</div>
 	<div ng-show="loaded" class="canvas-container" layout-fill></div>
+	<div ng-show="loaded" class="network-map-info" layout="column" layout-align="center center">
+		<div
+			ng-show="filteredEntitiesCount && filteredEntitiesCount > 0"
+			md-colors="{color: 'default-primary-900'}"
+			class="highlighted-entities"
+		>{{filteredEntitiesCount|number}} <span translate>HIGHLIGHTED ENTITIES</span></div>
+		<div
+			ng-show="totalEntitiesCount && totalEntitiesCount > 0"
+			md-colors="{color: 'default-primary-500'}"
+			class="total-entities"
+		>{{totalEntitiesCount|number}} <span translate>TOTAL ENTITIES</span></div>
+	</div>
 </div>
