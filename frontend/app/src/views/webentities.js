@@ -89,7 +89,6 @@ angular.module('app.webentities', ['ngRoute'])
     }
 
   	webentitiesService.get(function(wes){
-  		console.log('web entity sample:', wes[Math.floor(Math.random()*wes.length)])
   		$scope.webentities = wes
   		$scope.webentitiesLoaded = true
   	})

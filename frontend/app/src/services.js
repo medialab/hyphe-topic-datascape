@@ -176,5 +176,6 @@ angular.module('app.services', [])
 })
 
 .value('persistance', {
-  lastQuery: undefined
+  lastQuery: undefined,
+  image: undefined
 })

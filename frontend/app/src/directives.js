@@ -16,7 +16,7 @@ angular.module('app.directives', [])
     }
 }])
 
-.directive('networkMap', function ($timeout, $translatePartialLoader, $translate, $rootScope, coordinatesService, $mdColors) {
+.directive('networkMap', function ($timeout, $translatePartialLoader, $translate, $rootScope, coordinatesService, $mdColors, persistance) {
     return {
       restrict: 'A',
       scope: {
@@ -165,7 +165,6 @@ angular.module('app.directives', [])
 
             // Draw highlight
             if ($scope.singleHighlight) {
-              console.log('Single Highlight', $scope.singleHighlight)
               var node = $scope.coordinatesIndex[$scope.singleHighlight]
 
               // White background
@@ -192,9 +191,18 @@ angular.module('app.directives', [])
           container.innerHTML = ''
           container.appendChild(image)
           $scope.frozen = true
+          persistance.image = image.src
         }
 
         function init() {
+          // Display cached image data
+          if (persistance.image) {
+            var image = new Image();
+            image.src = persistance.image
+            container.innerHTML = ''
+            container.appendChild(image)
+          }
+
           coordinatesService.get(function(c){
             $scope.coordinates = c
             coordinatesService.getIndex(function(index){

@@ -105,11 +105,9 @@ angular.module('app.verbatim', ['ngRoute'])
   function queryUrl(url) {
   	$scope.resultsLoading = true
 		$scope.resultsLoaded = false
-		console.log('query', url)
   	d3.json(url)
     	.get(function(data){
     		$timeout(function(){
-	    		console.log('data received', data)
 	    		$scope.verbatimLoaded = true
 	    		$scope.result = data.response.docs[0]
 	    		$scope.topics = topics.filter(function(t){
