@@ -188,10 +188,11 @@ angular.module('app.directives', [])
           var context = container.querySelector('canvas').getContext("2d")
           var image = new Image();
           image.src = context.canvas.toDataURL("image/png");
+          persistance.image = image.src
+          image.className = 'blurred'
           container.innerHTML = ''
           container.appendChild(image)
           $scope.frozen = true
-          persistance.image = image.src
         }
 
         function init() {
@@ -199,6 +200,7 @@ angular.module('app.directives', [])
           if (persistance.image) {
             var image = new Image();
             image.src = persistance.image
+            image.className = 'blurred'
             container.innerHTML = ''
             container.appendChild(image)
           }
