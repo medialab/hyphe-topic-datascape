@@ -34,6 +34,7 @@ angular.module('app.webentities', ['ngRoute'])
   
   $scope.pagesPerEntity = {}
   $scope.searchQueryLoaded = false
+  $scope.webentityScores
   $scope.sortBy = 'degree'
 
   // Columns dynamic width
@@ -128,6 +129,7 @@ angular.module('app.webentities', ['ngRoute'])
         $timeout(function(){
           console.log('data received', data)
           $scope.searchQueryLoaded = true
+          $scope.webentityScores = buildWebentityScores(data.facet_counts.facet_fields.web_entity_id)
 
           // Extract
           $scope.pagesPerEntity = {}
@@ -147,6 +149,24 @@ angular.module('app.webentities', ['ngRoute'])
   function updateSearchQuery(q) {
     persistance.lastQuery = q
     $location.path('/webentities/' + encodeURIComponent(q))
+  }
+
+  function buildWebentityScores(alternateArray) {
+    var result = {}
+    var flag = true
+    var k
+    alternateArray.forEach(function(d){
+      if (flag) {
+        k = d
+        flag = false
+      } else {
+        if (d>0) {
+          result[k] = d
+        }
+        flag = true
+      }
+    })
+    return result
   }
 
 })
