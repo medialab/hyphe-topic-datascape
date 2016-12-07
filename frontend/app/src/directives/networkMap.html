@@ -1,6 +1,9 @@
 <div layout="column" layout-fill layout-align="center center" class="network-map">
-	<div ng-show="!loaded" layout-fill>Loading network...</div>
-	<div ng-show="loaded" class="canvas-container" layout-fill></div>
+	<div ng-show="loaded" class="canvas-supercontainer" layout-fill>
+		<div class="preload-image-container" layout="column" layout-fill layout-align="center center"></div>
+		<div class="canvas-container"></div>
+		<div class="canvas-container-highlight" ng-show="!transitioning"></div>
+	</div>
 	<div ng-show="loaded" class="network-map-info" layout="column" layout-align="center center">
 		<div
 			ng-show="filteredEntitiesCount && filteredEntitiesCount > 0"

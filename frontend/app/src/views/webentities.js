@@ -36,6 +36,7 @@ angular.module('app.webentities', ['ngRoute'])
   $scope.searchQueryLoaded = false
   $scope.webentityScores
   $scope.sortBy = 'degree'
+  $scope.highlightedEntity
 
   // Columns dynamic width
 	$scope.transitioning = false
@@ -74,6 +75,19 @@ angular.module('app.webentities', ['ngRoute'])
     var query_simple = $scope.searchQuery
     query($scope.searchQuery)
   }
+
+  $scope.highlight = debounce(function(id) {
+    console.log('update', $scope.webentities.filter(function(w){return w.id==id})[0].name)
+    $scope.highlightedEntity = id
+  }, 10)
+
+  // $scope.dishighlight = function(id) {
+  //   if ($scope.highlightedEntity == id) {
+  //     $timeout(function(){
+  //       $scope.highlightedEntity = undefined
+  //     })
+  //   }
+  // }
 
   init()
 
@@ -166,5 +180,20 @@ angular.module('app.webentities', ['ngRoute'])
     })
     return result
   }
+
+  function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+      var context = this, args = arguments;
+      var later = function() {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  };
 
 })

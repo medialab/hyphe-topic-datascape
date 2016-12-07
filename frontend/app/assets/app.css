@@ -145,11 +145,18 @@ md-list {
   font-size: 0.8em;
 }
 
-.network-map .canvas-container {
-  overflow: hidden;
+.network-map .canvas-supercontainer {
+  position: relative;
 }
 
-.network-map .canvas-container img {
+.network-map .canvas-container, .network-map .canvas-container-highlight{
+  overflow: hidden;
+  position: absolute;
+  left:0px;
+  top:0px;
+}
+
+.network-map .canvas-supercontainer img {
   width: 100%;
   height: 100%;
   object-fit: contain;

@@ -48,6 +48,9 @@
           class="md-2-line repeated-item"
           flex
           ng-click="transition('webentity', {webentity: we.id})"
+          ng-mouseenter="highlight(we.id)"
+          ng-mouseleave="dishighlight(we.id)"
+          ng-model-options="{ debounce: 100 }"
         >
           <div class="md-list-item-text" layout="column">
             <h3>{{ we.label }}</h3>
@@ -77,6 +80,7 @@
       network-map
       transitioning="transitioning"
       scores="webentityScores"
+      single-highlight="highlightedEntity"
       ></div>
   </div>
 

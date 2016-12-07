@@ -34,10 +34,13 @@ angular.module('app.directives', [])
         $scope.totalEntitiesCount
         $scope.filteredEntitiesCount
         
+        var supercontainer = el[0].querySelector('.canvas-supercontainer')
+        var preloadcontainer = supercontainer.querySelector('.preload-image-container')
         var container = el[0].querySelector('.canvas-container')
+        var containerHighlight = el[0].querySelector('.canvas-container-highlight')
         
         $scope.$watch('scores', redraw)
-        $scope.$watch('singleHighlight', redraw)
+        $scope.$watch('singleHighlight', redrawHighlight)
         $scope.$watch('transitioning', function(){
           if ($scope.transitioning && !$scope.frozen) {
             freeze()
@@ -56,6 +59,45 @@ angular.module('app.directives', [])
 
         init()
 
+        // Drawing settings
+        var settings = {}
+        settings.cloudRoundness = 0.025
+        settings.dotsSize = 4
+        settings.dotsMinimalOpacity = 0.2
+        settings.highlightWhiteRadius = 12
+        settings.highlightDotRadius = 5
+        var bigRadius
+        var margin
+        var width
+        var height
+        var xScale
+        var yScale
+
+        function updateDimensions() {
+          bigRadius = settings.cloudRoundness * Math.min(el[0].offsetWidth, el[0].offsetHeight)
+          margin = {top: 12 + bigRadius, right: 12 + bigRadius, bottom: 52 + bigRadius, left: 12 + bigRadius}
+          width = el[0].offsetWidth
+          height = el[0].offsetHeight
+          
+          // Scales
+          var xExtent = d3.extent($scope.coordinates.map(function(d){return +d.x}))
+          var yExtent = d3.extent($scope.coordinates.map(function(d){return +d.y}))
+          var xRatio = (xExtent[1] - xExtent[0]) / (width - margin.left - margin.right)
+          var yRatio = (yExtent[1] - yExtent[0]) / (height - margin.top - margin.bottom)
+          var xMid = (xExtent[0] + xExtent[1]) / 2
+          var yMid = (yExtent[0] + yExtent[1]) / 2
+          xRatio = Math.max(xRatio, yRatio)
+          yRatio = Math.max(xRatio, yRatio)
+
+          xScale = function(d) {
+            return margin.left + (width - margin.left - margin.right)/2 + ((d - xMid) / (xRatio))
+          }
+          
+          yScale = function(d) {
+            return margin.top + (height - margin.top - margin.bottom)/2 + ((d - yMid) / (yRatio))
+          }
+        }
+
         function redraw() {
 
           // NOTE: this is in the redraw function for convenience
@@ -68,20 +110,10 @@ angular.module('app.directives', [])
             if ($scope.coordinatesIndex === undefined) return // Nothing to do if coordinates not loaded yet
 
             // clear
+            preloadcontainer.innerHTML = ''
             container.innerHTML = ''
-
-            var settings = {}
-            settings.cloudRoundness = 0.025
-            settings.dotsSize = 4
-            settings.dotsMinimalOpacity = 0.2
-            settings.highlightWhiteRadius = 12
-            settings.highlightDotRadius = 5
-
-            var bigRadius = settings.cloudRoundness * Math.min(el[0].offsetWidth, el[0].offsetHeight)
-
-            var margin = {top: 12 + bigRadius, right: 12 + bigRadius, bottom: 52 + bigRadius, left: 12 + bigRadius}
-            var width = el[0].offsetWidth
-            var height = el[0].offsetHeight
+            
+            updateDimensions()
 
             var chart = d3.select(container).append("canvas")
               .attr("width", width)
@@ -91,25 +123,8 @@ angular.module('app.directives', [])
 
             if (width <= 50) return // Prevent some glitches during resizing
 
-            var xExtent = d3.extent($scope.coordinates.map(function(d){return +d.x}))
-            var yExtent = d3.extent($scope.coordinates.map(function(d){return +d.y}))
-            var xRatio = (xExtent[1] - xExtent[0]) / (width - margin.left - margin.right)
-            var yRatio = (yExtent[1] - yExtent[0]) / (height - margin.top - margin.bottom)
-            var xMid = (xExtent[0] + xExtent[1]) / 2
-            var yMid = (yExtent[0] + yExtent[1]) / 2
-            xRatio = Math.max(xRatio, yRatio)
-            yRatio = Math.max(xRatio, yRatio)
-
-            var x = function(d) {
-              return margin.left + (width - margin.left - margin.right)/2 + ((d - xMid) / (xRatio))
-            }
-            
-            var y = function(d) {
-              return margin.top + (height - margin.top - margin.bottom)/2 + ((d - yMid) / (yRatio))
-            }
-
             var borderRGB = d3.rgb($mdColors.getThemeColor('default-background-200'))
-            var borderLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
+            var borderLayer = drawLayer($scope.coordinates, context, xScale, yScale, width, height, {
                 size: bigRadius,
                 rgb: [borderRGB.r, borderRGB.g, borderRGB.b],
                 opacity: .5,
@@ -119,7 +134,7 @@ angular.module('app.directives', [])
                 contrastSteepness: 0.03
               })
 
-            var fillingLayer = drawLayer($scope.coordinates, context, x, y, width, height, {
+            var fillingLayer = drawLayer($scope.coordinates, context, xScale, yScale, width, height, {
                 size: bigRadius,
                 rgb: [255, 255, 255],
                 opacity: 0.15,
@@ -154,7 +169,7 @@ angular.module('app.directives', [])
                   var l
                   for (l=1/layers_count; l<=1; l+=1/layers_count) {
                     context.beginPath()
-                    context.arc(x(node.x), y(node.y), l * l * settings.dotsSize, 0, 2*Math.PI, true)
+                    context.arc(xScale(node.x), yScale(node.y), l * l * settings.dotsSize, 0, 2*Math.PI, true)
                     context.fillStyle = $mdColors.getThemeColor('default-primary-900-' + Math.round(100 * opct(score) / layers_count)/100 )
                     context.fill()
                     context.closePath()
@@ -163,20 +178,42 @@ angular.module('app.directives', [])
               }
             }
 
+            redrawHighlight()
+
+          })
+        }
+
+        function redrawHighlight() {
+          if ($scope.frozen) return
+          $timeout(function(){
+
+            // clear
+            containerHighlight.innerHTML = ''
+
+            updateDimensions()
+
+            var chart = d3.select(containerHighlight).append("canvas")
+              .attr("width", width)
+              .attr("height", height)
+
+            var context = chart.node().getContext("2d")
+
+            if (width <= 50) return // Prevent some glitches during resizing
+
             // Draw highlight
             if ($scope.singleHighlight) {
               var node = $scope.coordinatesIndex[$scope.singleHighlight]
 
               // White background
               context.beginPath()
-              context.arc(x(node.x), y(node.y), settings.highlightWhiteRadius, 0, 2*Math.PI, true)
+              context.arc(xScale(node.x), yScale(node.y), settings.highlightWhiteRadius, 0, 2*Math.PI, true)
               context.fillStyle = '#FFF'
               context.fill()
               context.closePath()
 
               // Dot
               context.beginPath()
-              context.arc(x(node.x), y(node.y), settings.highlightDotRadius, 0, 2*Math.PI, true)
+              context.arc(xScale(node.x), yScale(node.y), settings.highlightDotRadius, 0, 2*Math.PI, true)
               context.fillStyle = $mdColors.getThemeColor('default-primary-900-1')
               context.fill()
               context.closePath()
@@ -190,8 +227,8 @@ angular.module('app.directives', [])
           image.src = context.canvas.toDataURL("image/png");
           persistance.image = image.src
           image.className = 'blurred'
-          container.innerHTML = ''
-          container.appendChild(image)
+          supercontainer.innerHTML = ''
+          supercontainer.appendChild(image)
           $scope.frozen = true
         }
 
@@ -201,8 +238,8 @@ angular.module('app.directives', [])
             var image = new Image();
             image.src = persistance.image
             image.className = 'blurred'
-            container.innerHTML = ''
-            container.appendChild(image)
+            preloadcontainer.innerHTML = ''
+            preloadcontainer.appendChild(image)
           }
 
           coordinatesService.get(function(c){
