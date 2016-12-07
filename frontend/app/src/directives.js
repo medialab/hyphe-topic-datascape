@@ -147,6 +147,8 @@ angular.module('app.directives', [])
             var imgd = mergeImgdLayers([borderLayer, fillingLayer], width, height)
             context.putImageData( imgd, 0, 0 )
 
+            persistance.image = context.canvas.toDataURL("image/png");
+
             if ($scope.scores) {
               var id
               var maxScore = 0
@@ -224,8 +226,7 @@ angular.module('app.directives', [])
         function freeze() {
           var context = container.querySelector('canvas').getContext("2d")
           var image = new Image();
-          image.src = context.canvas.toDataURL("image/png");
-          persistance.image = image.src
+          image.src = persistance.image
           image.className = 'blurred'
           supercontainer.innerHTML = ''
           supercontainer.appendChild(image)
