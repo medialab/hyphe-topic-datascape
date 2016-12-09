@@ -48,6 +48,7 @@ angular.module('app.home', ['ngRoute'])
 	$scope.flexColMapH = 100
 	$scope.flexColSearch = columnMeasures.search.search
 	$scope.flexColTopics = columnMeasures.search.topics
+  $scope.showNetworkMap = true
 	$scope.widthLeftHandle = columnMeasures.handle
 	$scope.widthRightHandle = columnMeasures.handle
 
@@ -80,6 +81,7 @@ angular.module('app.home', ['ngRoute'])
   			$scope.flexColMap = 0
   			$scope.flexColWebentities = 0
 				$scope.flexColSearch = 0
+        $scope.showNetworkMap = false
 				$scope.flexColTopics = columnMeasures.topics.topics
 				$timeout(function(){ $location.path('/topics') }, transitionTime)
   			break
