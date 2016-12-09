@@ -42,6 +42,7 @@ angular.module('app.webentities', ['ngRoute'])
 	$scope.transitioning = false
 	$scope.flexColWebentities = columnMeasures.wes.wes
 	$scope.flexColMap = columnMeasures.wes.map
+  $scope.flexColMapBottom = 0
 	$scope.flexColSearch = 0
 	$scope.flexColTopics = 0
 	$scope.widthLeftHandle = 0
@@ -64,6 +65,7 @@ angular.module('app.webentities', ['ngRoute'])
         $scope.transitioning = true
         $scope.flexColWebentities = columnMeasures.we.we
         $scope.flexColMap = columnMeasures.we.mapdocs
+        $scope.flexColMapBottom = 100 - columnMeasures.we.map
         $scope.widthLeftHandle = 0
         $scope.widthRightHandle = 0
 				$timeout(function(){ $location.path('/webentity/'+settings.webentity) }, transitionTime)
