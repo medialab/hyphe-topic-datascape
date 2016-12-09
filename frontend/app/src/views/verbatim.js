@@ -39,6 +39,7 @@ angular.module('app.verbatim', ['ngRoute'])
 	$scope.flexColMap = columnMeasures.verbatim.map
 	$scope.flexColVerbatim = columnMeasures.verbatim.verbatim
 	$scope.flexColTopics = columnMeasures.verbatim.topics
+	$scope.showNetworkMap = true
 	$scope.widthLeftHandle = columnMeasures.handle
 	$scope.widthRightHandle = 0
 
@@ -65,6 +66,7 @@ angular.module('app.verbatim', ['ngRoute'])
 				$scope.flexColTopics = columnMeasures.topic.topic
 				$scope.widthLeftHandle = 0
 				$scope.widthRightHandle = 0
+				$scope.showNetworkMap = false
 				$timeout(function(){ $location.path('/topic/'+settings.topic) }, transitionTime)
   			break
   		case 'home':
