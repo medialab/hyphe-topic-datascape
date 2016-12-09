@@ -23,15 +23,6 @@ angular.module('app.topics', ['ngRoute'])
   $translatePartialLoader.addPart('topics')
   $translate.refresh()
 
-  // Columns dynamic width
-	$scope.transitioning = false
-	$scope.flexColMap = 0
-	$scope.flexColSearch = 0
-	$scope.flexColTopics = columnMeasures.topics.topics
-	$scope.flexColSide = columnMeasures.topics.side
-	$scope.widthLeftHandle = columnMeasures.handle
-	$scope.widthRightHandle = 0
-
   $scope.topics = []
   $scope.topicRanks = {}  // Orders the matrix rows & cols
   $scope.crossings = []   // Matrix elements
@@ -41,22 +32,40 @@ angular.module('app.topics', ['ngRoute'])
 
   $scope.$watch('topics', buildCrossings)
 
+  // Columns dynamic width
+  $scope.transitioning = false
+  $scope.flexColMap = 0
+  $scope.flexColSearch = 0
+  $scope.flexRowTopic = 0
+  $scope.flexRowMatrix = 100
+  $scope.flexColTopics = columnMeasures.topics.topics
+  $scope.flexColSide = columnMeasures.topics.side
+  $scope.widthLeftHandle = columnMeasures.handle
+  $scope.widthRightHandle = 0
+
   $scope.transition = function(destination, settings) {
-  	var transitionTime = 200
+  	var transitionTime = 200 
   	switch (destination) {
   		case 'search':
-  			$scope.transitioning = true
-  			$scope.flexColMap = columnMeasures.search.map
-				$scope.flexColSearch = columnMeasures.search.search
-				$scope.flexColTopics = columnMeasures.search.topics
-				$scope.flexColSide = 0
-				$scope.widthLeftHandle = columnMeasures.handle
-				$scope.widthRightHandle = columnMeasures.handle
+        $scope.transitioning = true
+        $scope.flexColMap = columnMeasures.search.map
+        $scope.flexColSearch = columnMeasures.search.search
+        $scope.flexColTopics = columnMeasures.search.topics
+        $scope.flexColSide = 0
+        $scope.widthLeftHandle = columnMeasures.handle
+        $scope.widthRightHandle = columnMeasures.handle
         if (settings && settings.topicsOverlap) {
           $timeout(function(){ $location.path('/search/'+encodeURIComponent($scope.selectedCrossing[0] + ':true AND ' + $scope.selectedCrossing[1] + ':true')) }, transitionTime)
         } else {
-  				$timeout(function(){ $location.path('/') }, transitionTime)
+          $timeout(function(){ $location.path('/') }, transitionTime)
         }
+        break
+      case 'topic':
+  			$scope.transitioning = true
+  			$scope.flexRowTopic = 50
+        $scope.flexRowMatrix = 0
+				$scope.widthLeftHandle = 0
+        $timeout(function(){ $location.path('/topic/'+encodeURIComponent($scope.selectedCrossing[0]) + '/' + encodeURIComponent($scope.selectedCrossing[1])) }, transitionTime)
   			break
   	}
   }

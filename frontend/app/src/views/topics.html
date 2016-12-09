@@ -27,21 +27,33 @@
       </div>
     </md-toolbar>
     <div
-      ng-show="topicsLoaded && !transitioning"
+      ng-show="topicsLoaded"
       id="topics-matrix"
       layout
-      flex
+      class="flex-transition"
+      flex="{{flexRowMatrix}}"
     >
       <div
         id="topics-matrix-svg-container"
+        ng-show="!transitioning"
+        layout-fill
+        topics-matrix
         topics="topics"
         topic-ranks="topicRanks"
         crossings="crossings"
         selected-crossing="selectedCrossing"
-        topics-matrix
-        layout-fill
       ></div>
   	</div>
+    <!-- (Hidden) Topic 1 -->
+    <div flex="{{flexRowTopic}}" class="flex-transition">
+      <md-toolbar layout="row" class="md-hue-1">
+      </md-toolbar>
+    </div>
+    <!-- (Hidden) Topic 2 -->
+    <div flex="{{flexRowTopic}}" class="flex-transition">
+      <md-toolbar layout="row" class="md-hue-1">
+      </md-toolbar>
+    </div>
   </div>
 
   <!-- Column: Topics zoom -->
@@ -66,7 +78,7 @@
           <md-icon>search</md-icon>
           SEARCH OVERLAP
         </md-button>
-        <md-button class="md-raised md-primary" aria-label="More" ng-href="#/topic/{{selectedCrossing[0]}}/{{selectedCrossing[1]}}" translate>
+        <md-button class="md-raised md-primary" aria-label="More" ng-click="transition('topic')" translate>
           MORE DETAILS
         </md-button>
       </div>
