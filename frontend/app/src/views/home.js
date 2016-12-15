@@ -20,6 +20,7 @@ angular.module('app.home', ['ngRoute', 'ngMaterial'])
 .controller('HomeController', function(
   $scope,
   $location,
+  $window,
   $translate,
   $translatePartialLoader,
   $timeout,
@@ -143,7 +144,7 @@ angular.module('app.home', ['ngRoute', 'ngMaterial'])
     queryUrl()
   }
 
-  function buildQueryUrl(nextResults) {
+  function buildQueryUrl(nextResults, downloadCsv) {
 
     var url = solrEndpoint + 'select?q='+encodeURIComponent($scope.searchQuery)
 
@@ -151,8 +152,8 @@ angular.module('app.home', ['ngRoute', 'ngMaterial'])
     // See parameters there: https://wiki.apache.org/solr/CommonQueryParameters
     
     // Rows
-    url += '&rows=' + $scope.resultsByPage
-    if (nextResults) {
+    url += '&rows=' + (downloadCsv ? $scope.totalResults : $scope.resultsByPage)
+    if (nextResults && !downloadCsv) {
       url += '&start=' + $scope.infiniteResults.numLoaded_;
     }
 
@@ -169,19 +170,23 @@ angular.module('app.home', ['ngRoute', 'ngMaterial'])
     // - Other: id, corpus, encoding, original_encoding, lru, url, depth, _version_
 
     var fields = [
-      'web_entity',
-      'web_entity_id',
+      'id',
       'url',
-      'id'
+      'web_entity_id',
+      'web_entity'
     ]
+    if (downloadCsv) {
+      fields.push('textCanola')
+      fields = fields.concat($scope.topics)
+    }
     url += '&fl=' + fields.map(encodeURIComponent).join('+')
 
     // Output format
-    url += '&wt=json'
+    url += '&wt=' + (downloadCsv ? 'csv' : 'json')
     url += '&indent=false'
 
     // Highlight
-    var highlight = true
+    var highlight = !downloadCsv
     if (highlight) {
       var highlight_before = '<strong>'
       var highlight_after = '</strong>'
@@ -194,7 +199,7 @@ angular.module('app.home', ['ngRoute', 'ngMaterial'])
     }
 
     // Facet
-    var facet = !nextResults
+    var facet = !nextResults || !downloadCsv
     if (facet) {
       url += '&facet=true'
       url += '&facet.limit=10000'
@@ -202,6 +207,10 @@ angular.module('app.home', ['ngRoute', 'ngMaterial'])
     }
 
     return url
+  }
+
+  $scope.downloadSearchResults = function() {
+    $window.open(buildQueryUrl(false, true), '_blank')
   }
 
   function queryUrl(nextResults) {
