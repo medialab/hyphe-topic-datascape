@@ -11,7 +11,7 @@
 			class="highlighted-entities"
 		>{{filteredEntitiesCount|number}} <span translate>HIGHLIGHTED ENTITIES</span></div>
 		<div
-			ng-show="totalEntitiesCount && totalEntitiesCount > 0"
+			ng-show="showTotal && totalEntitiesCount && totalEntitiesCount > 0"
 			md-colors="{color: 'default-primary-500'}"
 			class="total-entities"
 		>{{totalEntitiesCount|number}} <span translate>TOTAL ENTITIES</span></div>

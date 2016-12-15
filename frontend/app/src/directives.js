@@ -22,7 +22,8 @@ angular.module('app.directives', [])
       scope: {
         transitioning: '=',
         scores: '=',
-        singleHighlight: '='
+        singleHighlight: '=',
+        showTotal: '='
       },
       templateUrl: 'src/directives/networkMap.html',
       link: function($scope, el, attrs) {
