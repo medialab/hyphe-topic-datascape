@@ -99,8 +99,12 @@ angular.module('app.home', ['ngRoute', 'ngMaterial'])
     initQuery()
   }
 
-  $scope.topicQuery = function(topic) {
-    $scope.searchQuery = topic+':true'
+  $scope.topicQuery = function(event, topic) {
+    if (event.ctrlKey) {
+      $scope.searchQuery += ' AND '+topic+':true'
+    } else {
+      $scope.searchQuery = topic+':true'
+    }
     initQuery()
   }
 
@@ -205,8 +209,8 @@ angular.module('app.home', ['ngRoute', 'ngMaterial'])
     if (!nextResults) {
       $scope.resultsLoading = true
       $scope.resultsLoaded = false
+      console.log('Query:', url)
     }
-    console.log('Query:', url)
     d3.json(url)
       .get(function(data){
         $timeout(function(){

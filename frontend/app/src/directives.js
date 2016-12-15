@@ -22,7 +22,8 @@ angular.module('app.directives', [])
       scope: {
         transitioning: '=',
         scores: '=',
-        singleHighlight: '='
+        singleHighlight: '=',
+        showTotal: '='
       },
       templateUrl: 'src/directives/networkMap.html',
       link: function($scope, el, attrs) {
@@ -363,7 +364,7 @@ angular.module('app.directives', [])
                 .text( function (d) { return topicLabels[d.id] || d.id })
                 .style('text-anchor', 'end')
                 .attr("font-family", "sans-serif")
-                .attr("font-size", "10px")
+                .attr("font-size", "12px")
                 .attr("fill", function(d){
                   if (
                     $scope.selectedCrossing !== undefined
@@ -386,7 +387,7 @@ angular.module('app.directives', [])
                 .style('text-anchor', 'end')
                 .style('writing-mode', 'vertical-lr')
                 .attr("font-family", "sans-serif")
-                .attr("font-size", "10px")
+                .attr("font-size", "12px")
                 .attr("fill", function(d){
                   if (
                     $scope.selectedCrossing !== undefined

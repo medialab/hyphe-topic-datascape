@@ -79,8 +79,7 @@ md-list {
 
 .logo-zone {
   position: absolute;
-  /* width: 400px; */
-  /* height: 400px; */
+  width: 45%;
   margin-left: 60px;
   margin-top: 12px;;
 }
@@ -102,6 +101,11 @@ md-list {
   object-fit: contain;
   width: 100%;
   height: 100%;
+}
+
+.datascape-button-container button, .datascape-button-container a{
+  padding: 0;
+  margin: 12px 0px 0px 0px;
 }
 
 
@@ -201,3 +205,21 @@ md-list {
   -o-filter: blur(10px);
   -ms-filter: blur(10px);
 }
+
+
+/* Doc page */
+
+.doc-content {
+  padding: 24px;
+  padding-bottom: 120px;
+}
+
+.doc-content img {
+  padding: 12px 0px;
+  max-width: 400px;
+}
+
+.doc-content h1, .doc-content h2, .doc-content h3, .doc-content h4, .doc-content h5, .doc-content h6 {
+  font-weight: 300;
+}
+
