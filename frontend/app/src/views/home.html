@@ -42,7 +42,8 @@
       <md-list class="md-dense" flex layout layout-fill ng-show="resultsLoaded">
         <md-virtual-repeat-container flex layout layout-fill>
           <md-list-item
-            md-virtual-repeat="r in results"
+            md-virtual-repeat="r in infiniteResults"
+            md-on-demand
             class="repeated-item md-3-line"
             ng-click="transition('verbatim', {'verbatim':r.id})"
             ng-mouseenter="highlight(r.web_entity_id)"
