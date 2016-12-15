@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.verbatim', ['ngRoute'])
+angular.module('app.verbatim', ['ngRoute', 'ngSanitize'])
 
 .config(function($routeProvider) {
   $routeProvider.when('/verbatim/:id', {
@@ -20,7 +20,9 @@ angular.module('app.verbatim', ['ngRoute'])
 	columnMeasures,
 	topics,
 	$routeParams,
-	webentitiesService
+	webentitiesService,
+    $sanitize,
+    $sce
 ) {
 
 	$translatePartialLoader.addPart('data')
@@ -114,6 +116,13 @@ angular.module('app.verbatim', ['ngRoute'])
 	    		$scope.result = data.response.docs[0]
 	    		// Tweak: add new lines in the CANOLA version
 	    		$scope.result.textCanolaTWEAKED = $scope.result.textCanola.replace(/[\r\n]/gi, '<br><br>')
+	    		// Tweak: try and complete missing host from CSS urls
+                var host = $scope.result.url.replace(/^(https?:\/\/[^\/]+)\/?.*$/i, '$1'),
+                    html2 = $sanitize($scope.result.html)
+                $scope.result.html.match(/<link [^>]*(?:rel="stylesheet"|type="text\/css") [^>]*href="[^"]+"[^>]*>/ig).forEach(function(css) {
+                    html2 = css.replace(/href="\//, 'href="' + host + '/') + html2
+                })
+	    		$scope.result.htmlTWEAKED = $sce.trustAsHtml(html2)
 
 	    		$scope.topics = topics.filter(function(t){
 	    			return $scope.result[t]
