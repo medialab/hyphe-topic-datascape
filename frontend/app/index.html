@@ -45,26 +45,31 @@
     <script type="text/javascript" src="assets/angular-translate.min.js"></script>
     <!-- <script type="text/javascript" src="../node_modules/angular-translate/dist/angular-translate-loader-partial.min.js"></script> -->
     <script type="text/javascript" src="assets/angular-translate-loader-partial.min.js"></script>
+    <!-- <script type="text/javascript" src="../node_modules/angular-marked/dist/angular-marked.min.js"></script> -->
+    <script type="text/javascript" src="assets/angular-marked.min.js"></script>
 
     <!-- <script type="text/javascript" src="../node_modules/d3/build/d3.js"></script> -->
     <script type="text/javascript" src="assets/d3.min.js"></script>
-    <script type="text/javascript"  src="assets/sigma.min.js"></script>
-    <script type="text/javascript"  src="assets/sigma.layout.forceAtlas2.min.js"></script>
-    <script type="text/javascript"  src="assets/sigma.parsers.gexf.min.js"></script>
-    <script type="text/javascript"  src="assets/sigma.plugins.animate.min.js"></script>
-    <script type="text/javascript"  src="assets/FileSaver.js"></script>
+    <!-- <script type="text/javascript" src="../node_modules/marked/lib/marked.js"></script> -->
+    <script type="text/javascript" src="assets/marked.js"></script>
+    <script type="text/javascript" src="assets/sigma.min.js"></script>
+    <script type="text/javascript" src="assets/sigma.layout.forceAtlas2.min.js"></script>
+    <script type="text/javascript" src="assets/sigma.parsers.gexf.min.js"></script>
+    <script type="text/javascript" src="assets/sigma.plugins.animate.min.js"></script>
+    <script type="text/javascript" src="assets/FileSaver.js"></script>
 
-    <script type="text/javascript"  src="src/sigma-cloudmap-renderer.js"></script>
-    <script type="text/javascript"  src="config.js"></script>
-    <script type="text/javascript"  src="src/services.js"></script>
-    <script type="text/javascript"  src="src/directives.js"></script>
-    <script type="text/javascript"  src="src/filters.js"></script>
-    <script type="text/javascript"  src="src/views/home.js"></script>
-    <script type="text/javascript"  src="src/views/verbatim.js"></script>
-    <script type="text/javascript"  src="src/views/webentities.js"></script>
-    <script type="text/javascript"  src="src/views/webentity.js"></script>
-    <script type="text/javascript"  src="src/views/topics.js"></script>
-    <script type="text/javascript"  src="src/views/topic.js"></script>
+    <script type="text/javascript" src="src/sigma-cloudmap-renderer.js"></script>
+    <script type="text/javascript" src="config.js"></script>
+    <script type="text/javascript" src="src/services.js"></script>
+    <script type="text/javascript" src="src/directives.js"></script>
+    <script type="text/javascript" src="src/filters.js"></script>
+    <script type="text/javascript" src="src/views/home.js"></script>
+    <script type="text/javascript" src="src/views/verbatim.js"></script>
+    <script type="text/javascript" src="src/views/webentities.js"></script>
+    <script type="text/javascript" src="src/views/webentity.js"></script>
+    <script type="text/javascript" src="src/views/topics.js"></script>
+    <script type="text/javascript" src="src/views/topic.js"></script>
+    <script type="text/javascript" src="src/views/doc.js"></script>
 
     <script type="text/javascript">
 
@@ -73,6 +78,7 @@ angular
   'ngMaterial',
   'ngRoute',
   'ngSanitize',
+  'hc.marked',
   'pascalprecht.translate',
   'app.config',
   'app.services',
@@ -84,9 +90,10 @@ angular
   'app.webentity',
   'app.topics',
   'app.topic',
+  'app.doc'
 ])
 
-.config(function($mdThemingProvider, $routeProvider, $translateProvider, $translatePartialLoaderProvider){
+.config(function($mdThemingProvider, $routeProvider, $translateProvider, $translatePartialLoaderProvider, markedProvider){
   // Route
   $routeProvider.otherwise({redirectTo: '/'});
 
@@ -116,6 +123,8 @@ angular
       'default': '100',
       'hue-1': '50'
     })
+
+  markedProvider.setOptions({gfm: true, breaks: true, tables: true});
 
 })
 

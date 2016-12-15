@@ -104,6 +104,11 @@ md-list {
   height: 100%;
 }
 
+.datascape-button-container button, .datascape-button-container a{
+  padding: 0;
+  margin: 12px 0px 0px 0px;
+}
+
 
 /* Web entities page */
 
@@ -201,3 +206,32 @@ md-list {
   -o-filter: blur(10px);
   -ms-filter: blur(10px);
 }
+
+
+/* Doc page */
+
+.doc-content {
+  padding: 24px;
+  padding-bottom: 120px;
+}
+
+.doc-content img {
+  padding: 12px 0px;
+  max-width: 400px;
+}
+
+.doc-content table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+}
+.doc-content thead {
+    display: table-header-group; /* h5bp.com/t */
+}
+
+.doc-content tr {
+    page-break-inside: avoid;
+}
+
+  
