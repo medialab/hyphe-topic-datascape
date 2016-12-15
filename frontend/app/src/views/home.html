@@ -27,6 +27,12 @@
     </div>
     <div flex>
     </div>
+    <div class="network-download-container">
+      <div class="network-download" layout="row">
+        <span flex></span>
+        <md-button class="md-raised md-icon-button" aria-label="download network" ng-href="data/network.gexf" target="_blank"><md-icon>file_download</md-icon></md-button>
+      </div>
+    </div>
   </div>
 
   <!-- Column: Search -->
@@ -67,7 +73,7 @@
     <div class="search-download-container">
       <div class="search-download" layout="row">
         <span flex></span>
-        <md-button class="md-raised" aria-label="download search results" ng-show="resultsLoaded" ng-click="downloadSearchResults()"><md-icon>file_download</md-icon></md-button>
+        <md-button class="md-raised md-icon-button" aria-label="download search results" ng-show="resultsLoaded" ng-click="downloadSearchResults()"><md-icon>file_download</md-icon></md-button>
       </div>
     </div>
   </div>

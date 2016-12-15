@@ -119,6 +119,17 @@ md-list {
   z-index: 1;
 }
 
+.network-download-container {
+  height: 0px;
+}
+
+.network-download-container .network-download {
+  height: 60px;
+  margin-top: -60px;
+  margin-right: 12px;
+  z-index: 1;
+}
+
 /* Web entities page */
 
 #vertical-container .repeated-item {
