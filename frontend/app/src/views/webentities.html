@@ -44,7 +44,7 @@
     <md-list flex ng-show="webentitiesLoaded && searchQueryLoaded && !transitioning">
       <md-virtual-repeat-container id="vertical-container" layout-fill>
         <md-list-item
-          md-virtual-repeat="we in webentities|sortEntities:sortBy:pagesPerEntity"
+          md-virtual-repeat="we in webentities|filterEntities:pagesPerEntity:searchQuery|sortEntities:sortBy:pagesPerEntity"
           class="md-2-line repeated-item"
           flex
           ng-click="transition('webentity', {webentity: we.id})"
@@ -55,7 +55,7 @@
             <h3>{{ we.label }}</h3>
             <h4>
               <span md-colors="{color: 'default-background-900-0.8'}">
-                Pages: {{pagesPerEntity[we.id] || 0}}&nbsp;/&nbsp;{{ we['nb_indexed_pages'] }}&nbsp;&nbsp;
+                Pages: {{pagesPerEntity[we.id] == undefined ? we['nb_indexed_pages'] : pagesPerEntity[we.id]}}&nbsp;/&nbsp;{{ we['nb_indexed_pages'] }}&nbsp;&nbsp;
               </span>
               <span md-colors="{color: 'default-background-900-0.6'}">
                 Degree {{ we['weighted degree']|number }}&nbsp;&nbsp;
