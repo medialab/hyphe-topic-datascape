@@ -15,6 +15,7 @@
   <!-- Column: Map -->
   <div flex="{{flexColMap}}" class="flex-transition" layout="column">
     <div
+      class="search-map-container"
       flex="{{flexColMapH}}"
       ng-show="showNetworkMap"
       network-map
@@ -91,6 +92,16 @@
       <md-icon aria-label="right">chevron_right</md-icon>
       <div class="right-handle-text" translate>EXPLORE_TOPICS</div>
     </md-button>
+  </div>
+
+  <!-- FLoating logo zone -->
+  <div ng-show="!transitioning" class="logo-zone" layout="column">
+    <div class="datascape-title">{{datascapeTitle}}</div>
+    <div layout="row">
+      <div class="datascape-logo-container" ng-repeat="logo in datascapeLogos">
+        <img ng-src="{{logo}}"/>
+      </div>
+    </div>
   </div>
 
 </div>

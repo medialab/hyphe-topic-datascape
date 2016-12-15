@@ -29,3 +29,6 @@ angular.module('app.config', [])
 
 // EDIT REQUIRED: it will not work unless you use your own endpoint URL
 .constant('solrEndpoint', 'http://example.com/solr/endpoint/')
+
+.constant('datascapeTitle', 'Datascape')
+.constant('datascapeLogos', [])	// Add one or more logo paths. Example: 'res/logo.png'

@@ -28,7 +28,9 @@ angular.module('app.home', ['ngRoute'])
 	columnMeasures,
 	topics,
   $routeParams,
-  persistance
+  persistance,
+  datascapeTitle,
+  datascapeLogos
 ) {
 
 	$scope.searchQuery
@@ -38,6 +40,8 @@ angular.module('app.home', ['ngRoute'])
 	$scope.resultsHighlighting
   $scope.webentityScores
   $scope.highlightedEntity
+  $scope.datascapeTitle = datascapeTitle
+  $scope.datascapeLogos = datascapeLogos
 
 	$scope.topics = topics
 
