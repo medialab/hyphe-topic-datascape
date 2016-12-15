@@ -99,3 +99,14 @@ angular.module('app.filters', [])
       return output
     }
   }])
+
+  .filter('filterEntities', [function() {
+    return function(list, ppe, q) {
+      return list.filter(function(we){
+        if (ppe[we.id] === undefined) {
+          if (q) return false
+          else return true
+        } else return ppe[we.id] > 0
+      })
+    }
+  }])
