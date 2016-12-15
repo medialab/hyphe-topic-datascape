@@ -97,9 +97,14 @@ angular.module('app.home', ['ngRoute'])
   	query($scope.searchQuery)
   }
 
-  $scope.topicQuery = function(topic) {
-  	$scope.searchQuery = topic+':true'
-  	query($scope.searchQuery)
+  $scope.topicQuery = function(event, topic) {
+    if (event.ctrlKey) {
+      $scope.searchQuery += ' AND '+topic+':true'
+      query($scope.searchQuery)
+    } else {
+    	$scope.searchQuery = topic+':true'
+    	query($scope.searchQuery)
+    }
   }
 
   $scope.highlight = function(id) {

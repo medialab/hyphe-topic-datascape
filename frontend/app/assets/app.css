@@ -220,18 +220,7 @@ md-list {
   max-width: 400px;
 }
 
-.doc-content table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 300;
-}
-.doc-content thead {
-    display: table-header-group; /* h5bp.com/t */
+.doc-content h1, .doc-content h2, .doc-content h3, .doc-content h4, .doc-content h5, .doc-content h6 {
+  font-weight: 300;
 }
 
-.doc-content tr {
-    page-break-inside: avoid;
-}
-
-  

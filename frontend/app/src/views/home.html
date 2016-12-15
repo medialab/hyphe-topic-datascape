@@ -72,7 +72,7 @@
       </div>
     </md-toolbar>
     <md-list flex class="topics-list sm-dense" ng-show="!transitioning" md-colors="{background: 'default-background-50-.6'}">
-      <md-list-item class="sm-1-line" ng-repeat="topic in topics" ng-click="topicQuery(topic)">
+      <md-list-item class="sm-1-line" ng-repeat="topic in topics" ng-click="topicQuery($event, topic)">
         <div class="sm-list-item-text" layout="column">
           <p translate>
             {{topic}}
