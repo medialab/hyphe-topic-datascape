@@ -45,7 +45,7 @@ angular.module('app.topic', ['ngRoute'])
 
 	$scope.widthLeftHandle = 0
 
-  $scope.transition = function(destination) {
+  $scope.transition = function(destination, settings) {
   	var transitionTime = 200
   	switch (destination) {
   		case 'verbatim':
@@ -56,6 +56,14 @@ angular.module('app.topic', ['ngRoute'])
   			$scope.transitioning = true
 				$timeout(function(){ $location.path('/topics') }, transitionTime)
   			break
+      case 'search':
+        $scope.transitioning = true
+        if (settings && settings.topicsOverlap) {
+          $timeout(function(){ $location.path('/search/'+encodeURIComponent($scope.topic + ':true AND ' + $scope.topic2 + ':true')) }, transitionTime)
+        } else {
+          $timeout(function(){ $location.path('/') }, transitionTime)
+        }
+        break
   	}
   }
 
