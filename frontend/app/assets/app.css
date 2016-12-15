@@ -79,8 +79,7 @@ md-list {
 
 .logo-zone {
   position: absolute;
-  /* width: 400px; */
-  /* height: 400px; */
+  width: 45%;
   margin-left: 60px;
   margin-top: 12px;;
 }
