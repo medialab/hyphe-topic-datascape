@@ -108,6 +108,16 @@ md-list {
   margin: 12px 0px 0px 0px;
 }
 
+.search-download-container {
+  height: 0px;
+}
+
+.search-download-container .search-download {
+  height: 60px;
+  margin-top: -60px;
+  margin-right: 12px;
+  z-index: 1;
+}
 
 /* Web entities page */
 
