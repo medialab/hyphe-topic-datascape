@@ -514,7 +514,7 @@ angular.module('app.directives', [])
                   opacity: 0.7
                 },
                 {
-                  text: $filter('number')($scope.topicsIndex[$scope.crossing[0]].nb_pages) + ' pages',
+                  text: $filter('number')($scope.topicsIndex[$scope.crossing[0]].nb_pages) + ' verbatims',
                   y: width/4 + 15,
                   fontSize: '14px',
                   opacity: 1
@@ -528,7 +528,7 @@ angular.module('app.directives', [])
                   opacity: 0.7
                 },
                 {
-                  text: $filter('number')($scope.topicsIndex[$scope.crossing[1]].nb_pages) + ' pages',
+                  text: $filter('number')($scope.topicsIndex[$scope.crossing[1]].nb_pages) + ' verbatims',
                   y: 5 * width / 4 + 5,
                   fontSize: '14px',
                   opacity: 1
@@ -536,7 +536,7 @@ angular.module('app.directives', [])
 
                 // Center
                 {
-                  text: $filter('number')($scope.crossing[2]) + ' pages',
+                  text: $filter('number')($scope.crossing[2]) + ' verbatims',
                   y: 3 * width / 4,
                   fontSize: '14px',
                   opacity: 1
@@ -627,7 +627,7 @@ angular.module('app.directives', [])
         init()
 
         $scope.searchWord = function(w) {
-          $location.path('/search/'+encodeURIComponent(w))
+          $location.path('/search/'+encodeURIComponent(w+' AND '+$scope.topic + ':true'))
         }
 
         function init() {          
