@@ -6,7 +6,6 @@ tmp
 .DS_Store
 .idea
 app/jspm_packages
-app/config.js
 
 # Windows image file caches
 Thumbs.db
