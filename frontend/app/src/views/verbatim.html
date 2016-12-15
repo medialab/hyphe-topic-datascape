@@ -69,8 +69,7 @@
         <div layout flex layout-padding ng-if="verbatimLoaded && verbatimMode == 'text'" class="verbatim-preview">
           <pre>{{result.text}}</pre>
         </div>
-        <div layout flex layout-padding ng-if="verbatimLoaded && verbatimMode == 'html'" class="verbatim-preview" ng-bind-html="result.htmlTWEAKED">
-        </div>
+        <iframe layout flex layout-padding ng-show="verbatimLoaded && verbatimMode == 'html'" class="verbatim-preview" id="htmlVerbatim" width="100%" frameborder=0></iframe>
         <div layout flex layout-padding ng-if="verbatimLoaded && verbatimMode == 'canola'" class="verbatim-preview" ng-bind-html="result.textCanolaTWEAKED"></div>
       </div>
     </div>

@@ -21,7 +21,6 @@ angular.module('app.verbatim', ['ngRoute', 'ngSanitize'])
 	topics,
 	$routeParams,
 	webentitiesService,
-    $sanitize,
     $sce
 ) {
 
@@ -106,9 +105,28 @@ angular.module('app.verbatim', ['ngRoute', 'ngSanitize'])
    	queryUrl(url)
   }
 
+  function fixUrl(rooturl, url) {
+    if (~url.search(/(src|href)="(\/\/|https?:\/\/)/i))
+      return url
+    var host = rooturl.replace(/^(https?:\/\/[^\/]+)\/?.*$/i, '$1'),
+        folder = rooturl.replace(/^(.*)(\/[^\/]*)?$/, '$1')
+    if (~url.search(/(src|href)="\//i))
+      return url.replace(/(src|href)="\//i, '$1="' + host + '/')
+    return url.replace(/(src|href)="/i, '$1="' + folder + '/')
+  }
+
+  function escapeRegExp(str) {
+    return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+  }
+
+  function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+  }
+
   function queryUrl(url) {
   	$scope.resultsLoading = true
 		$scope.resultsLoaded = false
+
   	d3.json(url)
     	.get(function(data){
     		$timeout(function(){
@@ -116,13 +134,19 @@ angular.module('app.verbatim', ['ngRoute', 'ngSanitize'])
 	    		$scope.result = data.response.docs[0]
 	    		// Tweak: add new lines in the CANOLA version
 	    		$scope.result.textCanolaTWEAKED = $scope.result.textCanola.replace(/[\r\n]/gi, '<br><br>')
-	    		// Tweak: try and complete missing host from CSS urls
-                var host = $scope.result.url.replace(/^(https?:\/\/[^\/]+)\/?.*$/i, '$1'),
-                    html2 = $sanitize($scope.result.html)
-                $scope.result.html.match(/<link [^>]*(?:rel="stylesheet"|type="text\/css") [^>]*href="[^"]+"[^>]*>/ig).forEach(function(css) {
-                    html2 = css.replace(/href="\//, 'href="' + host + '/') + html2
+	    		// Tweak: try and complete missing host from internal urls to CSS, imgs & links
+                var html2 = $scope.result.html + "",
+                    iframe = document.getElementById('htmlVerbatim')
+                $scope.result.html.match(/<link ([^>]*(rel="stylesheet"|type="text\/css") [^>]*href="[^"]+"|href="[^"]+"[^>]* (rel="stylesheet"|type="text\/css"))[^>]*>/ig).forEach(function(css) {
+                  html2 = replaceAll(html2, css, fixUrl($scope.result.url, css))
                 })
-	    		$scope.result.htmlTWEAKED = $sce.trustAsHtml(html2)
+                $scope.result.html.match(/<(a|img|script) [^>]*(src|href)="[^"]+"[^>]*>/ig).forEach(function(link) {
+                  html2 = replaceAll(html2, link, fixUrl($scope.result.url, link))
+                })
+                
+                iframe.contentWindow.document.open();
+                iframe.contentWindow.document.write($sce.trustAsHtml(html2));
+                iframe.contentWindow.document.close();
 
 	    		$scope.topics = topics.filter(function(t){
 	    			return $scope.result[t]
