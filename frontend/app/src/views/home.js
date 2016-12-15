@@ -42,6 +42,7 @@ angular.module('app.home', ['ngRoute', 'ngMaterial'])
   $scope.totalResults
   $scope.infiniteResults
   $scope.resultsHighlighting
+  $scope.descSize = 100
   $scope.webentityScores
   $scope.highlightedEntity
   $scope.datascapeTitle = datascapeTitle
@@ -173,10 +174,10 @@ angular.module('app.home', ['ngRoute', 'ngMaterial'])
       'id',
       'url',
       'web_entity_id',
-      'web_entity'
+      'web_entity',
+      'textCanola'
     ]
     if (downloadCsv) {
-      fields.push('textCanola')
       fields = fields.concat($scope.topics)
     }
     url += '&fl=' + fields.map(encodeURIComponent).join('+')
@@ -194,7 +195,7 @@ angular.module('app.home', ['ngRoute', 'ngMaterial'])
       url += '&hl.simple.pre=' + encodeURIComponent(highlight_before)
       url += '&hl.simple.post=' + encodeURIComponent(highlight_after)
       url += '&hl.usePhraseHighlighter=true'
-      url += '&hl.fragsize=100'  // Fragment 
+      url += '&hl.fragsize=' + $scope.descSize  // Fragment 
       url += '&hl.mergeContiguous=true'
     }
 
@@ -226,16 +227,20 @@ angular.module('app.home', ['ngRoute', 'ngMaterial'])
           if (!nextResults) {
             $scope.resultsLoaded = true
             $scope.resultsLoading = false
-            $scope.resultsHighlighting = data.highlighting
+            $scope.resultsHighlighting = {}
             $scope.results = data.response.docs
             $scope.totalResults = data.response.numFound
             $scope.webentityScores = buildWebentityScores(data.facet_counts.facet_fields.web_entity_id)
           } else {
-            for (var key in data.highlighting) {
-              $scope.resultsHighlighting[key] = data.highlighting[key]
-            }
             $scope.results = $scope.results.concat(data.response.docs)
             $scope.infiniteResults.numLoaded_ = $scope.infiniteResults.toLoad_;
+          }
+          for (var key in data.highlighting) {
+            if (data.highlighting[key].text) {
+              $scope.resultsHighlighting[key] = data.highlighting[key]
+            } else {
+              $scope.resultsHighlighting[key] = {text: [data.response.docs.filter(function(d) { return d.id === key })[0].textCanola.slice(0, $scope.descSize) + '…']}
+            }
           }
           $scope.$apply()
         })
