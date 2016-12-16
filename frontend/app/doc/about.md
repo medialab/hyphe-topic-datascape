@@ -122,7 +122,7 @@ Please also note that each query produces a specific url that can be saved by co
 
 ### Export data 
 
-In the serach page You can click right under the map and save the gexf file of the full network. You can also click right under the results of verbatims to register the results of the query in text format.
+In the serach page you can click right under the map and save the gexf file of the full network. You can also click right under the results of verbatims to register the results of the query in text format.
 
 ***
 
