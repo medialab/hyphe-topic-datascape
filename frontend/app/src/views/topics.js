@@ -80,7 +80,7 @@ angular.module('app.topics', ['ngRoute'])
     $scope.topicRanks = {}
     // Rank = original index
     $scope.topics.forEach(function(t,i){
-      $scope.topicRanks[t.id] = i
+      $scope.topicRanks[t.id] = t.order
     })
     $scope.crossings = []
     $scope.topics.forEach(function(t1){
