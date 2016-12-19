@@ -44,9 +44,9 @@ angular.module('app.topics', ['ngRoute'])
   $scope.widthRightHandle = 0
 
   $scope.transition = function(destination, settings) {
-  	var transitionTime = 200 
-  	switch (destination) {
-  		case 'search':
+    var transitionTime = 200 
+    switch (destination) {
+      case 'search':
         $scope.transitioning = true
         $scope.flexColMap = columnMeasures.search.map
         $scope.flexColSearch = columnMeasures.search.search
@@ -61,13 +61,13 @@ angular.module('app.topics', ['ngRoute'])
         }
         break
       case 'topic':
-  			$scope.transitioning = true
-  			$scope.flexRowTopic = 50
+        $scope.transitioning = true
+        $scope.flexRowTopic = 50
         $scope.flexRowMatrix = 0
-				$scope.widthLeftHandle = 0
+        $scope.widthLeftHandle = 0
         $timeout(function(){ $location.path('/topic/'+encodeURIComponent($scope.selectedCrossing[0]) + '/' + encodeURIComponent($scope.selectedCrossing[1])) }, transitionTime)
-  			break
-  	}
+        break
+    }
   }
 
   $scope.closeCrossing = function() {
