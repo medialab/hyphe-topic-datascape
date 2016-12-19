@@ -55,7 +55,7 @@
             <h3>{{ we.label }}</h3>
             <h4>
               <span md-colors="{color: 'default-background-900-0.8'}">
-                Verbatims: {{pagesPerEntity[we.id] == undefined ? we['nb_indexed_pages'] : pagesPerEntity[we.id] + '&nbsp;/&nbsp;' + we['nb_indexed_pages']}}&nbsp;&nbsp;
+                Web pages: {{pagesPerEntity[we.id] == undefined ? we['nb_indexed_pages'] : pagesPerEntity[we.id] + '&nbsp;/&nbsp;' + we['nb_indexed_pages']}}&nbsp;&nbsp;
               </span>
               <span md-colors="{color: 'default-background-900-0.6'}">
                 Degree {{ we['weighted degree']|number }}&nbsp;&nbsp;

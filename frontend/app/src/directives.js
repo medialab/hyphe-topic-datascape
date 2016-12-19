@@ -514,7 +514,7 @@ angular.module('app.directives', [])
                   opacity: 0.7
                 },
                 {
-                  text: $filter('number')($scope.topicsIndex[$scope.crossing[0]].nb_pages) + ' verbatims',
+                  text: $filter('number')($scope.topicsIndex[$scope.crossing[0]].nb_pages) + ' web pages',
                   y: width/4 + 15,
                   fontSize: '14px',
                   opacity: 1
@@ -528,7 +528,7 @@ angular.module('app.directives', [])
                   opacity: 0.7
                 },
                 {
-                  text: $filter('number')($scope.topicsIndex[$scope.crossing[1]].nb_pages) + ' verbatims',
+                  text: $filter('number')($scope.topicsIndex[$scope.crossing[1]].nb_pages) + ' web pages',
                   y: 5 * width / 4 + 5,
                   fontSize: '14px',
                   opacity: 1
@@ -536,7 +536,7 @@ angular.module('app.directives', [])
 
                 // Center
                 {
-                  text: $filter('number')($scope.crossing[2]) + ' verbatims',
+                  text: $filter('number')($scope.crossing[2]) + ' web pages',
                   y: 3 * width / 4,
                   fontSize: '14px',
                   opacity: 1
