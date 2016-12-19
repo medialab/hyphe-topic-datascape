@@ -106,27 +106,27 @@ When you select a web entity to explore, you access the detailed page of the web
 
 The search engine allows advanced seacrh functions to filter the database. Here you can find some examples that can be combined.
 
-| Query         | Definition                                                      | Example                         |
-|---------------|-----------------------------------------------------------------|---------------------------------|
-|Topic_name:true| Search for a topic                                              | surveillance_us:true            |
-|Word           | Search for a word                                               | snowden                         |
-|"Full Sentence"| Search for a sentence                                           | "Snowden's revelations"         |
-|AND            | Requires both terms to be present for a match                   | surveillance_us:true AND snowden| 
-|OR             | Requires that either term (or both terms) be present for a match| surveillance_us:true OR snowden |
-|NOT            | Requires that the following term not be present                 | surveillance_us:true NOT snowden|
-|+              | Requires that the following term be present                     | snowden +prism                  |
-|-              | Prohibits the following term                                    | snowden -prism                  |
-|()             | Grouping Terms to Form Sub-Queries                              | (snowden OR prism) AND nsa      |
+| Query          | Definition                                                      | Example                         |
+|----------------|-----------------------------------------------------------------|---------------------------------|
+|Topic_name:true | Search for a topic                                              | surveillance_us:true            |
+|Word            | Search for a word                                               | snowden                         |
+|"Full Sentence" | Search for a sentence                                           | "Snowden's revelations"         |
+|AND             | Requires both terms to be present for a match                   | surveillance_us:true AND snowden| 
+|OR              | Requires that either term (or both terms) be present for a match| surveillance_us:true OR snowden |
+|NOT             | Requires that the following term not be present                 | surveillance_us:true NOT snowden|
+|+               | Requires that the following term be present                     | snowden +prism                  |
+|-               | Prohibits the following term                                    | snowden -prism                  |
+|()              | Grouping Terms to Form Sub-Queries                              | (snowden OR prism) AND nsa      |
 
 Please also note that each query produces a specific url that can be saved by copying the url bar in the browser and paste to relaunch the query.
 
-### Exportation 
+### Export data 
 
-
+In the serach page you can click right under the map and save the gexf file of the full network. You can also click right under the results of verbatims to register the results of the query in text format.
 
 ***
 
 # Medialab Team
 
-Boullier Dominique, Crépel Maxime, Jacomy Mathieu, Benjamin Ooghe, Diego Antolinos-Basso, Paul Monsalier, Audrey Baneyx, Paul Girard
+Dominique Boullier, Maxime Crépel, Mathieu Jacomy, Benjamin Ooghe-Tabanou, Diego Antolinos-Basso, Paul Monsalier, Audrey Baneyx, Paul Girard
 

@@ -48,10 +48,6 @@ angular.module('app.topic', ['ngRoute'])
   $scope.transition = function(destination) {
     var transitionTime = 200
     switch (destination) {
-      case 'search':
-        $scope.transitioning = true
-        $timeout(function(){ $location.path('/search/'+encodeURIComponent($scope.topic + ':true AND ' + $scope.topic2 + ':true'))}, transitionTime)
-        break
       case 'verbatim':
         $scope.transitioning = true
         $timeout(function(){ $location.path('/webentity') }, transitionTime)
@@ -59,6 +55,10 @@ angular.module('app.topic', ['ngRoute'])
       case 'topics':
         $scope.transitioning = true
         $timeout(function(){ $location.path('/topics') }, transitionTime)
+        break
+      case 'search':
+        $scope.transitioning = true
+        $timeout(function(){ $location.path('/search/'+encodeURIComponent($scope.topic + ':true AND ' + $scope.topic2 + ':true'))}, transitionTime)
         break
     }
   }
