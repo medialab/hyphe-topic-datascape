@@ -2,7 +2,7 @@
 
 This datascape is part of a larger scientific project managed by the [medialab](http://www.medialab.sciences-po.fr) of SciencesPo funded by the [Axa Research Fund](https://www.axa-research.org/fr) in collaboration with the Axa Data Innovation Lab. 
 
-This project aims to explore and analyze the different forms of data regulation such as law, social, code and market (Lessig, 2000). It tries to understand the role that actors like insurance companies may take to manage risks and act as a third party in the context of development of personal data transactions and the rise of data breaches. The main issues consist in understanding how insurance can build trust and enable Big Data. The full project mobilizes different approaches, from use case, to text analysis, ethnographic study and also web analysis.
+This project aims to explore and analyze the different forms of data regulation such as law, social, code and market (Lessig, 2000). It tries to understand the role that actors like insurance companies may have to manage risks and act as a third party in the context of development of personal data transactions and the rise of data breaches. The main issues consist in understanding how insurance can build trust and enable Big Data. The full project mobilizes different approaches, from use case, to text analysis, ethnographic study and also web analysis.
 
 ***
 
@@ -19,7 +19,7 @@ The philosophy of this datascape is to always be able to qualify actors (web ent
 
 ### What is not ? 
 . A realtime dataset : the crawl ended in September 2016
-. A final result of a reasearch project : it is a strating point for further research based on this corpus 
+. A final result of a reasearch project : it is a starting point for further research based on this corpus 
 
 ***
 
@@ -84,7 +84,7 @@ When you click on a web page in the list of results you access to the text conte
 
 In the right column the topics associated to the web page are displayed and are clickable to access to the topic details.
 
-In the left column the location of the web entity associated to the web page his highlighted and some topological attributes are displayed (degree, indegree, outdegree, number of web pages of the web entity)
+In the left column the location of the web entity associated to the web page is highlighted and some topological attributes are displayed (degree, indegree, outdegree, number of pages for a web entity)
 
 ### Topic explorer 
 
@@ -96,7 +96,7 @@ You can also choose in the comparator to close one of the two topics and the lis
 
 ### Web entities explorer
 
-This section of the datascape is designed to navigate in the list of web entities by a search engine. A function allows to sort results by the topological attributes of each web entity. You can sort the list of results by degree, indegree, outdegree, betweenness centrality or number of pages in a web entity and url name.
+This section of the datascape is designed to navigate in the list of web entities. A function allows to sort results by the topological attributes of each web entity. You can sort the list of results by degree, indegree, outdegree, betweenness centrality or number of pages in a web entity and url name.
 
 On the right part, the map highlights the web entities in the list of results and you can access to the full list of pages associated to the web entity.
 
@@ -122,7 +122,7 @@ Please also note that each query produces a specific url that can be saved by co
 
 ### Export data 
 
-In the serach page you can click right under the map and save the gexf file of the full network. You can also click right under the results of verbatims to register the results of the query in text format.
+In the search page you can click right under the map and save the gexf file of the full network. You can also click right under the results of verbatims to register the results of the query in csv format.
 
 ***
 
