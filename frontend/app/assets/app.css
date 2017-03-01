@@ -244,3 +244,8 @@ md-list {
   font-weight: 300;
 }
 
+/* Sigma */
+#sigma-container{
+  background-color: #FFF;
+  overflow: hidden;
+}
