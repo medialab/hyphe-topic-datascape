@@ -322,8 +322,8 @@ angular.module('app.directives', [])
               return Math.sqrt(a/Math.PI)
             }
 
-            x.domain([0, $scope.topics.length - 1])
-            y.domain([0, $scope.topics.length - 1])
+            x.domain([0, $scope.topics.length])
+            y.domain([0, $scope.topics.length])
             size.domain(d3.extent($scope.crossings, function(d){return r(d.val)}))
 
             var svg = d3.select(el[0]).append("svg")
