@@ -76,13 +76,13 @@ angular.module('app.directives', [])
 
         function updateDimensions() {
           bigRadius = settings.cloudRoundness * Math.min(el[0].offsetWidth, el[0].offsetHeight)
-          margin = {top: 12 + bigRadius, right: 12 + bigRadius, bottom: 52 + bigRadius, left: 12 + bigRadius}
+          margin = {top: 24 + bigRadius, right: 12 + bigRadius, bottom: 52 + bigRadius, left: 12 + bigRadius}
           width = el[0].offsetWidth
           height = el[0].offsetHeight
           
           // Scales
           var xExtent = d3.extent($scope.coordinates.map(function(d){return +d.x}))
-          var yExtent = d3.extent($scope.coordinates.map(function(d){return +d.y}))
+          var yExtent = d3.extent($scope.coordinates.map(function(d){return -d.y}))
           var xRatio = (xExtent[1] - xExtent[0]) / (width - margin.left - margin.right)
           var yRatio = (yExtent[1] - yExtent[0]) / (height - margin.top - margin.bottom)
           var xMid = (xExtent[0] + xExtent[1]) / 2
@@ -95,7 +95,7 @@ angular.module('app.directives', [])
           }
           
           yScale = function(d) {
-            return margin.top + (height - margin.top - margin.bottom)/2 + ((d - yMid) / (yRatio))
+            return margin.top + (height - margin.top - margin.bottom)/2 + ((-d - yMid) / (yRatio))
           }
         }
 

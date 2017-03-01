@@ -32,5 +32,5 @@ angular.module('app.network', ['ngRoute', 'ngMaterial'])
       defaultNodeColor: '#999999',
       defaultEdgeColor: '#DDDDDD'
     }
-  });
+  })
 })
