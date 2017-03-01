@@ -30,7 +30,8 @@
     <div class="network-download-container">
       <div class="network-download" layout="row">
         <span flex></span>
-        <md-button class="md-raised md-icon-button" aria-label="download network" ng-href="data/network.gexf" target="_blank"><md-icon>file_download</md-icon></md-button>
+        <md-button class="md-raised md-icon-button" aria-label="fullscreen network" title="Fullscreen network"><md-icon>fullscreen</md-icon></md-button>
+        <md-button class="md-raised md-icon-button md-primary md-hue-1" aria-label="download network" ng-href="data/network.gexf" target="_blank" title="Download GEXF network"><md-icon>file_download</md-icon></md-button>
       </div>
     </div>
   </div>
@@ -73,7 +74,7 @@
     <div class="search-download-container">
       <div class="search-download" layout="row">
         <span flex></span>
-        <md-button class="md-raised md-icon-button" aria-label="download search results" ng-show="resultsLoaded" ng-click="downloadSearchResults()"><md-icon>file_download</md-icon></md-button>
+        <md-button class="md-raised md-icon-button md-primary md-hue-1" aria-label="download search results" ng-show="resultsLoaded" ng-click="downloadSearchResults()" title="Download results list"><md-icon>file_download</md-icon></md-button>
       </div>
     </div>
   </div>
