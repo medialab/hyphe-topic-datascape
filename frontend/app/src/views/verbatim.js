@@ -105,9 +105,8 @@ angular.module('app.verbatim', ['ngRoute', 'ngSanitize'])
   		query('id:"'+$scope.verbatimId+'"')
   		// query('id:'+$scope.verbatimId.replace(/:/gi, '\\:'))
   	}
-    if(persistance.lastVerbatim !== undefined) {
+    if(persistance.lastVerbatim !== undefined && persistance.lastVerbatim.id == $scope.verbatimId) {
       // Build prev/next
-      console.log(persistance.lastVerbatim)
       if (persistance.lastVerbatim.offset > 0 ){
         $scope.showPrevVerbatim = true
       }
