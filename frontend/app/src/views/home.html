@@ -53,6 +53,7 @@
             md-virtual-repeat="r in infiniteResults"
             md-on-demand
             class="repeated-item md-3-line"
+            ng-click="transition('verbatim', {'verbatim':r.id, 'offset':$index})"
             ng-mouseenter="highlight(r.web_entity_id)"
             ng-mouseleave="dishighlight(r.web_entity_id)"
           >
@@ -63,6 +64,7 @@
               <h4 md-colors="{color: 'default-primary-900-.8'}">
                 {{r.url}}
               </h4>
+              <div class="md-list-item-text" layout="column">
                 <p class="resultHighlight" lru="{{r.lru}}" data-ng-bind-html="resultsHighlighting[r.id].text[0]"></p>
               </div>
             </div>

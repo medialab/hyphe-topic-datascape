@@ -82,6 +82,7 @@ angular.module('app.home', ['ngRoute', 'ngMaterial'])
         $scope.flexColTopics = columnMeasures.verbatim.topics
         $scope.widthLeftHandle = columnMeasures.handle
         $scope.widthRightHandle = 0
+        persistance.lastVerbatim = {query: $scope.searchQuery, offset: settings.offset, total: $scope.totalResults, id: settings.verbatim}
         $timeout(function(){ $location.path('/verbatim/'+encodeURIComponent(settings.verbatim)) }, transitionTime)
         break
       case 'topics':
