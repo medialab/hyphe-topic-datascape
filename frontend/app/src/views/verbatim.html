@@ -41,7 +41,13 @@
   <div flex="{{flexColVerbatim}}" class="flex-transition" layout="column" md-colors="{background: 'default-background-50'}">
     <md-toolbar layout="row" class="md-primary" ng-show="!transitioning">
       <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="next" ng-show="showPrevVerbatim" ng-click="prevVerbatim()">
+          <md-icon>chevron_left</md-icon>
+        </md-button>
         <span translate>WEB PAGE</span>
+        <md-button class="md-icon-button" aria-label="next" ng-show="showNextVerbatim" ng-click="nextVerbatim()">
+          <md-icon>chevron_right</md-icon>
+        </md-button>
         <span flex></span>
         <md-button class="" aria-label="canola" ng-click="verbatimMode = 'canola'">
           <md-icon ng-show="verbatimMode != 'canola'">radio_button_unchecked</md-icon>
@@ -64,23 +70,7 @@
       <md-progress-circular md-mode="indeterminate" ng-show="!verbatimLoaded"></md-progress-circular>
       <div layout="column" layout-fill ng-show="verbatimLoaded">
         <md-subheader class="md-primary">
-          <div layout="row" layout-fill>
-            <div>
-              <md-button class="md-primary" aria-label="next" ng-show="showPrevVerbatim" ng-click="prevVerbatim()">
-                <md-icon>chevron_left</md-icon>
-                <span translate>PREV_VERBATIM</span>
-              </md-button>
-            </div>
-            <div flex>
-              <a ng-href="{{result.url}}" target="_blank" class="subheader-link">{{result.url}} <md-icon class="md-primary">link</md-icon></a>
-            </div>
-            <div>
-              <md-button class="md-primary" aria-label="next" ng-show="showNextVerbatim" ng-click="nextVerbatim()">
-                <span translate>NEXT_VERBATIM</span>
-                <md-icon>chevron_right</md-icon>
-              </md-button>
-            </div>
-          </div>
+          <a ng-href="{{result.url}}" target="_blank" class="subheader-link">{{result.url}} <md-icon class="md-primary">link</md-icon></a>
         </md-subheader>
         <div layout flex layout-padding ng-if="verbatimLoaded && verbatimMode == 'text'" class="verbatim-preview">
           <pre>{{result.text}}</pre>
