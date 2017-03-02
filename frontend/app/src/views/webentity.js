@@ -31,6 +31,7 @@ angular.module('app.webentity', ['ngRoute'])
 	$scope.webentityLoaded = false
   $scope.pagesLoaded = false
   $scope.topics = topics
+  $scope.selectedTabIndex = 0
 
 	// Columns dynamic width
 	$scope.transitioning = false

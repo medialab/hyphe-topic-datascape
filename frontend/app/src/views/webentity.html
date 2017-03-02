@@ -16,7 +16,11 @@
           <md-button class="md-icon-button" ng-href="{{webentity['attr_home']}}" target="_blank" class="subheader-link"><md-icon class="md-primary">link</md-icon></md-button>
         </h2>
       </div>
-      <div layout="row">
+      <md-tabs md-selected="selectedTabIndex">
+        <md-tab label="Entity Information"></md-tab>
+        <md-tab label="Ego Network"></md-tab>
+      </md-tabs>
+      <div layout="row" ng-if="selectedTabIndex == 0">
         <div class="webentity-info" layout="column" layout-padding flex="60">
           <p>
             This web entity has {{webentity['nb_indexed_pages']|number}} indexed web pages. It is cited by {{webentity['weighted indegree']|number}} other entities in the corpus and cites {{webentity['weighted outdegree']|number}}, for a total degree of {{webentity['weighted degree']|number}}.
@@ -51,6 +55,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div layout="column" ng-if="selectedTabIndex == 1">
+        SIGMA
       </div>
     </div>
   </div>
