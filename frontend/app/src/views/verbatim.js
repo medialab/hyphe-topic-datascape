@@ -33,6 +33,8 @@ angular.module('app.verbatim', ['ngRoute', 'ngSanitize'])
 	$scope.verbatimLoaded = false
 	$scope.verbatimMode = "canola"
 	$scope.webentity
+  $scope.showPrevVerbatim = false
+  $scope.showNextVerbatim = false
 
 	// Columns dynamic width
 	$scope.transitioning = false
@@ -85,6 +87,13 @@ angular.module('app.verbatim', ['ngRoute', 'ngSanitize'])
   	}
   }
 
+  $scope.nextVerbatim = function() {
+    jumpToVerbatim(+1)
+  }
+
+  $scope.prevVerbatim = function() {
+    jumpToVerbatim(-1)
+  }
 
   init()
 
@@ -96,8 +105,15 @@ angular.module('app.verbatim', ['ngRoute', 'ngSanitize'])
   		query('id:"'+$scope.verbatimId+'"')
   		// query('id:'+$scope.verbatimId.replace(/:/gi, '\\:'))
   	}
-    if(persistance.lastQuery !== undefined && persistance.lastQuery !== 'undefined' && persistance.lastQuery !== '') {
+    if(persistance.lastVerbatim !== undefined) {
       // Build prev/next
+      console.log(persistance.lastVerbatim)
+      if (persistance.lastVerbatim.offset > 0 ){
+        $scope.showPrevVerbatim = true
+      }
+      if (persistance.lastVerbatim.offset < persistance.lastVerbatim.total ){
+        $scope.showNextVerbatim = true
+      }
     }
   }
 
@@ -139,18 +155,18 @@ angular.module('app.verbatim', ['ngRoute', 'ngSanitize'])
 	    		// Tweak: add new lines in the CANOLA version
 	    		$scope.result.textCanolaTWEAKED = $scope.result.textCanola.replace(/[\r\n]/gi, '<br><br>')
 	    		// Tweak: try and complete missing host from internal urls to CSS, imgs & links
-                var html2 = $scope.result.html + "",
-                    iframe = document.getElementById('htmlVerbatim')
-                $scope.result.html.match(/<link ([^>]*(rel="stylesheet"|type="text\/css") [^>]*href="[^"]+"|href="[^"]+"[^>]* (rel="stylesheet"|type="text\/css"))[^>]*>/ig).forEach(function(css) {
-                  html2 = replaceAll(html2, css, fixUrl($scope.result.url, css))
-                })
-                $scope.result.html.match(/<(a|img|script) [^>]*(src|href)="[^"]+"[^>]*>/ig).forEach(function(link) {
-                  html2 = replaceAll(html2, link, fixUrl($scope.result.url, link))
-                })
-                
-                iframe.contentWindow.document.open();
-                iframe.contentWindow.document.write($sce.trustAsHtml(html2));
-                iframe.contentWindow.document.close();
+          var html2 = $scope.result.html + "",
+              iframe = document.getElementById('htmlVerbatim')
+          $scope.result.html.match(/<link ([^>]*(rel="stylesheet"|type="text\/css") [^>]*href="[^"]+"|href="[^"]+"[^>]* (rel="stylesheet"|type="text\/css"))[^>]*>/ig).forEach(function(css) {
+            html2 = replaceAll(html2, css, fixUrl($scope.result.url, css))
+          })
+          $scope.result.html.match(/<(a|img|script) [^>]*(src|href)="[^"]+"[^>]*>/ig).forEach(function(link) {
+            html2 = replaceAll(html2, link, fixUrl($scope.result.url, link))
+          })
+          
+          iframe.contentWindow.document.open();
+          iframe.contentWindow.document.write($sce.trustAsHtml(html2));
+          iframe.contentWindow.document.close();
 
 	    		$scope.topics = topics.filter(function(t){
 	    			return $scope.result[t]
@@ -164,6 +180,39 @@ angular.module('app.verbatim', ['ngRoute', 'ngSanitize'])
 	    		$scope.$apply()
     		})
     	});
+  }
+
+  function buildVerbatimQueryUrl(offset) {
+
+    var url = solrEndpoint + 'select?q='+encodeURIComponent(persistance.lastVerbatim.query)
+
+    // Rows
+    url += '&rows=1&start=' + (persistance.lastVerbatim.offset + offset)
+
+    // Fields
+    var fields = [
+      'id'
+    ]
+    url += '&fl=' + fields.map(encodeURIComponent).join('+')
+
+    // Output format
+    url += '&wt=json'
+    url += '&indent=false'
+
+    return url
+  }
+
+  function jumpToVerbatim(offset) {
+    var url = buildVerbatimQueryUrl(offset)
+    d3.json(url)
+      .get(function(data){
+        $timeout(function(){
+          var verbatim = data.response.docs[0].id
+          persistance.lastVerbatim.id = verbatim
+          persistance.lastVerbatim.offset += offset
+          $location.path('/verbatim/'+encodeURIComponent(verbatim))
+        })
+      });
   }
 
 })

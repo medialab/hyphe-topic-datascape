@@ -64,7 +64,23 @@
       <md-progress-circular md-mode="indeterminate" ng-show="!verbatimLoaded"></md-progress-circular>
       <div layout="column" layout-fill ng-show="verbatimLoaded">
         <md-subheader class="md-primary">
-          <a ng-href="{{result.url}}" target="_blank" class="subheader-link">{{result.url}} <md-icon class="md-primary">link</md-icon></a>
+          <div layout="row" layout-fill>
+            <div>
+              <md-button class="md-primary" aria-label="next" ng-show="showPrevVerbatim" ng-click="prevVerbatim()">
+                <md-icon>chevron_left</md-icon>
+                <span translate>PREV_VERBATIM</span>
+              </md-button>
+            </div>
+            <div flex>
+              <a ng-href="{{result.url}}" target="_blank" class="subheader-link">{{result.url}} <md-icon class="md-primary">link</md-icon></a>
+            </div>
+            <div>
+              <md-button class="md-primary" aria-label="next" ng-show="showNextVerbatim" ng-click="nextVerbatim()">
+                <span translate>NEXT_VERBATIM</span>
+                <md-icon>chevron_right</md-icon>
+              </md-button>
+            </div>
+          </div>
         </md-subheader>
         <div layout flex layout-padding ng-if="verbatimLoaded && verbatimMode == 'text'" class="verbatim-preview">
           <pre>{{result.text}}</pre>

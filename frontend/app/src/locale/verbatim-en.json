@@ -5,5 +5,7 @@
 	"MODE_TEXT": "Raw text",
 	"MODE_HTML": "html",
 	"MODE_CANOLA": "Clean text",
-	"BACK_TO_SEARCH": "Back to Search"
+	"BACK_TO_SEARCH": "Back to Search",
+	"NEXT_VERBATIM": "Next",
+	"PREV_VERBATIM": "Prev"
 }
