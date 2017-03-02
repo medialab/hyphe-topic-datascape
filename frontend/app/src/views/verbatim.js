@@ -21,7 +21,8 @@ angular.module('app.verbatim', ['ngRoute', 'ngSanitize'])
 	topics,
 	$routeParams,
 	webentitiesService,
-    $sce
+  $sce,
+  persistance
 ) {
 
 	$translatePartialLoader.addPart('data')
@@ -95,6 +96,9 @@ angular.module('app.verbatim', ['ngRoute', 'ngSanitize'])
   		query('id:"'+$scope.verbatimId+'"')
   		// query('id:'+$scope.verbatimId.replace(/:/gi, '\\:'))
   	}
+    if(persistance.lastQuery !== undefined && persistance.lastQuery !== 'undefined' && persistance.lastQuery !== '') {
+      // Build prev/next
+    }
   }
 
   function query(q) {

@@ -177,5 +177,6 @@ angular.module('app.services', [])
 
 .value('persistance', {
   lastQuery: undefined,
+  lastVerbatim: undefined,
   image: undefined
 })
