@@ -9,7 +9,7 @@
     <div layout layout-fill layout-align="center center" ng-show="!webentityLoaded && !transitioning">
       <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
-    <div layout="column" ng-show="webentityLoaded && !transitioning">
+    <div layout="column" ng-show="webentityLoaded && !transitioning" layout-fill>
       <div layout layout-padding>
         <h2 style="word-break: break-all;">
           {{webentity.name}}
@@ -20,7 +20,7 @@
         <md-tab label="Entity Information"></md-tab>
         <md-tab label="Ego Network"></md-tab>
       </md-tabs>
-      <div layout="row" ng-if="selectedTabIndex == 0">
+      <div layout="row" ng-if="selectedTabIndex == 1" flex>
         <div class="webentity-info" layout="column" layout-padding flex="60">
           <p>
             This web entity has {{webentity['nb_indexed_pages']|number}} indexed web pages. It is cited by {{webentity['weighted indegree']|number}} other entities in the corpus and cites {{webentity['weighted outdegree']|number}}, for a total degree of {{webentity['weighted degree']|number}}.
@@ -56,8 +56,8 @@
           </div>
         </div>
       </div>
-      <div layout="column" ng-if="selectedTabIndex == 1">
-        SIGMA
+      <div layout="row" ng-if="selectedTabIndex == 0" flex>
+        <div ego-network ego="webentity.id" layout-fill></div>
       </div>
     </div>
   </div>

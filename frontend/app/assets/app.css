@@ -249,3 +249,43 @@ md-list {
   background-color: #FFF;
   overflow: hidden;
 }
+
+/* Sigma */
+.sigma-parent {
+  position: relative;
+  width:100%;
+  height: 100%;
+
+  background-color: #FFF;
+
+  -webkit-user-select: none; /* Chrome/Safari */        
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* IE10+ */
+               select: none;
+}
+
+.sigma-floating{
+  padding: 2px;
+  position: absolute;
+
+  top: 62px;
+  right: 12px;
+
+  overflow: hidden;
+}
+.sigma-floating .dropdown-menu{
+  top: initial;
+}
+
+.sigma-expand {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.sigma-tools {
+  
+  position: absolute;
+  top: 12px;
+  left: 12px;
