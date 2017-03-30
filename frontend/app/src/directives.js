@@ -787,16 +787,8 @@ angular.module('app.directives', [])
           sigma.parsers.gexf(
             'data/network.gexf',
             {
-              container: 'sigma'
-            },
-            function(s){
-              sigmaInstance = s
-    
-              // For debugging purpose
-              $window.s = sigmaInstance;
-              console.log(s)
-
-              sigmaInstance.settings({
+              container: 'sigma',
+              settings: {
                 font: 'Roboto',
                 defaultLabelColor: '#666',
                 edgeColor: 'default',
@@ -806,10 +798,19 @@ angular.module('app.directives', [])
                 maxNodeSize: 10,
                 zoomMax: 5,
                 zoomMin: 0.002,
-                labelThreshold: 6,
-              });
+                labelThreshold: 6
+              }
+            },
+            function(s){
+              sigmaInstance = s
+    
+              // For debugging purpose
+              $window.s = sigmaInstance;
 
-              // TODO: tweak in case of ego
+              if ($scope.ego) {
+                // TODO: tweak in case of ego
+                // console.log($scope.ego)
+              }
 
               // Force Atlas 2 settings
               sigmaInstance.configForceAtlas2({
@@ -842,7 +843,8 @@ angular.module('app.directives', [])
                 // $window.open(path, '_blank');
               });
 
-              $scope.runSpatialization();
+              sigmaInstance.refresh()
+              // $scope.runSpatialization();
 
             }
           )
