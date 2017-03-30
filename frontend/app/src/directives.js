@@ -202,19 +202,24 @@ angular.module('app.directives', [])
             if ($scope.singleHighlight) {
               var node = $scope.coordinatesIndex[$scope.singleHighlight]
 
-              // White background
-              context.beginPath()
-              context.arc(xScale(node.x), yScale(node.y), settings.highlightWhiteRadius, 0, 2*Math.PI, true)
-              context.fillStyle = '#FFF'
-              context.fill()
-              context.closePath()
+              if (node) {
+                // White background
+                context.beginPath()
+                context.arc(xScale(node.x), yScale(node.y), settings.highlightWhiteRadius, 0, 2*Math.PI, true)
+                context.fillStyle = '#FFF'
+                context.fill()
+                context.closePath()
 
-              // Dot
-              context.beginPath()
-              context.arc(xScale(node.x), yScale(node.y), settings.highlightDotRadius, 0, 2*Math.PI, true)
-              context.fillStyle = $mdColors.getThemeColor('default-primary-900-1')
-              context.fill()
-              context.closePath()
+                // Dot
+                context.beginPath()
+                context.arc(xScale(node.x), yScale(node.y), settings.highlightDotRadius, 0, 2*Math.PI, true)
+                context.fillStyle = $mdColors.getThemeColor('default-primary-900-1')
+                context.fill()
+                context.closePath()
+              } else {
+                // TODO: notify the entity is not on the map (out of giant component)
+              }
+
             }
           })
         }
