@@ -803,13 +803,29 @@ angular.module('app.directives', [])
             },
             function(s){
               sigmaInstance = s
-    
+
               // For debugging purpose
               $window.s = sigmaInstance;
 
               if ($scope.ego) {
-                // TODO: tweak in case of ego
-                // console.log($scope.ego)
+                // Let's look at all edges to keep the ego nodes
+                var egoNodes = {} // ids
+                sigmaInstance.graph.edges().forEach(function(e){
+                  if (e.source != e.target) {
+                    if (e.source == $scope.ego) {
+                      egoNodes[e.target] = true
+                    } else if (e.target == $scope.ego) {
+                      egoNodes[e.source] = true
+                    }
+                  }
+                })
+                // Let's drop unecessary nodes
+                sigmaInstance.graph.nodes().forEach(function(n){
+                  if (!egoNodes[n.id]) {
+                    sigmaInstance.graph.dropNode(n.id)
+                  }
+                })
+ 
               }
 
               // Force Atlas 2 settings

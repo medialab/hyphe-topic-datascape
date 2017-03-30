@@ -20,7 +20,7 @@
         <md-tab label="Entity Information"></md-tab>
         <md-tab label="Ego Network"></md-tab>
       </md-tabs>
-      <div layout="row" ng-if="selectedTabIndex == 1" flex>
+      <div layout="row" ng-if="selectedTabIndex == 0" flex>
         <div class="webentity-info" layout="column" layout-padding flex="60">
           <p>
             This web entity has {{webentity['nb_indexed_pages']|number}} indexed web pages. It is cited by {{webentity['weighted indegree']|number}} other entities in the corpus and cites {{webentity['weighted outdegree']|number}}, for a total degree of {{webentity['weighted degree']|number}}.
@@ -56,7 +56,7 @@
           </div>
         </div>
       </div>
-      <div layout="row" ng-if="selectedTabIndex == 0" flex>
+      <div layout="row" ng-if="selectedTabIndex == 1" flex>
         <div ego-network ego="webentity.id" layout-fill></div>
       </div>
     </div>
