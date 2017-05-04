@@ -1,3 +1,55 @@
 <div layout="row" flex>
-  <div id="sigma-container" layout-fill></div>
+  <div
+	  class="sigma-parent"
+	  ng-class="{pointable: overNode}"
+	  layout-fill
+	>
+	  <div class="sigma-expand" id="sigma"></div>
+	  <div class="sigma-tools">
+	    <div layout="column">
+	      <!-- <md-button
+	        class="md-icon-button"
+	        ng-class="{'md-accent':spatializationRunning, 'md-primary':!spatializationRunning}"
+	        aria-label="Play/Pause"
+	        ng-click="toggleSpatialization()"
+	      >
+	        <md-tooltip md-direction="right">
+	          Layout animation
+	        </md-tooltip>
+	        <i class="material-icons" ng-show="!spatializationRunning">pause_circle_outline</i>
+	        <i class="material-icons" ng-show="spatializationRunning">play_circle_outline</i>
+	      </md-button> -->
+	      <md-button
+	        class="md-icon-button md-primary"
+	        aria-label="Restore zoom"
+	        ng-click="sigmaRecenter()"
+	      >
+	        <md-tooltip md-direction="right">
+	          Restore zoom
+	        </md-tooltip>
+	        <i class="material-icons">settings_backup_restore</i>
+	      </md-button>
+	      <md-button
+	        class="md-icon-button md-primary"
+	        aria-label="Zoom"
+	        ng-click="sigmaZoom()"
+	      >
+	        <md-tooltip md-direction="right">
+	          Zoom in
+	        </md-tooltip>
+	        <i class="material-icons">add_circle_outline</i>
+	      </md-button>
+	      <md-button
+	        class="md-icon-button md-primary"
+	        aria-label="Dezoom"
+	        ng-click="sigmaUnzoom()"
+	      >
+	        <md-tooltip md-direction="right">
+	          Zoom out
+	        </md-tooltip>
+	        <i class="material-icons">remove_circle_outline</i>
+	      </md-button>
+	    </div>
+	  </div>
+	</div>
 </div>
