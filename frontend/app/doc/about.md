@@ -42,8 +42,8 @@ We filtered and deleted from the corpus: 
 We extended the corpus and crawled webpages that contain specific terms related to data privacy that we collected on Wikipedia after a mapping work of “see also” Wikipedia pages with the [Seealsology](http://tools.medialab.sciences-po.fr/seealsology/)
 
 The final dataset is a network of 7,578 web entities composed by: 
-. Web entities comprising over 300,000 web pages 
-. Web entities linked by 41,625 hyperlinks
+. Web entities comprising over 380,000 web pages 
+. Web entities linked by 50,904 hyperlinks
 
 Please note that 2,256 web entities have no link between them and the core component of the network. They do not appear on the map but their web pages are indexed and accessible by the search engine.
 
@@ -76,11 +76,11 @@ In the search engine you can write a query of your choice or click on a topic in
 
 The search engine allows combining queries to filter the dataset in details. For example you can search the web pages associated to two different topics, or a word in a specific topic. You can find help in the section “Advanced search”. 
 
-All the nodes linked to the core component compose the network. 5,322 nodes are displayed linked by 41,520 hyperlinks. The size of the node is related to their degree. Big nodes share a lot of links with other web entities and small nodes share only a few links with other web entities.
+All the nodes linked to the core component compose the network. 5,322 nodes are displayed linked by 50,904 hyperlinks. The size of the node is related to their degree. Big nodes share a lot of links with other web entities and small nodes share only a few links with other web entities.
 
 ### Text explorer 
 
-When you click on a web page in the list of results you access to the text content explorer. This page presents the text of the web page in “clean text” version but it can be also displayed in “raw text” or “html” mode. You can also access the original web page by clicking the original link.
+When you click on a web page in the list of results you access to the text content explorer. This page presents the text of the web page in “clean text” version but it can be also displayed in “raw text” or “html” mode. You can also access the original web page by clicking the original link. You can access to the next result by clicking the arrow next or previous at the top of the web page.
 
 In the right column the topics associated to the web page are displayed and are clickable to access to the topic details.
 
@@ -102,6 +102,8 @@ On the right part, the map highlights the web entities in the list of results an
 
 When you select a web entity to explore, you access the detailed page of the web entity where all topological information are displayed, but also the distribution of topics for the web entity and the hyperlink to access the original web site.
 
+By clicking the section « ego network » you can access and navigate the network of the web entity selected.
+
 ### Advanced search 
 
 The search engine allows advanced seacrh functions to filter the database. Here you can find some examples that can be combined.
@@ -121,6 +123,8 @@ The search engine allows advanced seacrh functions to filter the database. Here 
 Please also note that each query produces a specific url that can be saved by copying the url bar in the browser and paste to relaunch the query.
 
 ### Export data 
+
+In the search page you can access and navigate the full graph by clicking the square under the cloud at the bottom of the left part.
 
 In the search page you can click right under the map and save the gexf file of the full network. You can also click right under the results of verbatims to register the results of the query in csv format.
 
